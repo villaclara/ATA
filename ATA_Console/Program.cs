@@ -1,4 +1,6 @@
-﻿using ATA_WPF;
+﻿
+using ATA_ClassLibrary;
+using ATA_WPF;
 using System;
 using System.Diagnostics;
 
@@ -11,8 +13,6 @@ namespace ATA_Console
         {
             Console.WriteLine("Hello, World!");
 
-            Class1 classbb = new Class1();
-            
         }
     }
 }
