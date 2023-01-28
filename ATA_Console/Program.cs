@@ -44,12 +44,19 @@ namespace ATA_Console
                         
                         break;
 
+                    case ConsoleKey.N:
+                        WorkerWithFileClass.writeToFileWithGivenName("process1.txt", selectedProcess);
+                        break;
+
+
                     case ConsoleKey.X:
                         wantExit = true;
                         break;
 
                     default:
                         Console_Output_Class.DisplayMessage("Please enter correct.");
+                        Console.WriteLine(Directory.GetParent(Directory.GetCurrentDirectory()));
+                        Console.WriteLine(AppDomain.CurrentDomain.BaseDirectory);
                         break;
                 }
 
