@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ATA_WPF\ATA_WPF.csproj" />
+        <KnownFrameworkReference Update="Microsoft.WindowsDesktop.App.WPF" IsWindowsOnly="false" />
   </ItemGroup>
 
 </Project>
