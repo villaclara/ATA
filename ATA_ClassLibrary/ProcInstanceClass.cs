@@ -16,29 +16,33 @@ namespace ATA_ClassLibrary
         // FIELDS
         //////////////////////
 
-        public string boundFileName;
+        //public string boundFileName;
 
         // process instance of Process
         public Process? process;
-
-        // separate field for Name
-        private string _procName;
        
         //field for process uptime
         private int _upTimeMinutesCurrentSession;
        
         // field for name of related file to write
-        private string _fileNameToWriteInfo;
+        public string _fileNameToWriteInfo;
 
         // field for keeping total uptime for the all time
         private long _totalUpTime;
 
+        // field for all uptimes
         private List<UpTime> _upTimes;
+
+
+        //////////////////////
+        // PROPERTIES
+        //////////////////////
+
 
         public List<UpTime> UpTimes
         {
             get => _upTimes;
-            set => _upTimes = value;
+            set => _upTimes = retrieveListOfUpTimesForCurrentProcess(_fileNameToWriteInfo);
         }
         
         public string ProcName
@@ -57,7 +61,11 @@ namespace ATA_ClassLibrary
 
         public long TotalUpTime
         {
-            get => retrieveAndCalculateTotalUpTime(boundFileName);
+            get
+            {
+                _totalUpTime = calculateTotalUpTime();
+                return _totalUpTime;
+            }
         }
 
 
@@ -71,18 +79,24 @@ namespace ATA_ClassLibrary
         public ProcInstanceClass(string procName)
         {
             process = getProcByName(procName);
-            //startedTime = process.StartTime;
-            //_procName = process.ProcessName;
+
+            // prudymatu shos' inshe dlya filename
+            _fileNameToWriteInfo = Path.Combine(Directory.GetCurrentDirectory(), "process1.txt");
+            
+            
+            
+            
+            _upTimes = retrieveListOfUpTimesForCurrentProcess(_fileNameToWriteInfo);
         }
 
         // parameterless constructor 0
         public ProcInstanceClass() 
         {
-            //_procName = "";
             process = null;
         }
 
-        // 
+
+        // retrieve the process by the name and assing it to the calling instance
         public static Process? getProcByName(string givenName)
         {
             Process[] procs = Process.GetProcessesByName(givenName);
@@ -93,28 +107,48 @@ namespace ATA_ClassLibrary
                     return p;
                 }
             }
-
             return null;
         }
 
+
+        // calculate current UpTIme
+        // Subtracts Time.Now - from StartTime.
+        // is used in UpTimeMinutesCurrentSession property
         public int calculateUpTimeCurrentSession()
         {    
             TimeSpan upDate = DateTime.Now - process.StartTime;
             return (int)upDate.TotalMinutes;
         }
 
-        public long retrieveAndCalculateTotalUpTime(string fileNameToWrite)
+
+        // return list of total uptimes for previous sessions read from the file
+        public List<UpTime> retrieveListOfUpTimesForCurrentProcess(string fileNameToWrite)
         {
             string lines = WorkerWithFileClass.ReadFromFileWithGivenName(fileNameToWrite, this);
             string[] allStrings = lines.Split(',');
+            _upTimes = new List<UpTime>();
 
-            foreach(var i in allStrings)
+            for (int i = 0; i < allStrings.Length - 2; i += 2)
             {
-                Console.WriteLine($"line - {i}");
+                UpTime up = new UpTime(Convert.ToInt64(allStrings[i + 1]), DateOnly.FromDateTime(Convert.ToDateTime(allStrings[i])));
+                Console.WriteLine($"up min - {up.UpMinutes} at {up.UpDate}");
+                _upTimes.Add(up);     
             }
-
-            return 0;
+            return _upTimes;
         }
+
+
+        // calculate total uptime from file and current session
+        private long calculateTotalUpTime()
+        {
+            long sum = 0;
+            foreach(var item in UpTimes)
+            {
+                sum += item.UpMinutes;
+            }
+            return sum + UpTimeMinutesCurrentSession;
+        }
+
 
 
     }

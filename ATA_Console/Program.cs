@@ -19,8 +19,8 @@ namespace ATA_Console
             Console.WriteLine("Enter name -> ");
             string? name = Console.ReadLine();
 
-                Console.WriteLine("nane {0}", name);
-                ProcInstanceClass selectedProcess = new ProcInstanceClass(name);
+            Console.WriteLine("nane {0}", name);
+            ProcInstanceClass selectedProcess = new ProcInstanceClass(name);
                 //selectedProcess.ProcName = selectedProcess.process.ProcessName;
            
             while (!wantExit)
@@ -41,6 +41,10 @@ namespace ATA_Console
                         }
                         Console.WriteLine($"Process - {selectedProcess.process.ProcessName} - StartTime - {DateTime.Now - selectedProcess.process.StartTime} - Uptime - {selectedProcess.UpTimeMinutesCurrentSession}");
                         Console.WriteLine(selectedProcess.calculateUpTimeCurrentSession());
+
+                        //selectedProcess.retrieveListOfUpTimesForCurrentProcess(Path.Combine(Directory.GetCurrentDirectory(), "process1.txt"));
+
+                        Console.WriteLine($"TOTAL UPTIME - {selectedProcess.TotalUpTime}");
                         
                         break;
 
@@ -56,7 +60,7 @@ namespace ATA_Console
                         break;
 
                     case ConsoleKey.C:
-                        selectedProcess.retrieveAndCalculateTotalUpTime("process1.txt");
+                        selectedProcess.retrieveListOfUpTimesForCurrentProcess("process1.txt");
                         break;
 
                     default:

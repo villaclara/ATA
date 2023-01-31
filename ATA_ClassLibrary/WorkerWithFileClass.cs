@@ -8,6 +8,7 @@ namespace ATA_ClassLibrary
 {
     public static class WorkerWithFileClass
     {
+        // writes to file with given FileName and process instance
         public static bool writeToFileWithGivenName(string fileNameToWrite, ProcInstanceClass procInstance)
         {
             //
@@ -23,21 +24,20 @@ namespace ATA_ClassLibrary
                     procInstance.calculateUpTimeCurrentSession();
                     writer.Write(DateOnly.FromDateTime(DateTime.Now) + "," + procInstance.UpTimeMinutesCurrentSession + ",");
                     return true;
+
+                    
                 }
             }
-            
-            
-
         }
 
+
+        // reads the file and return all lines as string
         public static string ReadFromFileWithGivenName(string fileNameToRead, ProcInstanceClass procInstance)
         {
             using (StreamReader reader = new StreamReader(Path.Combine(Directory.GetCurrentDirectory(), fileNameToRead)))
             {
-                string line = reader.ReadToEnd();
-                return line;
+                return reader.ReadToEnd();
             }
-            
         }
     }
 }
