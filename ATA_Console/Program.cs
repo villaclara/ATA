@@ -13,8 +13,16 @@ namespace ATA_Console
 
         static void Main(string[] args)
         {
-            ProcInstanceClass selectedProcess = new();
+            //ProcInstanceClass selectedProcess = new();
             bool wantExit = false;
+
+            Console.WriteLine("Enter name -> ");
+            string? name = Console.ReadLine();
+
+                Console.WriteLine("nane {0}", name);
+                ProcInstanceClass selectedProcess = new ProcInstanceClass(name);
+                //selectedProcess.ProcName = selectedProcess.process.ProcessName;
+           
             while (!wantExit)
             {
 
@@ -23,7 +31,6 @@ namespace ATA_Console
                 ConsoleKeyInfo pressedKey = Console.ReadKey();
                 Console.WriteLine(Environment.NewLine);
                
-                
                 switch (pressedKey.Key)
                 {
                     case ConsoleKey.R:
@@ -32,20 +39,15 @@ namespace ATA_Console
                             Console.WriteLine("Process is missing.");
                             break;
                         }
-                        Console.WriteLine($"Process - {selectedProcess.process.ProcessName} - UpTime - {DateTime.Now - selectedProcess.process.StartTime}");
+                        Console.WriteLine($"Process - {selectedProcess.process.ProcessName} - StartTime - {DateTime.Now - selectedProcess.process.StartTime} - Uptime - {selectedProcess.UpTimeMinutesCurrentSession}");
+                        Console.WriteLine(selectedProcess.calculateUpTimeCurrentSession());
+                        
                         break;
 
                     case ConsoleKey.N:
-                        Console.WriteLine("Enter name -> ");
-                        string name = Console.ReadLine();
-                        if (name != null)
-                        {
-                            Console.WriteLine("nane {0}", name);
-                            selectedProcess.process = selectedProcess.getProcByName(name);
-                            selectedProcess.ProcName = selectedProcess.process.ProcessName;
-                        }
-
+                        WorkerWithFileClass.writeToFileWithGivenName("process1.txt", selectedProcess);
                         break;
+
 
                     case ConsoleKey.X:
                         wantExit = true;
@@ -53,6 +55,8 @@ namespace ATA_Console
 
                     default:
                         Console_Output_Class.DisplayMessage("Please enter correct.");
+                        Console.WriteLine(Directory.GetParent(Directory.GetCurrentDirectory()));
+                        Console.WriteLine(AppDomain.CurrentDomain.BaseDirectory);
                         break;
                 }
 
