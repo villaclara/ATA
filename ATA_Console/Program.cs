@@ -45,12 +45,18 @@ namespace ATA_Console
                         break;
 
                     case ConsoleKey.N:
-                        WorkerWithFileClass.writeToFileWithGivenName("process1.txt", selectedProcess);
+                        if (WorkerWithFileClass.writeToFileWithGivenName("process1.txt", selectedProcess))
+                            Console_Output_Class.DisplayMessage("The time was written.");
+                        else Console_Output_Class.DisplayMessage("Time was NOT written.");
                         break;
 
 
                     case ConsoleKey.X:
                         wantExit = true;
+                        break;
+
+                    case ConsoleKey.C:
+                        selectedProcess.retrieveAndCalculateTotalUpTime("process1.txt");
                         break;
 
                     default:

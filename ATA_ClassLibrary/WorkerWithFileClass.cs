@@ -8,18 +8,36 @@ namespace ATA_ClassLibrary
 {
     public static class WorkerWithFileClass
     {
-        public static void writeToFileWithGivenName(string fileNameToWrite, ProcInstanceClass procInstance)
+        public static bool writeToFileWithGivenName(string fileNameToWrite, ProcInstanceClass procInstance)
         {
+            //
+            // TO DELETE AFTER MOVING TO WPF
+            //
             Console.WriteLine(Directory.GetCurrentDirectory());
-            FileStream fileStream = File.Open(Path.Combine(Directory.GetCurrentDirectory(), fileNameToWrite), FileMode.Append);
-            StreamWriter writer = new StreamWriter(fileStream);
-            writer.WriteLine(procInstance.UpTimeMinutesCurrentSession);
-            writer.Flush();
-            writer.Close();
-            fileStream.Close();
+          
+            using (FileStream fileStream = File.Open(Path.Combine(Directory.GetCurrentDirectory(), fileNameToWrite), FileMode.Append))
+            {
+                using (StreamWriter writer = new StreamWriter(fileStream))
+                {
+                    // calculate current session to record proper value to the file
+                    procInstance.calculateUpTimeCurrentSession();
+                    writer.Write(DateOnly.FromDateTime(DateTime.Now) + "," + procInstance.UpTimeMinutesCurrentSession + ",");
+                    return true;
+                }
+            }
             
-            Console.WriteLine("File was written.");
+            
 
+        }
+
+        public static string ReadFromFileWithGivenName(string fileNameToRead, ProcInstanceClass procInstance)
+        {
+            using (StreamReader reader = new StreamReader(Path.Combine(Directory.GetCurrentDirectory(), fileNameToRead)))
+            {
+                string line = reader.ReadToEnd();
+                return line;
+            }
+            
         }
     }
 }

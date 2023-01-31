@@ -12,17 +12,34 @@ namespace ATA_ClassLibrary
     // class for instance of each different process
     public class ProcInstanceClass
     {
+        //////////////////////
+        // FIELDS
+        //////////////////////
+
+        public string boundFileName;
 
         // process instance of Process
         public Process? process;
 
         // separate field for Name
         private string _procName;
+       
         //field for process uptime
         private int _upTimeMinutesCurrentSession;
+       
         // field for name of related file to write
         private string _fileNameToWriteInfo;
-        private DateTime startedTime;
+
+        // field for keeping total uptime for the all time
+        private long _totalUpTime;
+
+        private List<UpTime> _upTimes;
+
+        public List<UpTime> UpTimes
+        {
+            get => _upTimes;
+            set => _upTimes = value;
+        }
         
         public string ProcName
         {
@@ -38,12 +55,23 @@ namespace ATA_ClassLibrary
             }
         }
 
+        public long TotalUpTime
+        {
+            get => retrieveAndCalculateTotalUpTime(boundFileName);
+        }
+
+
+
+        //////////////////////
+        // METHODS
+        //////////////////////
+
 
         // constructor 1
         public ProcInstanceClass(string procName)
         {
             process = getProcByName(procName);
-            startedTime = process.StartTime;
+            //startedTime = process.StartTime;
             //_procName = process.ProcessName;
         }
 
@@ -75,9 +103,17 @@ namespace ATA_ClassLibrary
             return (int)upDate.TotalMinutes;
         }
 
-        public void WriteInfoToFile(string fileNameToWrite)
+        public long retrieveAndCalculateTotalUpTime(string fileNameToWrite)
         {
+            string lines = WorkerWithFileClass.ReadFromFileWithGivenName(fileNameToWrite, this);
+            string[] allStrings = lines.Split(',');
 
+            foreach(var i in allStrings)
+            {
+                Console.WriteLine($"line - {i}");
+            }
+
+            return 0;
         }
 
 
