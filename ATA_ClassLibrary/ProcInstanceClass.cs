@@ -79,11 +79,8 @@ namespace ATA_ClassLibrary
         public ProcInstanceClass(string procName)
         {
             process = getProcByName(procName);
-            string ext = procName + ".txt";
-            // prudymatu shos' inshe dlya filename
             _fileNameToWriteInfo = Path.Combine(Directory.GetCurrentDirectory(), procName + ".txt");
             
-
             // creating the file when calling the constructor for the given process
             if (!File.Exists(_fileNameToWriteInfo))
             { 
@@ -91,8 +88,7 @@ namespace ATA_ClassLibrary
                FileStream fileStream = File.Create(_fileNameToWriteInfo);
                 fileStream.Close();
             }
-            
-            
+                  
             _upTimes = retrieveListOfUpTimesForCurrentProcess(_fileNameToWriteInfo);
         }
 
