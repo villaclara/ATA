@@ -5,8 +5,74 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ATA_WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="200" Width="700">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="auto" MinWidth="130"/>
+            <ColumnDefinition Width="auto" MinWidth="130"/>
+            <ColumnDefinition Width="auto" MinWidth="130"/>
+            <ColumnDefinition Width="auto" MinWidth="130"/>
+            <ColumnDefinition Width="auto" MinWidth="130"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="auto" MinHeight="20"/>
+            <RowDefinition Height="auto" MinHeight="20"/>
+            <RowDefinition Height="auto" MinHeight="20"/>
+            <RowDefinition Height="auto" MinHeight="20"/>
+            <RowDefinition Height="auto" MinHeight="20"/>
+            <RowDefinition Height="auto" MinHeight="20"/>
+            <RowDefinition Height="*" MinHeight="20"/>
+            <RowDefinition Height="20" MinHeight="20"/>
+        </Grid.RowDefinitions>
 
+        <!-- Header ROW -->
+        <TextBlock Grid.Row="1" Grid.Column="1" Text="Open Processes" Grid.ColumnSpan="3" Margin="0,0,46,20" Grid.RowSpan="2" />
+
+
+        <!-- First Process GRID ROW 2 -->
+        <TextBlock Grid.Row="2" Grid.Column="1" Text="First Process" FontSize="15"/>
+        <TextBlock x:Name="firstProcessName" Grid.Row="2" Grid.Column="2" Text="Name: (first proc)" />
+        <Button x:Name="setFirstProcess" Content="Set Process" Grid.Row="2" Grid.Column="3" />
+        <TextBlock x:Name="firstProcessUpTime" Grid.Row="2" Grid.Column="4" Text="UpTime: (first proc)"  />
+        <TextBlock x:Name="firstProcessTotalUpTime" Grid.Row="2" Grid.Column="5" Text="TotalUpTime: (first proc)"  />
+
+
+        <!-- Second Process GRID ROW 3 -->
+        <TextBlock Grid.Row="3" Grid.Column="1" Text="Second Process" FontSize="15" />
+        <TextBlock x:Name="secondProcessName" Grid.Row="3" Grid.Column="2" Text="Name: (second proc)" />
+        <Button x:Name="setSecondProcess" Content="Set Process" Grid.Row="3" Grid.Column="3" />
+        <TextBlock x:Name="secondProcessUpTime" Grid.Row="3" Grid.Column="4" Text="UpTime: (second proc)" />
+        <TextBlock x:Name="secondProcessTotalUpTime" Grid.Row="3" Grid.Column="5" Text="TotalUpTime: (second proc)"  />
+
+
+        <!-- Third Process GRID ROW 4 -->
+        <TextBlock Grid.Row="4" Grid.Column="1" Text="Third Process" FontSize="15" />
+        <TextBlock x:Name="thirdProcessName" Grid.Row="4" Grid.Column="2" Text="Name: (third proc)" />
+        <Button x:Name="setThirdProcess" Content="Set Process" Grid.Row="4" Grid.Column="3" />
+        <TextBlock x:Name="thirdProcessUpTime" Grid.Row="4" Grid.Column="4" Text="UpTime: (third proc)"  />
+        <TextBlock x:Name="thirdProcessTotalUpTime" Grid.Row="4" Grid.Column="5" Text="TotalUpTime: (third proc)"  />
+
+
+        <!-- Fourth Process GRID ROW 5 -->
+        <TextBlock Grid.Row="5" Grid.Column="1" Text="Fourth Process" FontSize="15" />
+        <TextBlock x:Name="fourthProcessName" Grid.Row="5" Grid.Column="2" Text="Name: (fourth proc)" />
+        <Button x:Name="setFourthProcess" Content="Set Process" Grid.Row="5" Grid.Column="3" />
+        <TextBlock x:Name="fourthProcessUpTime" Grid.Row="5" Grid.Column="4" Text="UpTime: (fourth proc)"  />
+        <TextBlock x:Name="fourthProcessTotalUpTime" Grid.Row="5" Grid.Column="5" Text="TotalUpTime: (fourth proc)"  />
+
+
+        <!-- Fifth Process GRID ROW 6 -->
+        <TextBlock Grid.Row="6" Grid.Column="1" Text="Fifth Process" FontSize="15" />
+        <TextBlock x:Name="fifthProcessName" Grid.Row="6" Grid.Column="2" Text="Name: (fifth proc)" />
+        <Button x:Name="setFifthProcess" Content="Set Process" Grid.Row="6" Grid.Column="3" />
+        <TextBlock x:Name="fifthProcessUpTime" Grid.Row="6" Grid.Column="4" Text="UpTime: (fifth proc)"/>
+        <TextBlock x:Name="fifthProcessTotalUpTime" Grid.Row="6" Grid.Column="5" Text="TotalUpTime: (fifth proc)"  />
+
+
+        
     </Grid>
 </Window>

@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ATA_ClassLibrary;
 
 namespace ATA_WPF
 {
@@ -20,9 +21,17 @@ namespace ATA_WPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        ProcInstanceClass proces1 = new ProcInstanceClass("steam");
+
         public MainWindow()
         {
             InitializeComponent();
+
+            firstProcessName.Text = proces1.ProcName;
+            firstProcessUpTime.Text = "UpTime - " + proces1.UpTimeMinutesCurrentSession.ToString();
+            firstProcessTotalUpTime.Text = "Total UpTime - " + proces1.TotalUpTime.ToString();
         }
+
+
     }
 }
