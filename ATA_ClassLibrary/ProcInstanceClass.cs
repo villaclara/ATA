@@ -88,7 +88,6 @@ namespace ATA_ClassLibrary
                FileStream fileStream = File.Create(_fileNameToWriteInfo);
                 fileStream.Close();
             }
-                  
             _upTimes = retrieveListOfUpTimesForCurrentProcess(_fileNameToWriteInfo);
         }
 
