@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,17 +22,25 @@ namespace ATA_WPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        ProcInstanceClass proces1 = new ProcInstanceClass("steam");
+        // initializing second form
+        ListProcsForm lForm = new ListProcsForm();
+
+        ProcInstanceClass[] processArray = new ProcInstanceClass[5];
 
         public MainWindow()
         {
             InitializeComponent();
-
-            firstProcessName.Text = proces1.ProcName;
-            firstProcessUpTime.Text = "UpTime - " + proces1.UpTimeMinutesCurrentSession.ToString();
-            firstProcessTotalUpTime.Text = "Total UpTime - " + proces1.TotalUpTime.ToString();
+            
+            
+           
+           
         }
 
+        private void setFirstProcessButton_Click(object sender, RoutedEventArgs e)
+        {
+            List<Process> procs = DifferentFunctions.GetActiveProcesses();
 
+            lForm.ShowDialog();
+        }
     }
 }

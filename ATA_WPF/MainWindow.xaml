@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ATA_WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="300" Width="auto" FontFamily="Cascadia Code">
+        Title="ATA" Height="300" Width="900" FontFamily="Cascadia Code">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
@@ -44,7 +44,7 @@
         <Border Grid.Column="1" Grid.ColumnSpan="7" Grid.Row="2" Background="AliceBlue"/>
         <TextBlock Grid.Row="2" Grid.Column="1" Text="First Process" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" FontFamily="Constantia" FontWeight="Bold"/>
         <TextBlock x:Name="firstProcessName" Grid.Row="2" Grid.Column="3" Text="(first proc)" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" FontFamily="Cascadia Code" />
-        <Button x:Name="setFirstProcess" Content=" Set -&gt; " Grid.Row="2" Grid.Column="2" Background="#FFB486F9" Height="30" FontFamily="Consolas" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Width="58" />
+        <Button x:Name="setFirstProcess" Content=" Set -&gt; " Grid.Row="2" Grid.Column="2" Background="#FFB486F9" Height="30" FontFamily="Consolas" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Width="58" Click="setFirstProcessButton_Click" />
         <TextBlock x:Name="firstProcessUpTime" Grid.Row="2" Grid.Column="4" Text="UpTime: (first proc)" HorizontalAlignment="Left" VerticalAlignment="Center"  />
         <TextBlock x:Name="firstProcessTotalUpTime" Grid.Row="2" Grid.Column="5" Text="TotalUpTime: (first proc)" HorizontalAlignment="Left" VerticalAlignment="Center" />
         <Button x:Name="showFirstProcessAllTimes" Content="Show All times" Grid.Row="2" Grid.Column="6" />
