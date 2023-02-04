@@ -32,11 +32,11 @@
         
         <!-- ROW 2 THE LISTBOX -->
         <ListBox x:Name="ProcsList" Grid.Row="2" Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Visible" Height="320">
-            <ListBox.ItemTemplate>
+            <!--<ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Path=ProcessName}"/>
                 </DataTemplate>
-            </ListBox.ItemTemplate>
+            </ListBox.ItemTemplate>-->
         </ListBox>
 
 

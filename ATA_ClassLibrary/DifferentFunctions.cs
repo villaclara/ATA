@@ -17,6 +17,17 @@ namespace ATA_ClassLibrary
         }
 
 
+        public static List<string> GetActiveProcessesByNameString()
+        {
+            List<Process> procs = Process.GetProcesses().ToList();
+            List<string> strings = new();
+            foreach(var proc in procs)
+            {
+                strings.Add(proc.ProcessName);
+            }
+
+            return strings;
+        }
 
     }
 }

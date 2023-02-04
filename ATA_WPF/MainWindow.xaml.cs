@@ -23,7 +23,6 @@ namespace ATA_WPF
     public partial class MainWindow : Window
     {
         // initializing second form
-        ListProcsForm lForm = new ListProcsForm();
 
         ProcInstanceClass[] processArray = new ProcInstanceClass[5];
 
@@ -39,6 +38,8 @@ namespace ATA_WPF
         private void setFirstProcessButton_Click(object sender, RoutedEventArgs e)
         {
             List<Process> procs = DifferentFunctions.GetActiveProcesses();
+
+            ListProcsForm lForm = new ListProcsForm();
 
             lForm.ShowDialog();
         }
