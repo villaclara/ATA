@@ -16,6 +16,8 @@ namespace ATA_ClassLibrary
         // FIELDS
         //////////////////////
 
+        public static string selectedProc;
+
         //public string boundFileName;
 
         // process instance of Process
@@ -89,12 +91,15 @@ namespace ATA_ClassLibrary
                 fileStream.Close();
             }
             _upTimes = retrieveListOfUpTimesForCurrentProcess(_fileNameToWriteInfo);
+
+            selectedProc = "";
         }
 
         // parameterless constructor 0
         public ProcInstanceClass() 
         {
             process = null;
+            selectedProc = "";
         }
 
 

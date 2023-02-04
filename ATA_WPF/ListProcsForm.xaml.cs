@@ -26,15 +26,33 @@ namespace ATA_WPF
             InitializeComponent();
 
             List<string> strProcs = DifferentFunctions.GetActiveProcessesByNameString();
+            strProcs.Sort();
             ProcsList.ItemsSource = strProcs;
         }
 
+
+        // sets the SELECTEDPROCESS static variable as selected and the MainWindow reads it
         private void SetButton_Click(object sender, RoutedEventArgs e)
         {
+            // checks if the item was selected
+            if (ProcsList.SelectedItem != null)
+            {
 
-            MessageBox.Show(ProcsList.SelectedItem.ToString());
-
-            this.Close();
+                // try catch is needed for the check if the process is system 
+                // if the process is system - the time is not available
+                try
+                {
+                    ProcInstanceClass.selectedProc = ProcsList.SelectedItem.ToString();
+                    Process[] pr = Process.GetProcessesByName(ProcInstanceClass.selectedProc);
+                    var a = pr[0].MainModule.FileName;                      // if this gives an error then we catch and refresh SELECTEDPROCESS var
+                    this.Close();
+                }
+                catch (Exception ex)
+                {
+                    ProcInstanceClass.selectedProc = "";
+                    MessageBox.Show("The process could not be selected. Please select another.");
+                }
+            }
         }
     }
 }

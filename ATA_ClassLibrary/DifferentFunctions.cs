@@ -25,7 +25,6 @@ namespace ATA_ClassLibrary
             {
                 strings.Add(proc.ProcessName);
             }
-
             return strings;
         }
 
