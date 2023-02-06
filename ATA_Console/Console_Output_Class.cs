@@ -17,6 +17,8 @@ namespace ATA_Console
         {
             Console.WriteLine("=====================================");
             Console.WriteLine("R to refresh \n N to set new \n X to exit \n -> ");
+
+            Console.WriteLine(value: "Hello");
         }
     }
 }

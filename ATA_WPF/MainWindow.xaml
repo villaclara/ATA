@@ -55,7 +55,7 @@
         <Border Grid.Column="1" Grid.ColumnSpan="7" Grid.Row="3" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"/>
         <TextBlock Grid.Row="3" Grid.Column="1" Text="Second Process" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" FontFamily="Constantia" FontWeight="Bold" />
         <TextBlock x:Name="secondProcessName" Grid.Row="3" Grid.Column="3" Text="(second proc)" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" FontFamily="Cascadia Code" />
-        <Button x:Name="setSecondProcess" Content=" Set -&gt; " Grid.Row="3" Grid.Column="2" Background="#FFB486F9" FontFamily="Consolas" FontSize="14" FontWeight="Bold" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" Width="58" />
+        <Button x:Name="setSecondProcess" Content=" Set -&gt; " Grid.Row="3" Grid.Column="2" Background="#FFB486F9" FontFamily="Consolas" FontSize="14" FontWeight="Bold" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" Width="58" Click="setSecondProcess_Click" />
         <TextBlock x:Name="secondProcessUpTime" Grid.Row="3" Grid.Column="4" Text="UpTime: (second proc)"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
         <TextBlock x:Name="secondProcessTotalUpTime" Grid.Row="3" Grid.Column="5" Text="TotalUpTime: (second proc)"  HorizontalAlignment="Left" VerticalAlignment="Center" />
         <Button x:Name="showSecondProcessAllTimes" Content="Show All times" Grid.Row="3" Grid.Column="6" />
@@ -66,7 +66,7 @@
         <Border Grid.Column="1" Grid.ColumnSpan="7" Grid.Row="4" Background="AliceBlue"/>
         <TextBlock Grid.Row="4" Grid.Column="1" Text="Third Process" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" FontFamily="Constantia" FontWeight="Bold" />
         <TextBlock x:Name="thirdProcessName" Grid.Row="4" Grid.Column="3" Text="(third proc)" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" FontFamily="Cascadia Code" />
-        <Button x:Name="setThirdProcess" Content=" Set -&gt; " Grid.Row="4" Grid.Column="2" Background="#FFB486F9" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Consolas" FontWeight="Bold" FontSize="14" Height="30" Width="58" />
+        <Button x:Name="setThirdProcess" Content=" Set -&gt; " Grid.Row="4" Grid.Column="2" Background="#FFB486F9" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Consolas" FontWeight="Bold" FontSize="14" Height="30" Width="58" Click="setThirdProcess_Click" />
         <TextBlock x:Name="thirdProcessUpTime" Grid.Row="4" Grid.Column="4" Text="UpTime: (third proc)" HorizontalAlignment="Left" VerticalAlignment="Center"  />
         <TextBlock x:Name="thirdProcessTotalUpTime" Grid.Row="4" Grid.Column="5" Text="TotalUpTime: (third proc)" HorizontalAlignment="Left" VerticalAlignment="Center"  />
         <Button x:Name="showThirdProcessAllTimes" Content="Show All times" Grid.Row="4" Grid.Column="6" />
@@ -76,7 +76,7 @@
         <Border Grid.Column="1" Grid.ColumnSpan="7" Grid.Row="5" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"/>
         <TextBlock Grid.Row="5" Grid.Column="1" Text="Fourth Process" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" FontFamily="Constantia" FontWeight="Bold" />
         <TextBlock x:Name="fourthProcessName" Grid.Row="5" Grid.Column="3" Text="(fourth proc)" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" FontFamily="Cascadia Code" />
-        <Button x:Name="setFourthProcess" Content=" Set -&gt; " Grid.Row="5" Grid.Column="2" Background="#FFB486F9" Width="58" Height="30" FontFamily="Consolas" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <Button x:Name="setFourthProcess" Content=" Set -&gt; " Grid.Row="5" Grid.Column="2" Background="#FFB486F9" Width="58" Height="30" FontFamily="Consolas" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Click="setFourthProcess_Click" />
         <TextBlock x:Name="fourthProcessUpTime" Grid.Row="5" Grid.Column="4" Text="UpTime: (fourth proc)" HorizontalAlignment="Left" VerticalAlignment="Center"  />
         <TextBlock x:Name="fourthProcessTotalUpTime" Grid.Row="5" Grid.Column="5" Text="TotalUpTime: (fourth proc)" HorizontalAlignment="Left" VerticalAlignment="Center"  />
         <Button x:Name="showFourthProcessAllTimes" Content="Show All times" Grid.Row="5" Grid.Column="6" />
@@ -86,7 +86,7 @@
         <Border Grid.Column="1" Grid.ColumnSpan="7" Grid.Row="6" Background="AliceBlue"/>
         <TextBlock Grid.Row="6" Grid.Column="1" Text="Fifth Process" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" FontFamily="Constantia" FontWeight="Bold"/>
         <TextBlock x:Name="fifthProcessName" Grid.Row="6" Grid.Column="3" Text="(fifth proc)" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" FontFamily="Cascadia Code" />
-        <Button x:Name="setFifthProcess" Content=" Set -&gt; " Grid.Row="6" Grid.Column="2" Background="#FFB486F9" Height="30" Width="58" FontFamily="Consolas" FontWeight="Bold" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <Button x:Name="setFifthProcess" Content=" Set -&gt; " Grid.Row="6" Grid.Column="2" Background="#FFB486F9" Height="30" Width="58" FontFamily="Consolas" FontWeight="Bold" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" Click="setFifthProcess_Click" />
         <TextBlock x:Name="fifthProcessUpTime" Grid.Row="6" Grid.Column="4" Text="UpTime: (fifth proc)" HorizontalAlignment="Left" VerticalAlignment="Center"/>
         <TextBlock x:Name="fifthProcessTotalUpTime" Grid.Row="6" Grid.Column="5" Text="TotalUpTime: (fifth proc)" HorizontalAlignment="Left" VerticalAlignment="Center"  />
         <Button x:Name="showFifthProcessAllTimes" Content="Show All times" Grid.Row="6" Grid.Column="6" />

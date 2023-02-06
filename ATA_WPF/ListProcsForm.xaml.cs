@@ -47,7 +47,7 @@ namespace ATA_WPF
                     var a = pr[0].MainModule.FileName;                      // if this gives an error then we catch and refresh SELECTEDPROCESS var
                     this.Close();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     ProcInstanceClass.selectedProc = "";
                     MessageBox.Show("The process could not be selected. Please select another.");

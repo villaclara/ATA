@@ -73,24 +73,6 @@ namespace ATA_Console
 
             //}
 
-            int sum = 0;
-            var procs = Process.GetProcesses();
-            foreach (var proc in procs)
-            {
-                try
-                {
-                    Console.WriteLine(proc.MainModule.ModuleName);
-                    sum++;
-                }
-                catch(Exception ex) { 
-                    //Console.WriteLine(ex.ToString());
-                    }
-            }
-
-
-            Console.WriteLine($"sum - {sum}, amount - {procs.Length}");
-            var p = Process.GetProcessesByName("steam");
-            Console.WriteLine(p[0].Modules + p[0].Handle.ToString());
             
 
         }

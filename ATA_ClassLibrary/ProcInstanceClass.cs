@@ -16,7 +16,7 @@ namespace ATA_ClassLibrary
         // FIELDS
         //////////////////////
 
-        public static string selectedProc;
+        public static string? selectedProc;
 
         //public string boundFileName;
 
@@ -27,7 +27,7 @@ namespace ATA_ClassLibrary
         private int _upTimeMinutesCurrentSession;
        
         // field for name of related file to write
-        public string _fileNameToWriteInfo;
+        public string? _fileNameToWriteInfo;
 
         // field for keeping total uptime for the all time
         private long _totalUpTime;
@@ -71,6 +71,8 @@ namespace ATA_ClassLibrary
         }
 
 
+        
+
 
         //////////////////////
         // METHODS
@@ -100,6 +102,7 @@ namespace ATA_ClassLibrary
         {
             process = null;
             selectedProc = "";
+            _upTimes = new List<UpTime>();
         }
 
 
