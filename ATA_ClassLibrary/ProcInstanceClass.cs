@@ -18,7 +18,12 @@ namespace ATA_ClassLibrary
 
         public static string? selectedProc;
 
-        //public string boundFileName;
+        // bool if the process is currently running
+        private bool _isRunning;
+
+        // private string Name for process
+        // should have separate name as the Process process could not be running so it will return an error
+        private string _procName;
 
         // process instance of Process
         public Process? process;
@@ -49,7 +54,8 @@ namespace ATA_ClassLibrary
         
         public string ProcName
         {
-            get => process.ProcessName;
+            get => _procName;
+            set => _procName = value;
         }
 
         public int UpTimeMinutesCurrentSession
@@ -70,8 +76,27 @@ namespace ATA_ClassLibrary
             }
         }
 
+        // if the process is currently running
+        public bool IsRunning
+        {
+            get
+            {
+                _isRunning = DifferentFunctions.checkIfProcessIsRunningWithStringName(_procName);
+                return _isRunning;
+            }
+            set
+            {
+                _isRunning = value;
+                process = getProcByName(ProcName);
+            }
+        }
 
-        
+        // for the event when process has started
+        public event EventHandler ProcessStartedEvent;
+
+        public int UpMinutesFromStartingProgram { get; set; }
+
+        public DateOnly TodaysDateForStartingProgram { get; set; }
 
 
         //////////////////////
@@ -83,8 +108,10 @@ namespace ATA_ClassLibrary
         public ProcInstanceClass(string procName)
         {
             process = getProcByName(procName);
+            ProcName = procName;
             _fileNameToWriteInfo = Path.Combine(Directory.GetCurrentDirectory(), procName + ".txt");
             
+
             // creating the file when calling the constructor for the given process
             if (!File.Exists(_fileNameToWriteInfo))
             { 
@@ -95,7 +122,15 @@ namespace ATA_ClassLibrary
             _upTimes = retrieveListOfUpTimesForCurrentProcess(_fileNameToWriteInfo);
 
             selectedProc = "";
+
+            UpMinutesFromStartingProgram = 0;
+            TodaysDateForStartingProgram = DateOnly.FromDateTime(DateTime.Now);
+
+            //process.Exited += OnProcessStarted;
+
         }
+
+        
 
         // parameterless constructor 0
         public ProcInstanceClass() 
@@ -103,8 +138,22 @@ namespace ATA_ClassLibrary
             process = null;
             selectedProc = "";
             _upTimes = new List<UpTime>();
+            IsRunning = false;
+            
         }
 
+        // needed when the process is not running and APP is running
+        public ProcInstanceClass(string name, bool isRunning)
+        {
+            ProcName = name;
+            if (!isRunning)
+            {
+                process = null;
+                IsRunning = false;
+            }
+
+            process = getProcByName(name);
+        }
 
         // retrieve the process by the name and assing it to the calling instance
         public static Process? getProcByName(string givenName)
@@ -125,7 +174,10 @@ namespace ATA_ClassLibrary
         // Subtracts Time.Now - from StartTime.
         // is used in UpTimeMinutesCurrentSession property
         public int calculateUpTimeCurrentSession()
-        {    
+        {
+            if (!IsRunning)
+                return 0;
+
             TimeSpan upDate = DateTime.Now - process.StartTime;
             return (int)upDate.TotalMinutes;
         }
@@ -134,9 +186,15 @@ namespace ATA_ClassLibrary
         // return list of total uptimes for previous sessions read from the file
         public List<UpTime> retrieveListOfUpTimesForCurrentProcess(string fileNameToWrite)
         {
-            string lines = WorkerWithFileClass.ReadFromFileWithGivenName(fileNameToWrite, this);
-            string[] allStrings = lines.Split(',');
             _upTimes = new List<UpTime>();
+
+            string lines = WorkerWithFileClass.ReadFromFileWithGivenName(fileNameToWrite);
+            if (lines == null)
+            {
+                return null;
+            }
+
+            string[] allStrings = lines.Split(',');
 
             for (int i = 0; i < allStrings.Length - 2; i += 2)
             {
@@ -152,6 +210,9 @@ namespace ATA_ClassLibrary
         private long calculateTotalUpTime()
         {
             long sum = 0;
+            if (UpTimes == null)
+                return UpTimeMinutesCurrentSession;
+           
             foreach(var item in UpTimes)
             {
                 sum += item.UpMinutes;
@@ -160,6 +221,9 @@ namespace ATA_ClassLibrary
         }
 
 
-
+        public void OnProcessStarted (object sender, EventArgs e)
+        {
+            Console.WriteLine("Process has ended");
+        }
     }
 }

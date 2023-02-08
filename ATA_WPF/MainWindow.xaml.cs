@@ -30,13 +30,32 @@ namespace ATA_WPF
         public MainWindow()
         {
             InitializeComponent();
-            
-            
-           
+
+            createIfNeededStartingFile();
+
+
+            DisplayInfo(processArray[0], pName: firstProcessName, pUpTime: firstProcessUpTime, pTotalUpTime: firstProcessTotalUpTime);
+            //WorkerWithFileClass.AddProcessNameToFile(DifferentFunctions.fileWithProcesses, processArray);
            
         }
 
 
+        // checks if the startring file - "processes.txt" is created and if not created then creates and fills it with 'empty' names
+        // made separate function for the ctor to be clear
+        private void createIfNeededStartingFile()
+        {
+            bool toCreate = true;
+            string[] strs = WorkerWithFileClass.ReadFromFileWithGivenName(DifferentFunctions.fileWithProcesses).Split(',');
+            foreach (string str in strs)
+            {
+                if (str != "empty" && str != "")
+                    toCreate = false;
+            }
+            if (toCreate)
+            {
+                WorkerWithFileClass.createDefault();
+            }
+        }
 
 
         // retrieve processes and show new form and return back and do all the work
@@ -50,9 +69,12 @@ namespace ATA_WPF
             if (ProcInstanceClass.selectedProc != null && ProcInstanceClass.selectedProc != "")
             {
                 processArray[0] = new ProcInstanceClass(ProcInstanceClass.selectedProc);
+                
+                WorkerWithFileClass.AddProcessNameToFile(processArray[0].ProcName, processArray, 0);
+                
                 ProcInstanceClass.selectedProc = "";
 
-                var timer = new System.Timers.Timer(2000);
+                var timer = new System.Timers.Timer(60000);
                 timer.Elapsed += Timer_Elapsed;
                 timer.Start();
 
@@ -60,16 +82,18 @@ namespace ATA_WPF
             
         }
 
+
+        // event handler for timer when time elapsed
         private void Timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
         {
             this.Dispatcher.Invoke(new Action(() =>
             {
 
-                    if (processArray[0] != null)
-                    {
+                if (processArray[0] != null)
+                {
 
-                        DisplayInfoProcess(processArray[0], firstProcessName, firstProcessUpTime, firstProcessTotalUpTime);
-                    }
+                    DisplayInfoProcess(processArray[0], firstProcessName, firstProcessUpTime, firstProcessTotalUpTime);
+                }
 
                 if (processArray[1] != null)
                 {
@@ -106,7 +130,23 @@ namespace ATA_WPF
             
         }
 
-        
+        public void DisplayInfo (ProcInstanceClass proc, TextBlock pName, TextBlock pUpTime, TextBlock pTotalUpTime)
+        {
+            string name = WorkerWithFileClass.getProcessFromFileWithGivenIndex(0);
+            if (name == "empty")
+            {
+                return;
+            }
+
+            if (DifferentFunctions.checkIfProcessIsRunningWithStringName(name))
+            {
+                proc = new ProcInstanceClass(name, DifferentFunctions.checkIfProcessIsRunningWithStringName(name));
+            }
+
+            DisplayInfoProcess(proc,  pName,  pUpTime,  pTotalUpTime);
+
+
+        }
 
         private void setSecondProcess_Click(object sender, RoutedEventArgs e)
         {
@@ -117,9 +157,13 @@ namespace ATA_WPF
             if (ProcInstanceClass.selectedProc != null && ProcInstanceClass.selectedProc != "")
             {
                 processArray[1] = new ProcInstanceClass(ProcInstanceClass.selectedProc);
+
+                WorkerWithFileClass.AddProcessNameToFile(processArray[1].ProcName, processArray, 1);
+
+
                 ProcInstanceClass.selectedProc = "";
 
-                var timer = new System.Timers.Timer(2005);
+                var timer = new System.Timers.Timer(58000);
                 timer.Elapsed += Timer_Elapsed;
                 timer.Start();
 
@@ -135,9 +179,13 @@ namespace ATA_WPF
             if (ProcInstanceClass.selectedProc != null && ProcInstanceClass.selectedProc != "")
             {
                 processArray[2] = new ProcInstanceClass(ProcInstanceClass.selectedProc);
+
+                WorkerWithFileClass.AddProcessNameToFile(processArray[2].ProcName, processArray, 2);
+
+
                 ProcInstanceClass.selectedProc = "";
 
-                var timer = new System.Timers.Timer(2010);
+                var timer = new System.Timers.Timer(61000);
                 timer.Elapsed += Timer_Elapsed;
                 timer.Start();
 
@@ -153,9 +201,13 @@ namespace ATA_WPF
             if (ProcInstanceClass.selectedProc != null && ProcInstanceClass.selectedProc != "")
             {
                 processArray[3] = new ProcInstanceClass(ProcInstanceClass.selectedProc);
+
+                WorkerWithFileClass.AddProcessNameToFile(processArray[3].ProcName, processArray, 3);
+
+
                 ProcInstanceClass.selectedProc = "";
 
-                var timer = new System.Timers.Timer(2015);
+                var timer = new System.Timers.Timer(62000);
                 timer.Elapsed += Timer_Elapsed;
                 timer.Start();
 
@@ -170,9 +222,13 @@ namespace ATA_WPF
             if (ProcInstanceClass.selectedProc != null && ProcInstanceClass.selectedProc != "")
             {
                 processArray[4] = new ProcInstanceClass(ProcInstanceClass.selectedProc);
+
+                WorkerWithFileClass.AddProcessNameToFile(processArray[4].ProcName, processArray, 4);
+
+
                 ProcInstanceClass.selectedProc = "";
 
-                var timer = new System.Timers.Timer(2020);
+                var timer = new System.Timers.Timer(59000);
                 timer.Elapsed += Timer_Elapsed;
                 timer.Start();
 

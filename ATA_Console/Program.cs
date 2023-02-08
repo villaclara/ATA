@@ -3,13 +3,14 @@ using ATA_ClassLibrary;
 using ATA_WPF;
 using System;
 using System.Diagnostics;
-
+using System.Timers;
 
 namespace ATA_Console
 {
     internal class Program
     {
         static string equalString = "=====================================";
+        
 
         static void Main(string[] args)
         {
@@ -21,10 +22,15 @@ namespace ATA_Console
 
             //Console.WriteLine("nane {0}", name);
             //ProcInstanceClass selectedProcess = new ProcInstanceClass(name);
-            //    //selectedProcess.ProcName = selectedProcess.process.ProcessName;
+            //selectedProcess.process.Exited += ProcEnded;
+            ////selectedProcess.ProcName = selectedProcess.process.ProcessName;
 
             //while (!wantExit)
             //{
+            //    var timer = new System.Timers.Timer(2000);
+            //    timer.Elapsed += Timer_Elapsed;
+            //    timer.AutoReset = true;
+            //    timer.Enabled= true;
 
             //    Console_Output_Class.DisplayOptions();
 
@@ -61,6 +67,7 @@ namespace ATA_Console
 
             //        case ConsoleKey.C:
             //            selectedProcess.retrieveListOfUpTimesForCurrentProcess("process1.txt");
+
             //            break;
 
             //        default:
@@ -73,8 +80,35 @@ namespace ATA_Console
 
             //}
 
-            
+            bool toCreate = true;
+            string[] strs = WorkerWithFileClass.ReadFromFileWithGivenName(DifferentFunctions.fileWithProcesses).Split(',');
+            foreach (string str in strs)
+            {
+                if (str != "empty" && str != "")
+                    toCreate = false;
+            }
+            if (toCreate)
+            {
+                WorkerWithFileClass.createDefault();
+            }
 
+
+            ProcInstanceClass[] processArray = new ProcInstanceClass[5];
+            processArray[1] = new ProcInstanceClass("devenv");
+            WorkerWithFileClass.AddProcessNameToFile(processArray[1].ProcName, processArray, 1);
+
+
+        }
+
+        private static void Timer_Elapsed(object? sender, ElapsedEventArgs e)
+        {
+
+            Console.WriteLine("Timer elapsed");
+        }
+
+        public static void ProcEnded(object sender, EventArgs eventArgs)
+        {
+            Console.WriteLine("Ended");
         }
     }
 }

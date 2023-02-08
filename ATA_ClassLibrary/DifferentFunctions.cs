@@ -9,7 +9,9 @@ namespace ATA_ClassLibrary
 {
     public static class DifferentFunctions
     {
-        
+        // path for the procs file with names of all selected processes
+        // it will be - Default path to the folder of project and procs.txt name
+        public static string fileWithProcesses = Path.Combine(Directory.GetCurrentDirectory() + "\\procs.txt");
 
         public static List<Process> GetActiveProcesses()
         {
@@ -28,7 +30,32 @@ namespace ATA_ClassLibrary
             return strings;
         }
 
-        
+
+        public static bool checkIfProcessIsRunningWithStringName (string procName)
+        {
+            List<string> procList = GetActiveProcessesByNameString();
+            foreach(var proc in procList)
+            {
+                if (proc == procName)
+                    return true;
+            }
+            return false;
+        }
+
+        public static bool checkIfProcessIsRunningWithProcessVar (Process process)
+        {
+            List<Process> procs = GetActiveProcesses();
+            foreach(var p in procs)
+            {
+                if (p.ProcessName == process.ProcessName)
+                    return true;
+            }
+            return false;
+        }
+
+            
+
+
 
     }
 }
