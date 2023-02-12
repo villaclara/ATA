@@ -13,12 +13,13 @@ namespace ATA_ClassLibrary
         // it will be - Default path to the folder of project and procs.txt name
         public static string fileWithProcesses = Path.Combine(Directory.GetCurrentDirectory() + "\\procs.txt");
 
+        // gets list of active processes
         public static List<Process> GetActiveProcesses()
         {
             return Process.GetProcesses().ToList();
         }
 
-
+        // gets list of active process names
         public static List<string> GetActiveProcessesByNameString()
         {
             List<Process> procs = Process.GetProcesses().ToList();
@@ -30,7 +31,7 @@ namespace ATA_ClassLibrary
             return strings;
         }
 
-
+        // 
         public static bool checkIfProcessIsRunningWithStringName (string procName)
         {
             List<string> procList = GetActiveProcessesByNameString();

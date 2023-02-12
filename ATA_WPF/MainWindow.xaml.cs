@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Automation.Provider;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -14,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml.Linq;
 using ATA_ClassLibrary;
 
 namespace ATA_WPF
@@ -33,15 +35,40 @@ namespace ATA_WPF
 
             createIfNeededStartingFile();
 
+            initializeProcesses();
 
-            DisplayInfo(processArray[0], pName: firstProcessName, pUpTime: firstProcessUpTime, pTotalUpTime: firstProcessTotalUpTime);
+            DisplayStartingInfo();
             //WorkerWithFileClass.AddProcessNameToFile(DifferentFunctions.fileWithProcesses, processArray);
-           
+
+            
+            
         }
 
+        // initializes array of processes
+        private void initializeProcesses()
+        {
+            
+            for (int i = 0; i < 5; i++)
+            {
 
-        // checks if the startring file - "processes.txt" is created and if not created then creates and fills it with 'empty' names
-        // made separate function for the ctor to be clear
+                string name = WorkerWithFileClass.getProcessFromFileWithGivenIndex(i);
+                if (name == "empty")
+                {
+                    return;
+                }
+                if (!DifferentFunctions.checkIfProcessIsRunningWithStringName(name))
+                {
+                    processArray[i] = new ProcInstanceClass(name, DifferentFunctions.checkIfProcessIsRunningWithStringName(name));
+                }
+                else { processArray[i] = new ProcInstanceClass(name); }
+            }
+            
+        }
+    
+
+
+    // checks if the startring file - "processes.txt" is created and if not created then creates and fills it with 'empty' names
+    // made separate function for the ctor to be clear
         private void createIfNeededStartingFile()
         {
             bool toCreate = true;
@@ -58,71 +85,53 @@ namespace ATA_WPF
         }
 
 
-        // retrieve processes and show new form and return back and do all the work
-        private void setFirstProcessButton_Click(object sender, RoutedEventArgs e)
+        // one function for all info
+        private void DisplayAllInfo()
         {
-
-            ListProcsForm lForm = new ListProcsForm();
-            lForm.ShowDialog();
-
-            
-            if (ProcInstanceClass.selectedProc != null && ProcInstanceClass.selectedProc != "")
-            {
-                processArray[0] = new ProcInstanceClass(ProcInstanceClass.selectedProc);
-                
-                WorkerWithFileClass.AddProcessNameToFile(processArray[0].ProcName, processArray, 0);
-                
-                ProcInstanceClass.selectedProc = "";
-
-                var timer = new System.Timers.Timer(60000);
-                timer.Elapsed += Timer_Elapsed;
-                timer.Start();
-
-            }
-            
+            DisplayInfo(processArray[0], 0, pName: firstProcessName, pUpTime: firstProcessUpTime, pTotalUpTime: firstProcessTotalUpTime, isRun: firstProcessIsRun);
+            DisplayInfo(processArray[1], 1, pName: secondProcessName, pUpTime: secondProcessUpTime, pTotalUpTime: secondProcessTotalUpTime, isRun: secondProcessIsRun);
+            DisplayInfo(processArray[2], 2, pName: thirdProcessName, pUpTime: thirdProcessUpTime, pTotalUpTime: thirdProcessTotalUpTime, isRun: thirdProcessIsRun);
+            DisplayInfo(processArray[3], 3, pName: fourthProcessName, pUpTime: fourthProcessUpTime, pTotalUpTime: fourthProcessTotalUpTime, isRun: fourthProcessIsRun);
+            DisplayInfo(processArray[4], 4, pName: fifthProcessName, pUpTime: fifthProcessUpTime, pTotalUpTime: fifthProcessTotalUpTime, isRun: fifthProcessIsRun);
         }
+
+
+        // is called at MainWindow ctor
+        // displaying info + starting timer
+        private void DisplayStartingInfo()
+        {
+            DisplayAllInfo();
+
+            var timer = new System.Timers.Timer(10000);
+            timer.Elapsed += Timer_Elapsed;
+            timer.AutoReset = true;
+            timer.Enabled = true;
+        }
+
+
 
 
         // event handler for timer when time elapsed
         private void Timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
         {
+            
+
             this.Dispatcher.Invoke(new Action(() =>
             {
+                // one call for all 5 procs
+                DisplayAllInfo();
 
-                if (processArray[0] != null)
-                {
-
-                    DisplayInfoProcess(processArray[0], firstProcessName, firstProcessUpTime, firstProcessTotalUpTime);
-                }
-
-                if (processArray[1] != null)
-                {
-
-                    DisplayInfoProcess(processArray[1], secondProcessName, secondProcessUpTime, secondProcessTotalUpTime);
-                }
-                if (processArray[2] != null)
-                {
-
-                    DisplayInfoProcess(processArray[2], thirdProcessName, thirdProcessUpTime, thirdProcessTotalUpTime);
-                }
-                if (processArray[3] != null)
-                {
-
-                    DisplayInfoProcess(processArray[3], fourthProcessName, fourthProcessUpTime, fourthProcessTotalUpTime);
-                }
-                if (processArray[4] != null)
-                {
-
-                    DisplayInfoProcess(processArray[4], fifthProcessName, fifthProcessUpTime, fifthProcessTotalUpTime);
-                }
+                // WorkerWithFileClass.writeToFileWithGivenName(proc.fileNameToWriteInfo, proc, proc.UpTimes);
+                WorkerWithFileClass.writeToFileInfoAboutProcs(ref processArray);
             }));
         }
 
 
-        private void DisplayInfoProcess (ProcInstanceClass procInstance, TextBlock pName, TextBlock pUptime, TextBlock pTotalUptime)
+        // display info for separate process
+        private void DisplayInfoProcess (ProcInstanceClass procInstance, TextBlock pName, TextBlock pUptime, TextBlock pTotalUptime, TextBlock pIsRun)
         {
-            
 
+            pIsRun.Text = procInstance.IsRunning.ToString();
             pName.Text = procInstance.ProcName;
             pUptime.Text = procInstance.UpTimeMinutesCurrentSession + " mins";
             pTotalUptime.Text = procInstance.TotalUpTime.ToString() + " minutes";
@@ -130,21 +139,53 @@ namespace ATA_WPF
             
         }
 
-        public void DisplayInfo (ProcInstanceClass proc, TextBlock pName, TextBlock pUpTime, TextBlock pTotalUpTime)
+
+        // checks the process and calls the displayinfoprocess
+        public void DisplayInfo (ProcInstanceClass proc, int procIndex, TextBlock pName, TextBlock pUpTime, TextBlock pTotalUpTime, TextBlock isRun)
         {
-            string name = WorkerWithFileClass.getProcessFromFileWithGivenIndex(0);
+            string name = WorkerWithFileClass.getProcessFromFileWithGivenIndex(procIndex);
             if (name == "empty")
             {
                 return;
             }
 
-            if (DifferentFunctions.checkIfProcessIsRunningWithStringName(name))
+            if (proc == null && DifferentFunctions.checkIfProcessIsRunningWithStringName(name))
             {
-                proc = new ProcInstanceClass(name, DifferentFunctions.checkIfProcessIsRunningWithStringName(name));
+                proc = new ProcInstanceClass(name);
             }
 
-            DisplayInfoProcess(proc,  pName,  pUpTime,  pTotalUpTime);
+            //if (!DifferentFunctions.checkIfProcessIsRunningWithStringName(name))
+            //{
+            //    proc = new ProcInstanceClass(name, DifferentFunctions.checkIfProcessIsRunningWithStringName(name));
+            //}
+            //else { proc = new ProcInstanceClass(name); }
 
+            //WorkerWithFileClass.writeToFileWithGivenName(proc.fileNameToWriteInfo, proc, proc.UpTimes);
+
+            DisplayInfoProcess(proc,  pName,  pUpTime,  pTotalUpTime, isRun);
+
+            MessageBox.Show(proc.UpTimes.Count.ToString());
+        }
+
+
+
+        private void setFirstProcessButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            ListProcsForm lForm = new ListProcsForm();
+            lForm.ShowDialog();
+
+
+            if (ProcInstanceClass.selectedProc != null && ProcInstanceClass.selectedProc != "")
+            {
+                processArray[0] = new ProcInstanceClass(ProcInstanceClass.selectedProc);
+
+                WorkerWithFileClass.AddProcessNameToFile(processArray[0].ProcName, processArray, 0);
+
+                ProcInstanceClass.selectedProc = "";
+                DisplayInfoProcess(processArray[0], firstProcessName, firstProcessUpTime, firstProcessTotalUpTime, firstProcessIsRun);
+
+            }
 
         }
 
@@ -162,10 +203,8 @@ namespace ATA_WPF
 
 
                 ProcInstanceClass.selectedProc = "";
+                DisplayInfoProcess(processArray[1], secondProcessName, secondProcessUpTime, secondProcessTotalUpTime, secondProcessIsRun);
 
-                var timer = new System.Timers.Timer(58000);
-                timer.Elapsed += Timer_Elapsed;
-                timer.Start();
 
             }
         }
@@ -184,10 +223,9 @@ namespace ATA_WPF
 
 
                 ProcInstanceClass.selectedProc = "";
+                DisplayInfoProcess(processArray[2], thirdProcessName, thirdProcessUpTime, thirdProcessTotalUpTime, thirdProcessIsRun);
 
-                var timer = new System.Timers.Timer(61000);
-                timer.Elapsed += Timer_Elapsed;
-                timer.Start();
+
 
             }
         }
@@ -206,10 +244,9 @@ namespace ATA_WPF
 
 
                 ProcInstanceClass.selectedProc = "";
+                DisplayInfoProcess(processArray[3], fourthProcessName, fourthProcessUpTime, fourthProcessTotalUpTime, fourthProcessIsRun);
 
-                var timer = new System.Timers.Timer(62000);
-                timer.Elapsed += Timer_Elapsed;
-                timer.Start();
+
 
             }
         }
@@ -227,12 +264,14 @@ namespace ATA_WPF
 
 
                 ProcInstanceClass.selectedProc = "";
+                DisplayInfoProcess(processArray[4], fifthProcessName, fifthProcessUpTime, fifthProcessTotalUpTime, fifthProcessIsRun);
 
-                var timer = new System.Timers.Timer(59000);
-                timer.Elapsed += Timer_Elapsed;
-                timer.Start();
+
 
             }
         }
+
+
+
     }
 }

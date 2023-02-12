@@ -16,6 +16,5 @@ namespace ATA_ClassLibrary
             this.UpMinutes = UpMinutes;
             this.UpDate = UpDate;
         }
-
     }
 }

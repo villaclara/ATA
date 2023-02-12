@@ -59,31 +59,86 @@ namespace ATA_ClassLibrary
             }
         }
 
+
         // writes to file with given FileName and process instance
-        public static bool writeToFileWithGivenName(string fileNameToWrite, ProcInstanceClass procInstance)
+        public static bool writeToFileWithGivenName(string fileNameToWrite, ProcInstanceClass procInstance, List<UpTime> upTimes)
         {
+           
+            File.WriteAllText( fileNameToWrite, "");
 
-          
-            using (FileStream fileStream = File.OpenWrite(Path.Combine(Directory.GetCurrentDirectory(), fileNameToWrite)))
+            foreach (var upTime in upTimes)
             {
-                using (StreamWriter writer = new StreamWriter(fileStream))
+                using (FileStream fileStream = new FileStream(fileNameToWrite, FileMode.Append))
                 {
-                    // calculate current session to record proper value to the file
-                    procInstance.calculateUpTimeCurrentSession();
-                    if (!checkIfTodayWasAlreadyWritten("", procInstance))
+
+
+                    using (StreamWriter writer = new StreamWriter(fileStream))
                     {
+                        // calculate current session to record proper value to the file
+                        //procInstance.calculateUpTimeCurrentSession();
+                        //if (!checkIfTodayWasAlreadyWritten("", procInstance))
+                        //{
 
 
-                        writer.Write(DateOnly.FromDateTime(DateTime.Now) + "," + procInstance.UpTimeMinutesCurrentSession + ",");
-                        return true;
+                        //    writer.Write(DateOnly.FromDateTime(DateTime.Now) + "," + procInstance.UpTimeMinutesCurrentSession + ",");
+                        //    return true;
+
+                        //}
+
+
+                        writer.Write(upTime.UpDate.ToString() + ',' + upTime.UpMinutes.ToString() + ',');
+
+
+
+
 
                     }
 
-
-                    return true;
-                    
                 }
             }
+                return true;
+        }
+
+
+        // writes to file with given array of processes
+        public static void writeToFileInfoAboutProcs(ref ProcInstanceClass[] procs)
+        {
+            foreach (var proc in procs)
+            {
+                File.WriteAllText(proc.fileNameToWriteInfo, "");
+
+                foreach (var upTime in proc.UpTimes)
+                {
+                    using (FileStream fileStream = new FileStream(proc.fileNameToWriteInfo, FileMode.Append))
+                    {
+
+
+                        using (StreamWriter writer = new StreamWriter(fileStream))
+                        {
+                            // calculate current session to record proper value to the file
+                            //procInstance.calculateUpTimeCurrentSession();
+                            //if (!checkIfTodayWasAlreadyWritten("", procInstance))
+                            //{
+
+
+                            //    writer.Write(DateOnly.FromDateTime(DateTime.Now) + "," + procInstance.UpTimeMinutesCurrentSession + ",");
+                            //    return true;
+
+                            //}
+
+
+                            writer.Write(upTime.UpDate.ToString() + ',' + upTime.UpMinutes.ToString() + ',');
+
+
+
+
+
+                        }
+
+                    }
+                }
+            }
+            
         }
 
 
@@ -92,7 +147,7 @@ namespace ATA_ClassLibrary
         {
             if (File.Exists(fileNameToRead))
             {
-                using (StreamReader reader = new StreamReader(Path.Combine(Directory.GetCurrentDirectory(), fileNameToRead)))
+                using (StreamReader reader = new StreamReader( fileNameToRead))
                 {
                     return reader.ReadToEnd();
                 }
