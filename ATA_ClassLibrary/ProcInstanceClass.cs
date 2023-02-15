@@ -189,9 +189,7 @@ namespace ATA_ClassLibrary
         }
 
         //
-        //NOT DONE
         //
-        // NOT CORRECTLY CALCULATING
         // return list of total uptimes for previous sessions read from the file
         // 
         public List<UpTime> retrieveListOfUpTimesForCurrentProcess(string fileNameToWrite)
@@ -207,14 +205,14 @@ namespace ATA_ClassLibrary
 
             string[] allStrings = lines.Split(',');
 
-            for (int i = 0; i < allStrings.Length - 2; i += 2)
+            for (int i = 0; i <= allStrings.Length - 2; i += 2)
             {
                 UpTime up = new UpTime(Convert.ToInt64(allStrings[i + 1]), DateOnly.FromDateTime(Convert.ToDateTime(allStrings[i])));
                 //UpTime up = new UpTime(200, DateOnly.FromDateTime(Convert.ToDateTime(allStrings[i])));
                 _upTimes.Add(up);     
             }
 
-
+            
 
             if (!checkIfTodayDateWasAddedToUpTimesList() && IsRunning == true)
             {

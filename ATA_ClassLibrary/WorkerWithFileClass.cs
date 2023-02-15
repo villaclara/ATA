@@ -101,13 +101,16 @@ namespace ATA_ClassLibrary
 
 
         // writes to file with given array of processes
-        public static void writeToFileInfoAboutProcs(ref ProcInstanceClass[] procs)
+        public static void writeToFileInfoAboutProcs(ProcInstanceClass[] procs)
         {
             foreach (var proc in procs)
             {
-                File.WriteAllText(proc.fileNameToWriteInfo, "");
+                
 
-                foreach (var upTime in proc.UpTimes)
+                List<UpTime> ups = proc.retrieveListOfUpTimesForCurrentProcess(proc.fileNameToWriteInfo);
+
+                File.WriteAllText(proc.fileNameToWriteInfo, "");
+                foreach (var upTime in ups)
                 {
                     using (FileStream fileStream = new FileStream(proc.fileNameToWriteInfo, FileMode.Append))
                     {
@@ -147,12 +150,12 @@ namespace ATA_ClassLibrary
         {
             if (File.Exists(fileNameToRead))
             {
-                using (StreamReader reader = new StreamReader( fileNameToRead))
+                using (StreamReader reader = new StreamReader(fileNameToRead))
                 {
                     return reader.ReadToEnd();
                 }
             }
-            return "";
+            else return "";
         }
 
 

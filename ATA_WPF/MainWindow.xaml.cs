@@ -122,7 +122,7 @@ namespace ATA_WPF
                 DisplayAllInfo();
 
                 // WorkerWithFileClass.writeToFileWithGivenName(proc.fileNameToWriteInfo, proc, proc.UpTimes);
-                WorkerWithFileClass.writeToFileInfoAboutProcs(ref processArray);
+                WorkerWithFileClass.writeToFileInfoAboutProcs(processArray);
             }));
         }
 
