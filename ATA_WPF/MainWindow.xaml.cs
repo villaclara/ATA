@@ -149,9 +149,11 @@ namespace ATA_WPF
                 return;
             }
 
-            if (proc == null && DifferentFunctions.checkIfProcessIsRunningWithStringName(name))
+            if (proc.process == null && DifferentFunctions.checkIfProcessIsRunningWithStringName(name) == true)
             {
-                proc = new ProcInstanceClass(name);
+                //proc = new ProcInstanceClass(name);
+
+                proc.process = ProcInstanceClass.getProcByName(name);
             }
 
             //if (!DifferentFunctions.checkIfProcessIsRunningWithStringName(name))

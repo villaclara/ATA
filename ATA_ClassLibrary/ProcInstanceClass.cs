@@ -116,6 +116,8 @@ namespace ATA_ClassLibrary
             fileNameToWriteInfo = Path.Combine(Directory.GetCurrentDirectory(), procName + ".txt");
             //fileNameToWriteInfo = procName + ".txt";
 
+            IsRunning = true;
+
             // creating the file when calling the constructor for the given process
             if (!File.Exists(fileNameToWriteInfo))
             { 
