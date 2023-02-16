@@ -102,7 +102,7 @@ namespace ATA_WPF
         {
             DisplayAllInfo();
 
-            var timer = new System.Timers.Timer(10000);
+            var timer = new System.Timers.Timer(60000);
             timer.Elapsed += Timer_Elapsed;
             timer.AutoReset = true;
             timer.Enabled = true;
@@ -113,16 +113,17 @@ namespace ATA_WPF
 
         // event handler for timer when time elapsed
         private void Timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
-        {
-            
+        {   
+            // each time the time has elaped -- the below functions are called
+            // writing updated info to files
+            // displaying info
 
             this.Dispatcher.Invoke(new Action(() =>
-            {
+            { 
+                WorkerWithFileClass.writeToFileInfoAboutProcs(processArray);
+
                 // one call for all 5 procs
                 DisplayAllInfo();
-
-                // WorkerWithFileClass.writeToFileWithGivenName(proc.fileNameToWriteInfo, proc, proc.UpTimes);
-                WorkerWithFileClass.writeToFileInfoAboutProcs(processArray);
             }));
         }
 
@@ -130,19 +131,17 @@ namespace ATA_WPF
         // display info for separate process
         private void DisplayInfoProcess (ProcInstanceClass procInstance, TextBlock pName, TextBlock pUptime, TextBlock pTotalUptime, TextBlock pIsRun)
         {
-
             pIsRun.Text = procInstance.IsRunning.ToString();
             pName.Text = procInstance.ProcName;
             pUptime.Text = procInstance.UpTimeMinutesCurrentSession + " mins";
-            pTotalUptime.Text = procInstance.TotalUpTime.ToString() + " minutes";
-
-            
+            pTotalUptime.Text = procInstance.TotalUpTime.ToString() + " minutes";         
         }
 
 
         // checks the process and calls the displayinfoprocess
         public void DisplayInfo (ProcInstanceClass proc, int procIndex, TextBlock pName, TextBlock pUpTime, TextBlock pTotalUpTime, TextBlock isRun)
         {
+            // get name of searched process to display info
             string name = WorkerWithFileClass.getProcessFromFileWithGivenIndex(procIndex);
             if (name == "empty")
             {
@@ -151,22 +150,13 @@ namespace ATA_WPF
 
             if (proc.process == null && DifferentFunctions.checkIfProcessIsRunningWithStringName(name) == true)
             {
-                //proc = new ProcInstanceClass(name);
-
                 proc.process = ProcInstanceClass.getProcByName(name);
             }
 
-            //if (!DifferentFunctions.checkIfProcessIsRunningWithStringName(name))
-            //{
-            //    proc = new ProcInstanceClass(name, DifferentFunctions.checkIfProcessIsRunningWithStringName(name));
-            //}
-            //else { proc = new ProcInstanceClass(name); }
-
-            //WorkerWithFileClass.writeToFileWithGivenName(proc.fileNameToWriteInfo, proc, proc.UpTimes);
 
             DisplayInfoProcess(proc,  pName,  pUpTime,  pTotalUpTime, isRun);
 
-            MessageBox.Show(proc.UpTimes.Count.ToString());
+           // MessageBox.Show(proc.UpTimes.Count.ToString());
         }
 
 
@@ -183,7 +173,7 @@ namespace ATA_WPF
                 processArray[0] = new ProcInstanceClass(ProcInstanceClass.selectedProc);
 
                 WorkerWithFileClass.AddProcessNameToFile(processArray[0].ProcName, processArray, 0);
-
+                WorkerWithFileClass.writeToFileInfoAboutOneProcFromSetProcButton(processArray[0]);
                 ProcInstanceClass.selectedProc = "";
                 DisplayInfoProcess(processArray[0], firstProcessName, firstProcessUpTime, firstProcessTotalUpTime, firstProcessIsRun);
 

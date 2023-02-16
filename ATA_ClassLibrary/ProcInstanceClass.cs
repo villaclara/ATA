@@ -185,7 +185,9 @@ namespace ATA_ClassLibrary
                 return 0;
 
             TimeSpan upDate = DateTime.Now - process.StartTime;
-            return (int)upDate.TotalMinutes;
+
+            // rounds to the closest bigger integer 
+            return (int)Math.Ceiling(upDate.TotalMinutes); ;
         }
 
         //
@@ -200,7 +202,7 @@ namespace ATA_ClassLibrary
             if (lines == null || lines == "")
             {
                 _upTimes.Add(new UpTime(calculateUpTimeCurrentSession(), DateOnly.FromDateTime(DateTime.Now)));
-               // _upTimes.Add(new UpTime(100, DateOnly.FromDateTime(DateTime.Now)));
+              
             }
 
             string[] allStrings = lines.Split(',');
@@ -208,34 +210,26 @@ namespace ATA_ClassLibrary
             for (int i = 0; i <= allStrings.Length - 2; i += 2)
             {
                 UpTime up = new UpTime(Convert.ToInt64(allStrings[i + 1]), DateOnly.FromDateTime(Convert.ToDateTime(allStrings[i])));
-                //UpTime up = new UpTime(200, DateOnly.FromDateTime(Convert.ToDateTime(allStrings[i])));
                 _upTimes.Add(up);     
             }
 
-            
-
+          
             if (!checkIfTodayDateWasAddedToUpTimesList() && IsRunning == true)
             {
                 _upTimes.Add(new UpTime(calculateUpTimeCurrentSession(), DateOnly.FromDateTime(DateTime.Now))); 
             }
-            else if (checkIfTodayDateWasAddedToUpTimesList() && IsRunning == true)
-            {
-                _upTimes[_upTimes.Count - 1].UpMinutes += 1;
-            }
+            
 
             return _upTimes;
         }
 
 
         // true if today's date is in the List of Uptimes
-        private bool checkIfTodayDateWasAddedToUpTimesList()
+        public bool checkIfTodayDateWasAddedToUpTimesList()
         {
-            foreach( var up in _upTimes)
-            {
-                if (up.UpDate == DateOnly.FromDateTime(DateTime.Now))
-                {
-                    return true;
-                }
+           if (_upTimes.Last().UpDate == DateOnly.FromDateTime(DateTime.Now))
+            { 
+                return true;
             }
             return false;
         }
@@ -243,9 +237,9 @@ namespace ATA_ClassLibrary
      
 
 
-        // NOT DONE
+        // PROBABLY OK
         // 
-        // CALCUCATING NOT CORRECT
+        // 
         // calculate total uptime from file and current session
         private long calculateTotalUpTime()
         {

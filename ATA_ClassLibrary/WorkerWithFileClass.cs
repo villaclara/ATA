@@ -60,7 +60,10 @@ namespace ATA_ClassLibrary
         }
 
 
+        //
         // writes to file with given FileName and process instance
+        //
+        // NOT USED ANYWHERE
         public static bool writeToFileWithGivenName(string fileNameToWrite, ProcInstanceClass procInstance, List<UpTime> upTimes)
         {
            
@@ -84,7 +87,7 @@ namespace ATA_ClassLibrary
                         //    return true;
 
                         //}
-
+                        
 
                         writer.Write(upTime.UpDate.ToString() + ',' + upTime.UpMinutes.ToString() + ',');
 
@@ -105,43 +108,50 @@ namespace ATA_ClassLibrary
         {
             foreach (var proc in procs)
             {
-                
 
+                // retrieve the list of uptimes 
+                // it works because we are in the foreach 
+                // so got another list of uptimes
                 List<UpTime> ups = proc.retrieveListOfUpTimesForCurrentProcess(proc.fileNameToWriteInfo);
+                
+                // 
+                // +1 minute if process is running
+                // did not moved it into separate function because it was not working
+                // probably because of copy of instance is given as parameter
+                if (proc.IsRunning && proc.checkIfTodayDateWasAddedToUpTimesList())
+                {
+                    ups.Last().UpMinutes += 1;
+                }
 
+                // clears the file
                 File.WriteAllText(proc.fileNameToWriteInfo, "");
+                
+                // writing each element of list
                 foreach (var upTime in ups)
                 {
                     using (FileStream fileStream = new FileStream(proc.fileNameToWriteInfo, FileMode.Append))
                     {
-
-
                         using (StreamWriter writer = new StreamWriter(fileStream))
                         {
-                            // calculate current session to record proper value to the file
-                            //procInstance.calculateUpTimeCurrentSession();
-                            //if (!checkIfTodayWasAlreadyWritten("", procInstance))
-                            //{
-
-
-                            //    writer.Write(DateOnly.FromDateTime(DateTime.Now) + "," + procInstance.UpTimeMinutesCurrentSession + ",");
-                            //    return true;
-
-                            //}
-
-
                             writer.Write(upTime.UpDate.ToString() + ',' + upTime.UpMinutes.ToString() + ',');
-
-
-
-
-
                         }
-
                     }
                 }
             }
             
+        }
+
+
+        public static void writeToFileInfoAboutOneProcFromSetProcButton(ProcInstanceClass proc)
+        {
+
+            using (FileStream fileStream = new FileStream(proc.fileNameToWriteInfo, FileMode.Append))
+            {
+                using (StreamWriter writer = new StreamWriter(fileStream))
+                {
+                    writer.Write(DateOnly.FromDateTime(DateTime.Now).ToString() + ',' + proc.UpTimeMinutesCurrentSession.ToString() + ',');
+                }
+            }
         }
 
 

@@ -31,7 +31,7 @@ namespace ATA_ClassLibrary
             return strings;
         }
 
-        // 
+        // retrieving active procs list and then checks if the given procName is running
         public static bool checkIfProcessIsRunningWithStringName (string procName)
         {
             List<string> procList = GetActiveProcessesByNameString();
@@ -43,6 +43,7 @@ namespace ATA_ClassLibrary
             return false;
         }
 
+        // NOT USED YET
         public static bool checkIfProcessIsRunningWithProcessVar (Process process)
         {
             List<Process> procs = GetActiveProcesses();
@@ -54,9 +55,19 @@ namespace ATA_ClassLibrary
             return false;
         }
 
-            
 
 
+        // NOT USED ANYWHERE
+        // 
+        // the realisation of this method was moved to 
+        // WorkerWithFileClass.writeToFileInfoAboutProcs(ProcInstance[] procs)
+        public static void AddMinuteToTodaysTimeIfTheProcessIsRunning(ProcInstanceClass proc)
+        {
+            if (proc.IsRunning && proc.checkIfTodayDateWasAddedToUpTimesList())
+            {
+                proc.UpTimes.Last().UpMinutes += 1;    
+            }           
+        }
 
     }
 }
