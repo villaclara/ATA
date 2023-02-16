@@ -175,7 +175,7 @@ namespace ATA_ClassLibrary
             return null;
         }
 
-
+        
         // calculate current UpTIme
         // Subtracts Time.Now - from StartTime.
         // is used in UpTimeMinutesCurrentSession property
@@ -188,6 +188,7 @@ namespace ATA_ClassLibrary
 
             // rounds to the closest bigger integer 
             return (int)Math.Ceiling(upDate.TotalMinutes); ;
+            
         }
 
         //

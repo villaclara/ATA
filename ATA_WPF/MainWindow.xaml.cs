@@ -192,7 +192,7 @@ namespace ATA_WPF
                 processArray[1] = new ProcInstanceClass(ProcInstanceClass.selectedProc);
 
                 WorkerWithFileClass.AddProcessNameToFile(processArray[1].ProcName, processArray, 1);
-
+                WorkerWithFileClass.writeToFileInfoAboutOneProcFromSetProcButton(processArray[1]);
 
                 ProcInstanceClass.selectedProc = "";
                 DisplayInfoProcess(processArray[1], secondProcessName, secondProcessUpTime, secondProcessTotalUpTime, secondProcessIsRun);
@@ -212,6 +212,7 @@ namespace ATA_WPF
                 processArray[2] = new ProcInstanceClass(ProcInstanceClass.selectedProc);
 
                 WorkerWithFileClass.AddProcessNameToFile(processArray[2].ProcName, processArray, 2);
+                WorkerWithFileClass.writeToFileInfoAboutOneProcFromSetProcButton(processArray[2]);
 
 
                 ProcInstanceClass.selectedProc = "";
@@ -233,6 +234,7 @@ namespace ATA_WPF
                 processArray[3] = new ProcInstanceClass(ProcInstanceClass.selectedProc);
 
                 WorkerWithFileClass.AddProcessNameToFile(processArray[3].ProcName, processArray, 3);
+                WorkerWithFileClass.writeToFileInfoAboutOneProcFromSetProcButton(processArray[3]);
 
 
                 ProcInstanceClass.selectedProc = "";
@@ -253,6 +255,7 @@ namespace ATA_WPF
                 processArray[4] = new ProcInstanceClass(ProcInstanceClass.selectedProc);
 
                 WorkerWithFileClass.AddProcessNameToFile(processArray[4].ProcName, processArray, 4);
+                WorkerWithFileClass.writeToFileInfoAboutOneProcFromSetProcButton(processArray[4]);
 
 
                 ProcInstanceClass.selectedProc = "";
