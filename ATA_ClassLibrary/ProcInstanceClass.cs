@@ -21,12 +21,17 @@ namespace ATA_ClassLibrary
         // bool if the process is currently running
         private bool _isRunning;
 
+        // bool if the process was running previous minute
+        private bool _isPreviousRunning;
+
         // private string Name for process
         // should have separate name as the Process process could not be running so it will return an error
         private string _procName;
 
         // process instance of Process
         public Process? process;
+
+        
        
         //field for process uptime
         private int _upTimeMinutesCurrentSession;
@@ -95,8 +100,14 @@ namespace ATA_ClassLibrary
             }
         }
 
+        public bool IsPreviousRunning
+        {
+            get => _isPreviousRunning;
+            set => _isPreviousRunning = value;
+        }
+
         // for the event when process has started
-        public event EventHandler ProcessStartedEvent;
+        public event EventHandler<ProcessHandlerEventArgs> ProcessExitedSecond;
 
         public int UpMinutesFromStartingProgram { get; set; }
 
@@ -117,6 +128,7 @@ namespace ATA_ClassLibrary
             //fileNameToWriteInfo = procName + ".txt";
 
             IsRunning = true;
+            IsPreviousRunning = false;
 
             // creating the file when calling the constructor for the given process
             if (!File.Exists(fileNameToWriteInfo))
@@ -132,8 +144,10 @@ namespace ATA_ClassLibrary
             UpMinutesFromStartingProgram = 0;
             TodaysDateForStartingProgram = DateOnly.FromDateTime(DateTime.Now);
 
-            //process.Exited += OnProcessStarted;
 
+            process.EnableRaisingEvents = true;
+
+            
         }
 
         
@@ -146,7 +160,8 @@ namespace ATA_ClassLibrary
             _procName = "";
             _upTimes = new List<UpTime>();
             IsRunning = false;
-             
+            IsPreviousRunning = false;
+
         }
 
         // needed when the process is not running and APP is running
@@ -155,7 +170,8 @@ namespace ATA_ClassLibrary
             _procName = name;
            
             IsRunning = isRunning;
-            process = getProcByName(name);
+            IsPreviousRunning = false;
+            process = null;
             //fileNameToWriteInfo = name + ".txt";
             fileNameToWriteInfo = Path.Combine(Directory.GetCurrentDirectory(), name + ".txt");
 
@@ -175,6 +191,32 @@ namespace ATA_ClassLibrary
             return null;
         }
 
+
+
+        public void OnProcessExited(object sender, ProcessHandlerEventArgs e)
+        {
+            EventHandler<ProcessHandlerEventArgs> handler = ProcessExitedSecond;
+            if (handler != null)
+            {
+                handler.Invoke(this, e);
+            }
+        }
+
+        public void setIsPreviousRunning ()
+        {
+            if (IsRunning == true && IsPreviousRunning == false)
+            {
+                IsPreviousRunning = true;
+                //process.Exited.Invoke(this, EventArgs.Empty);
+            }
+
+            if (IsRunning == false && IsPreviousRunning == true)
+            {
+                IsPreviousRunning = false;
+            }
+
+        }
+
         
         // calculate current UpTIme
         // Subtracts Time.Now - from StartTime.
@@ -184,7 +226,11 @@ namespace ATA_ClassLibrary
             if (!IsRunning)
                 return 0;
 
-            TimeSpan upDate = DateTime.Now - process.StartTime;
+            TimeSpan upDate = new TimeSpan();
+            if (process != null)
+            {
+                upDate = DateTime.Now - process.StartTime;
+            }
 
             // rounds to the closest bigger integer 
             return (int)Math.Ceiling(upDate.TotalMinutes); ;

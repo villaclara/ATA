@@ -41,7 +41,6 @@ namespace ATA_WPF
             //WorkerWithFileClass.AddProcessNameToFile(DifferentFunctions.fileWithProcesses, processArray);
 
             
-            
         }
 
         // initializes array of processes
@@ -161,6 +160,55 @@ namespace ATA_WPF
 
 
 
+        // handler when the process exited
+        private void FirstProcExited(object sender, EventArgs e)
+        {
+            //MessageBox.Show("Exited");
+            //ProcessHandlerEventArgs x = new ProcessHandlerEventArgs();
+
+            //processArray[0].OnProcessExited(this, x);
+
+            processArray[0].process = null;
+            processArray[0].IsRunning = false;
+            
+        }
+
+        private void SecondProcExited(object sender, EventArgs e)
+        {
+            processArray[1].process = null;
+            processArray[1].IsRunning = false;
+        }
+
+        private void ThirdProcExited(object sender, EventArgs e)
+        {
+            processArray[0].process = null;
+            processArray[0].IsRunning = false;
+        }
+
+        private void FourthProcExited(object sender, EventArgs e)
+        {
+            processArray[0].process = null;
+            processArray[0].IsRunning = false;
+        }
+
+        private void FifthProcExited(object sender, EventArgs e)
+        {
+            processArray[0].process = null;
+            processArray[0].IsRunning = false;
+        }
+
+
+
+        // NOT USED
+        // MB WILL LATER USE
+        private void Proc_Ended (object sender, ProcessHandlerEventArgs e)
+        {
+            MessageBox.Show(e.ProcIndex.ToString());
+            processArray[e.ProcIndex].process = null;
+
+            
+        }
+
         private void setFirstProcessButton_Click(object sender, RoutedEventArgs e)
         {
 
@@ -171,13 +219,23 @@ namespace ATA_WPF
             if (ProcInstanceClass.selectedProc != null && ProcInstanceClass.selectedProc != "")
             {
                 processArray[0] = new ProcInstanceClass(ProcInstanceClass.selectedProc);
+               
+                
+                ProcessHandlerEventArgs eh = new ProcessHandlerEventArgs(0);
+                
+                processArray[0].process.Exited += FirstProcExited;
+                
 
                 WorkerWithFileClass.AddProcessNameToFile(processArray[0].ProcName, processArray, 0);
                 WorkerWithFileClass.writeToFileInfoAboutOneProcFromSetProcButton(processArray[0]);
                 ProcInstanceClass.selectedProc = "";
                 DisplayInfoProcess(processArray[0], firstProcessName, firstProcessUpTime, firstProcessTotalUpTime, firstProcessIsRun);
 
+                
+                
             }
+
+
 
         }
 
@@ -190,6 +248,7 @@ namespace ATA_WPF
             if (ProcInstanceClass.selectedProc != null && ProcInstanceClass.selectedProc != "")
             {
                 processArray[1] = new ProcInstanceClass(ProcInstanceClass.selectedProc);
+                processArray[1].process.Exited += SecondProcExited;
 
                 WorkerWithFileClass.AddProcessNameToFile(processArray[1].ProcName, processArray, 1);
                 WorkerWithFileClass.writeToFileInfoAboutOneProcFromSetProcButton(processArray[1]);
@@ -210,6 +269,7 @@ namespace ATA_WPF
             if (ProcInstanceClass.selectedProc != null && ProcInstanceClass.selectedProc != "")
             {
                 processArray[2] = new ProcInstanceClass(ProcInstanceClass.selectedProc);
+                processArray[2].process.Exited += ThirdProcExited;
 
                 WorkerWithFileClass.AddProcessNameToFile(processArray[2].ProcName, processArray, 2);
                 WorkerWithFileClass.writeToFileInfoAboutOneProcFromSetProcButton(processArray[2]);
@@ -232,6 +292,7 @@ namespace ATA_WPF
             if (ProcInstanceClass.selectedProc != null && ProcInstanceClass.selectedProc != "")
             {
                 processArray[3] = new ProcInstanceClass(ProcInstanceClass.selectedProc);
+                processArray[3].process.Exited += FourthProcExited;
 
                 WorkerWithFileClass.AddProcessNameToFile(processArray[3].ProcName, processArray, 3);
                 WorkerWithFileClass.writeToFileInfoAboutOneProcFromSetProcButton(processArray[3]);
@@ -254,6 +315,7 @@ namespace ATA_WPF
             if (ProcInstanceClass.selectedProc != null && ProcInstanceClass.selectedProc != "")
             {
                 processArray[4] = new ProcInstanceClass(ProcInstanceClass.selectedProc);
+                processArray[4].process.Exited += FifthProcExited;
 
                 WorkerWithFileClass.AddProcessNameToFile(processArray[4].ProcName, processArray, 4);
                 WorkerWithFileClass.writeToFileInfoAboutOneProcFromSetProcButton(processArray[4]);
