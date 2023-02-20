@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -131,9 +132,14 @@ namespace ATA_WPF
         private void DisplayInfoProcess (ProcInstanceClass procInstance, TextBlock pName, TextBlock pUptime, TextBlock pTotalUptime, TextBlock pIsRun)
         {
             pIsRun.Text = procInstance.IsRunning.ToString();
+            if (procInstance.IsRunning)
+            {
+                pIsRun.Foreground = Brushes.Green;
+            }
+            else pIsRun.Foreground = Brushes.Red;
             pName.Text = procInstance.ProcName;
-            pUptime.Text = procInstance.UpTimeMinutesCurrentSession + " mins";
-            pTotalUptime.Text = procInstance.TotalUpTime.ToString() + " minutes";         
+            pUptime.Text = procInstance.UpTimeMinutesCurrentSession + " minutes";
+            pTotalUptime.Text = procInstance.TotalUpTime.ToString() + " mins -- from " + procInstance.UpTimes.First().UpDate.ToString();         
         }
 
 
@@ -150,12 +156,20 @@ namespace ATA_WPF
             if (proc.process == null && DifferentFunctions.checkIfProcessIsRunningWithStringName(name) == true)
             {
                 proc.process = ProcInstanceClass.getProcByName(name);
+
             }
+
+            proc.setIsPreviousRunning();
+
+            if (DifferentFunctions.checkIfProcessIsRunningWithStringName(name) == false)
+            {
+                proc.process = null;
+            }
+
 
 
             DisplayInfoProcess(proc,  pName,  pUpTime,  pTotalUpTime, isRun);
 
-           // MessageBox.Show(proc.UpTimes.Count.ToString());
         }
 
 
@@ -181,20 +195,24 @@ namespace ATA_WPF
 
         private void ThirdProcExited(object sender, EventArgs e)
         {
-            processArray[0].process = null;
-            processArray[0].IsRunning = false;
+            processArray[2].process = null;
+            processArray[2].IsRunning = false;
         }
 
         private void FourthProcExited(object sender, EventArgs e)
         {
-            processArray[0].process = null;
-            processArray[0].IsRunning = false;
+            processArray[3].process = null;
+            processArray[3].IsRunning = false;
+
         }
 
         private void FifthProcExited(object sender, EventArgs e)
         {
-            processArray[0].process = null;
-            processArray[0].IsRunning = false;
+            processArray[4].process = null;
+            processArray[4].IsRunning = false;
+
+            MessageBox.Show("exited");
+
         }
 
 
@@ -219,20 +237,16 @@ namespace ATA_WPF
             if (ProcInstanceClass.selectedProc != null && ProcInstanceClass.selectedProc != "")
             {
                 processArray[0] = new ProcInstanceClass(ProcInstanceClass.selectedProc);
-               
+                             
+                //ProcessHandlerEventArgs eh = new ProcessHandlerEventArgs(0);
                 
-                ProcessHandlerEventArgs eh = new ProcessHandlerEventArgs(0);
+                //processArray[0].process.Exited += FirstProcExited;
                 
-                processArray[0].process.Exited += FirstProcExited;
-                
-
                 WorkerWithFileClass.AddProcessNameToFile(processArray[0].ProcName, processArray, 0);
                 WorkerWithFileClass.writeToFileInfoAboutOneProcFromSetProcButton(processArray[0]);
                 ProcInstanceClass.selectedProc = "";
                 DisplayInfoProcess(processArray[0], firstProcessName, firstProcessUpTime, firstProcessTotalUpTime, firstProcessIsRun);
-
-                
-                
+           
             }
 
 
@@ -248,7 +262,7 @@ namespace ATA_WPF
             if (ProcInstanceClass.selectedProc != null && ProcInstanceClass.selectedProc != "")
             {
                 processArray[1] = new ProcInstanceClass(ProcInstanceClass.selectedProc);
-                processArray[1].process.Exited += SecondProcExited;
+                //processArray[1].process.Exited += SecondProcExited;
 
                 WorkerWithFileClass.AddProcessNameToFile(processArray[1].ProcName, processArray, 1);
                 WorkerWithFileClass.writeToFileInfoAboutOneProcFromSetProcButton(processArray[1]);
@@ -269,7 +283,7 @@ namespace ATA_WPF
             if (ProcInstanceClass.selectedProc != null && ProcInstanceClass.selectedProc != "")
             {
                 processArray[2] = new ProcInstanceClass(ProcInstanceClass.selectedProc);
-                processArray[2].process.Exited += ThirdProcExited;
+               // processArray[2].process.Exited += ThirdProcExited;
 
                 WorkerWithFileClass.AddProcessNameToFile(processArray[2].ProcName, processArray, 2);
                 WorkerWithFileClass.writeToFileInfoAboutOneProcFromSetProcButton(processArray[2]);
@@ -277,8 +291,6 @@ namespace ATA_WPF
 
                 ProcInstanceClass.selectedProc = "";
                 DisplayInfoProcess(processArray[2], thirdProcessName, thirdProcessUpTime, thirdProcessTotalUpTime, thirdProcessIsRun);
-
-
 
             }
         }
@@ -292,7 +304,7 @@ namespace ATA_WPF
             if (ProcInstanceClass.selectedProc != null && ProcInstanceClass.selectedProc != "")
             {
                 processArray[3] = new ProcInstanceClass(ProcInstanceClass.selectedProc);
-                processArray[3].process.Exited += FourthProcExited;
+               // processArray[3].process.Exited += FourthProcExited;
 
                 WorkerWithFileClass.AddProcessNameToFile(processArray[3].ProcName, processArray, 3);
                 WorkerWithFileClass.writeToFileInfoAboutOneProcFromSetProcButton(processArray[3]);
@@ -300,9 +312,6 @@ namespace ATA_WPF
 
                 ProcInstanceClass.selectedProc = "";
                 DisplayInfoProcess(processArray[3], fourthProcessName, fourthProcessUpTime, fourthProcessTotalUpTime, fourthProcessIsRun);
-
-
-
 
             }
         }
@@ -315,16 +324,15 @@ namespace ATA_WPF
             if (ProcInstanceClass.selectedProc != null && ProcInstanceClass.selectedProc != "")
             {
                 processArray[4] = new ProcInstanceClass(ProcInstanceClass.selectedProc);
-                processArray[4].process.Exited += FifthProcExited;
+                //processArray[4].process.Exited += FifthProcExited;
 
                 WorkerWithFileClass.AddProcessNameToFile(processArray[4].ProcName, processArray, 4);
-                WorkerWithFileClass.writeToFileInfoAboutOneProcFromSetProcButton(processArray[4]);
 
+                WorkerWithFileClass.writeToFileInfoAboutOneProcFromSetProcButton(processArray[4]);
+                
 
                 ProcInstanceClass.selectedProc = "";
                 DisplayInfoProcess(processArray[4], fifthProcessName, fifthProcessUpTime, fifthProcessTotalUpTime, fifthProcessIsRun);
-
-
 
             }
         }

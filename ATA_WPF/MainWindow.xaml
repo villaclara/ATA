@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ATA_WPF"
         mc:Ignorable="d"
-        Title="ATA" Height="300" Width="765" FontFamily="Cascadia Code"
+        Title="ATA 0.1.0" Height="300" Width="745"
         ResizeMode="NoResize" 
-        SizeToContent="WidthAndHeight">
+        SizeToContent="WidthAndHeight" FontFamily="Consolas">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
@@ -15,7 +15,7 @@
             <ColumnDefinition Width="auto" MinWidth="64"/>
             <ColumnDefinition Width="auto" MinWidth="130"/>
             <ColumnDefinition Width="auto" MinWidth="59"/>
-            <ColumnDefinition Width="auto" MinWidth="150"/>
+            <ColumnDefinition Width="auto" MinWidth="130"/>
             <ColumnDefinition Width="auto" MinWidth="270"/>
             <ColumnDefinition Width="auto" MinWidth="50"/>
             <ColumnDefinition Width="20"/>
@@ -31,7 +31,7 @@
             <RowDefinition Height="20" MinHeight="20"/>
         </Grid.RowDefinitions>
 
-      
+
 
         <!--<TextBlock Foreground="Black" Grid.Row="2" Grid.Column="0" Grid.RowSpan="5" Text="Select Process" FontSize="20" Background="#FFED3E3E" RenderTransformOrigin="0.5,0.5" >
             <TextBlock.LayoutTransform>
@@ -61,7 +61,7 @@
 
 
         <!-- Header ROW 1-->
-        <TextBlock Grid.Row="1" Grid.Column="4" Text="IsRun" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Constantia" FontSize="16" TextDecorations="Underline"/>
+        <TextBlock Grid.Row="1" Grid.Column="4" Text="Active" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Constantia" FontSize="16" TextDecorations="Underline"/>
         <TextBlock Grid.Row="1" Grid.Column="3" Text="Name" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Constantia" FontSize="16" TextDecorations="Underline"/>
         <TextBlock Grid.Row="1" Grid.Column="5" Text="Current UpTime" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Constantia" FontSize="16" TextDecorations="Underline"/>
         <TextBlock Grid.Row="1" Grid.Column="6" Text="Total UpTime" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Constantia" FontSize="16" TextDecorations="Underline"/>
@@ -71,7 +71,7 @@
 
         <!-- First Process GRID ROW 2 -->
         <Border Grid.Column="0" Grid.ColumnSpan="10" Grid.Row="2" Background="#FFD8E3ED"/>
-        <Button x:Name="setFirstProcess" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Height="45" FontFamily="Consolas" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" Width="84" Click="setFirstProcessButton_Click" FontStretch="Expanded" Foreground="#FF6B6B6B" >
+        <Button x:Name="setFirstProcess" Grid.Row="2" Grid.Column="2" Height="45" FontFamily="Consolas" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Width="64" Click="setFirstProcessButton_Click" FontStretch="Expanded" Foreground="#FF6B6B6B" >
             <Image Source="/ar1.png" Height="30" Width="40" />
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
@@ -94,17 +94,17 @@
                 </Style>
             </Button.Style>
         </Button>
-        <TextBlock x:Name="firstProcessName" Grid.Row="2" Grid.Column="3" Text="(first proc)" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" FontFamily="Cascadia Code" />
-        <TextBlock x:Name="firstProcessIsRun" Grid.Row="2" Grid.Column="4" Text="IsRun" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Constantia" FontSize="16" TextDecorations="Underline"/>
-        <TextBlock x:Name="firstProcessUpTime" Grid.Row="2" Grid.Column="5" Text="UpTime: (first proc)" HorizontalAlignment="Left" VerticalAlignment="Center"  />
+        <TextBlock x:Name="firstProcessName" Grid.Row="2" Grid.Column="3" Text="(first proc)" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" FontWeight="Bold" FontSize="16" />
+        <TextBlock x:Name="firstProcessIsRun" Grid.Row="2" Grid.Column="4" Text="IsRun" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" FontWeight="Bold"/>
+        <TextBlock x:Name="firstProcessUpTime" Grid.Row="2" Grid.Column="5" Text="(first proc)" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0"  />
         <TextBlock x:Name="firstProcessTotalUpTime" Grid.Row="2" Grid.Column="6" Text="TotalUpTime: (first proc)" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,-4,0" />
-        <Button x:Name="showFirstProcessAllTimes" Content="Show" Grid.Row="2" Grid.Column="7" Height="30" />
+        <Button x:Name="showFirstProcessAllTimes" Content="WIP" Grid.Row="2" Grid.Column="7" Height="30" IsEnabled="False" />
 
 
 
         <!-- Second Process GRID ROW 3 -->
         <Border Grid.Column="0" Grid.ColumnSpan="10" Grid.Row="3" Background="#FFC1D7E6"/>
-        <Button x:Name="setSecondProcess" Grid.Row="3" Grid.Column="2" FontFamily="Consolas" FontSize="14" FontWeight="Bold" Height="45" HorizontalAlignment="Center" VerticalAlignment="Center" Width="64" Click="setSecondProcess_Click" Foreground="#FF4C4949" >
+        <Button x:Name="setSecondProcess" Grid.Row="3" Grid.Column="2" FontFamily="Consolas" FontSize="14" FontWeight="Bold" Height="45" HorizontalAlignment="Right" VerticalAlignment="Center" Width="64" Click="setSecondProcess_Click" Foreground="#FF4C4949" >
             <Image Source="/ar1.png" Height="30" Width="40" />
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
@@ -126,11 +126,11 @@
                 </Style>
             </Button.Style>
         </Button>
-        <TextBlock x:Name="secondProcessName" Grid.Row="3" Grid.Column="3" Text="(second proc)" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" FontFamily="Cascadia Code" />
-        <TextBlock x:Name="secondProcessIsRun" Grid.Row="3" Grid.Column="4" Text="IsRun" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Constantia" FontSize="16" TextDecorations="Underline"/>
-        <TextBlock x:Name="secondProcessUpTime" Grid.Row="3" Grid.Column="5" Text="UpTime: (second proc)"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        <TextBlock x:Name="secondProcessName" Grid.Row="3" Grid.Column="3" Text="(second proc)" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" FontWeight="Bold" FontSize="16" />
+        <TextBlock x:Name="secondProcessIsRun" Grid.Row="3" Grid.Column="4" Text="IsRun" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" FontWeight="Bold"/>
+        <TextBlock x:Name="secondProcessUpTime" Grid.Row="3" Grid.Column="5" Text="(second proc)"  HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0"/>
         <TextBlock x:Name="secondProcessTotalUpTime" Grid.Row="3" Grid.Column="6" Text="TotalUpTime: (second proc)"  HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,0,0" />
-        <Button x:Name="showSecondProcessAllTimes" Content="Show" Grid.Row="3" Grid.Column="7" Height="30" />
+        <Button x:Name="showSecondProcessAllTimes" Content="WIP" Grid.Row="3" Grid.Column="7" Height="30" IsEnabled="False" />
 
 
 
@@ -158,11 +158,11 @@
                 </Style>
             </Button.Style>
         </Button>
-        <TextBlock x:Name="thirdProcessName" Grid.Row="4" Grid.Column="3" Text="(third proc)" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" FontFamily="Cascadia Code" />
-        <TextBlock x:Name="thirdProcessIsRun" Grid.Row="4" Grid.Column="4" Text="IsRun" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Constantia" FontSize="16" TextDecorations="Underline"/>
-        <TextBlock x:Name="thirdProcessUpTime" Grid.Row="4" Grid.Column="5" Text="UpTime: (third proc)" HorizontalAlignment="Left" VerticalAlignment="Center"  />
+        <TextBlock x:Name="thirdProcessName" Grid.Row="4" Grid.Column="3" Text="(third proc)" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" FontSize="16" FontWeight="Bold" />
+        <TextBlock x:Name="thirdProcessIsRun" Grid.Row="4" Grid.Column="4" Text="IsRun" HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="16" FontWeight="Bold"/>
+        <TextBlock x:Name="thirdProcessUpTime" Grid.Row="4" Grid.Column="5" Text="(third proc)" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" />
         <TextBlock x:Name="thirdProcessTotalUpTime" Grid.Row="4" Grid.Column="6" Text="TotalUpTime: (third proc)" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,0,0"  />
-        <Button x:Name="showThirdProcessAllTimes" Content="Show" Grid.Row="4" Grid.Column="7" Height="30" />
+        <Button x:Name="showThirdProcessAllTimes" Content="WIP" Grid.Row="4" Grid.Column="7" Height="30" IsEnabled="False" />
 
 
         <!-- Fourth Process GRID ROW 5 -->
@@ -191,11 +191,11 @@
             </Button.Style>
 
         </Button>
-        <TextBlock x:Name="fourthProcessName" Grid.Row="5" Grid.Column="3" Text="(fourth proc)" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" FontFamily="Cascadia Code" />
-        <TextBlock x:Name="fourthProcessIsRun" Grid.Row="5" Grid.Column="4" Text="IsRun" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Constantia" FontSize="16" TextDecorations="Underline"/>
-        <TextBlock x:Name="fourthProcessUpTime" Grid.Row="5" Grid.Column="5" Text="UpTime: (fourth proc)" HorizontalAlignment="Left" VerticalAlignment="Center"  />
+        <TextBlock x:Name="fourthProcessName" Grid.Row="5" Grid.Column="3" Text="(fourth proc)" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" FontWeight="Bold" FontSize="16" />
+        <TextBlock x:Name="fourthProcessIsRun" Grid.Row="5" Grid.Column="4" Text="IsRun" HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="16" FontWeight="Bold"/>
+        <TextBlock x:Name="fourthProcessUpTime" Grid.Row="5" Grid.Column="5" Text="(fourth proc)" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" />
         <TextBlock x:Name="fourthProcessTotalUpTime" Grid.Row="5" Grid.Column="6" Text="TotalUpTime: (fourth proc)" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,0,0"  />
-        <Button x:Name="showFourthProcessAllTimes" Content="Show" Grid.Row="5" Grid.Column="7" Height="30"/>
+        <Button x:Name="showFourthProcessAllTimes" Content="WIP" Grid.Row="5" Grid.Column="7" Height="30" IsEnabled="False"/>
 
 
         <!-- Fifth Process GRID ROW 6 -->
@@ -223,11 +223,11 @@
             </Button.Style>
 
         </Button>
-        <TextBlock x:Name="fifthProcessName" Grid.Row="6" Grid.Column="3" Text="(fifth proc)" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" FontFamily="Cascadia Code" />
-        <TextBlock x:Name="fifthProcessIsRun" Grid.Row="6" Grid.Column="4" Text="IsRun" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Constantia" FontSize="16" TextDecorations="Underline"/>
-        <TextBlock x:Name="fifthProcessUpTime" Grid.Row="6" Grid.Column="5" Text="UpTime: (fifth proc)" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        <TextBlock x:Name="fifthProcessName" Grid.Row="6" Grid.Column="3" Text="(fifth proc)" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" FontWeight="Bold" FontSize="16" />
+        <TextBlock x:Name="fifthProcessIsRun" Grid.Row="6" Grid.Column="4" Text="IsRun" HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="16" TextAlignment="Center" FontWeight="Bold"/>
+        <TextBlock x:Name="fifthProcessUpTime" Grid.Row="6" Grid.Column="5" Text="(fifth proc)" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0"/>
         <TextBlock x:Name="fifthProcessTotalUpTime" Grid.Row="6" Grid.Column="6" Text="TotalUpTime: (fifth proc)" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,0,0"  />
-        <Button x:Name="showFifthProcessAllTimes" Content="Show" Grid.Row="6" Grid.Column="7" Height="30" />
+        <Button x:Name="showFifthProcessAllTimes" Content="WIP" Grid.Row="6" Grid.Column="7" Height="30" IsEnabled="False"/>
 
 
 
@@ -249,6 +249,6 @@
         <!-- END OF BORDERS -->
 
 
-       
+
     </Grid>
 </Window>

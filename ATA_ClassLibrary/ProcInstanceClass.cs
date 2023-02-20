@@ -106,7 +106,7 @@ namespace ATA_ClassLibrary
             set => _isPreviousRunning = value;
         }
 
-        // for the event when process has started
+        // for the event when process has ended
         public event EventHandler<ProcessHandlerEventArgs> ProcessExitedSecond;
 
         public int UpMinutesFromStartingProgram { get; set; }
@@ -202,12 +202,11 @@ namespace ATA_ClassLibrary
             }
         }
 
-        public void setIsPreviousRunning ()
+        public void setIsPreviousRunning()
         {
             if (IsRunning == true && IsPreviousRunning == false)
             {
                 IsPreviousRunning = true;
-                //process.Exited.Invoke(this, EventArgs.Empty);
             }
 
             if (IsRunning == false && IsPreviousRunning == true)
