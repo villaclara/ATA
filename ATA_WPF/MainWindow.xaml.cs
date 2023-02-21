@@ -18,6 +18,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml.Linq;
 using ATA_ClassLibrary;
+using Microsoft.Win32;
 
 namespace ATA_WPF
 {
@@ -26,9 +27,9 @@ namespace ATA_WPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        // initializing second form
 
         ProcInstanceClass[] processArray = new ProcInstanceClass[5];
+
 
         public MainWindow()
         {
@@ -38,10 +39,34 @@ namespace ATA_WPF
 
             initializeProcesses();
 
-            DisplayStartingInfo();
-            //WorkerWithFileClass.AddProcessNameToFile(DifferentFunctions.fileWithProcesses, processArray);
+            DisplayStartingInfo();         
 
             
+            // Icon and delegate for displaying minimized icon in the taskbar
+            // delegate == event
+            System.Windows.Forms.NotifyIcon nico = new System.Windows.Forms.NotifyIcon();
+            nico.Icon = new System.Drawing.Icon("icon2_super.ico");
+            nico.Visible = true;
+            nico.DoubleClick += delegate (object sender, EventArgs args)
+            {
+                this.Show();
+                this.WindowState = WindowState.Normal;
+            };
+
+
+            // adding registry key to launch app on windows startup
+            RegistryKey reg = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+            reg.SetValue("ATA", Process.GetCurrentProcess().MainModule.FileName.ToString());
+        }
+
+
+        // event for idk
+        protected override void OnStateChanged(EventArgs e)
+        {
+            if (WindowState == System.Windows.WindowState.Minimized)
+                this.Hide();
+
+            base.OnStateChanged(e);
         }
 
         // initializes array of processes
@@ -134,9 +159,9 @@ namespace ATA_WPF
             pIsRun.Text = procInstance.IsRunning.ToString();
             if (procInstance.IsRunning)
             {
-                pIsRun.Foreground = Brushes.Green;
+                pIsRun.Foreground = System.Windows.Media.Brushes.Green;
             }
-            else pIsRun.Foreground = Brushes.Red;
+            else pIsRun.Foreground = System.Windows.Media.Brushes.Red;
             pName.Text = procInstance.ProcName;
             pUptime.Text = procInstance.UpTimeMinutesCurrentSession + " minutes";
             pTotalUptime.Text = procInstance.TotalUpTime.ToString() + " mins -- from " + procInstance.UpTimes.First().UpDate.ToString();         
@@ -153,20 +178,21 @@ namespace ATA_WPF
                 return;
             }
 
+            // check if process was not asigned when the app is not running but the name was already addedd to file
+            // done to update process.StartTime to correct value
             if (proc.process == null && DifferentFunctions.checkIfProcessIsRunningWithStringName(name) == true)
             {
                 proc.process = ProcInstanceClass.getProcByName(name);
-
             }
 
             proc.setIsPreviousRunning();
 
+            // check if the app has been closed then assigning process to null
+            // done to process.StartTime to update next time the process is launched
             if (DifferentFunctions.checkIfProcessIsRunningWithStringName(name) == false)
             {
                 proc.process = null;
             }
-
-
 
             DisplayInfoProcess(proc,  pName,  pUpTime,  pTotalUpTime, isRun);
 
@@ -174,6 +200,10 @@ namespace ATA_WPF
 
 
 
+
+        // TO USE IN NEXT UPDATE
+        //
+        //
         // handler when the process exited
         private void FirstProcExited(object sender, EventArgs e)
         {
@@ -211,8 +241,6 @@ namespace ATA_WPF
             processArray[4].process = null;
             processArray[4].IsRunning = false;
 
-            MessageBox.Show("exited");
-
         }
 
 
@@ -226,6 +254,12 @@ namespace ATA_WPF
 
             
         }
+
+
+        //////////////////////////////////////////////////////////////////////////////////
+        //
+        // SECTION FOR SET BUTTONS 
+        //
 
         private void setFirstProcessButton_Click(object sender, RoutedEventArgs e)
         {
@@ -337,7 +371,10 @@ namespace ATA_WPF
             }
         }
 
-
+        //
+        // END OF SET BUTTONS
+        //
+        //////////////////////////////////////////////////////////////////////////////////
 
     }
 }

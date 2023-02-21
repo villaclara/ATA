@@ -147,7 +147,6 @@ namespace ATA_ClassLibrary
 
             process.EnableRaisingEvents = true;
 
-            
         }
 
         
@@ -174,6 +173,8 @@ namespace ATA_ClassLibrary
             process = null;
             //fileNameToWriteInfo = name + ".txt";
             fileNameToWriteInfo = Path.Combine(Directory.GetCurrentDirectory(), name + ".txt");
+
+            
 
         }
 

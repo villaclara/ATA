@@ -169,7 +169,7 @@ namespace ATA_ClassLibrary
         }
 
 
-        // NOT DONE
+        // NOT USED ANYMORE
         // 
         //
         public static bool checkIfTodayWasAlreadyWritten (string readed, ProcInstanceClass procInstance)
@@ -180,12 +180,7 @@ namespace ATA_ClassLibrary
 
             List<DateOnly> dates = new List<DateOnly>();
 
-            //for (int i = 0; i < allStrings.Length - 2; i += 2)
-            //{
-            //    UpTime up = new UpTime(Convert.ToInt64(allStrings[i + 1]), DateOnly.FromDateTime(Convert.ToDateTime(allStrings[i])));
-            //    Console.WriteLine($"up min - {up.UpMinutes} at {up.UpDate}");
-                
-            //}
+
 
            foreach (var time in procInstance.UpTimes)
             {

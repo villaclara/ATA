@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:ATA_WPF"
         mc:Ignorable="d"
         Title="ATA 0.1.0" Height="300" Width="745"
-        ResizeMode="NoResize" 
+        ResizeMode="CanMinimize" 
+        Icon="/icon2.png"
         SizeToContent="WidthAndHeight" FontFamily="Consolas">
     <Grid>
         <Grid.ColumnDefinitions>

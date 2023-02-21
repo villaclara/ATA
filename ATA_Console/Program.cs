@@ -9,8 +9,6 @@ namespace ATA_Console
 {
     internal class Program
     {
-        static string equalString = "=====================================";
-        
 
         static void Main(string[] args)
         {

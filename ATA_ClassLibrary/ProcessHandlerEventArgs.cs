@@ -13,7 +13,7 @@ namespace ATA_ClassLibrary
 
         public int ProcIndex { get => _procIndex; }
 
-        public Process process;
+       // public Process process;
 
         
 
@@ -22,9 +22,6 @@ namespace ATA_ClassLibrary
             _procIndex = procIndex;
         }
 
-        public void makeProcessNull()
-        {
-            process = null;
-        }
+
     }
 }
