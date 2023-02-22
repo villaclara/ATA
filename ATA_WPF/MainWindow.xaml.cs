@@ -30,6 +30,7 @@ namespace ATA_WPF
 
         ProcInstanceClass[] processArray = new ProcInstanceClass[5];
 
+        public static string BaseDir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
 
         public MainWindow()
         {
@@ -45,7 +46,9 @@ namespace ATA_WPF
             // Icon and delegate for displaying minimized icon in the taskbar
             // delegate == event
             System.Windows.Forms.NotifyIcon nico = new System.Windows.Forms.NotifyIcon();
-            nico.Icon = new System.Drawing.Icon("icon2_super.ico");
+            //nico.Icon = new System.Drawing.Icon("icon2_super.ico");
+            
+            nico.Icon = new System.Drawing.Icon(System.IO.Path.Combine(BaseDir, "icon2_super.ico"));
             nico.Visible = true;
             nico.DoubleClick += delegate (object sender, EventArgs args)
             {

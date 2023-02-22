@@ -124,8 +124,10 @@ namespace ATA_ClassLibrary
         {
             process = getProcByName(procName);
             _procName = procName;
-            fileNameToWriteInfo = Path.Combine(Directory.GetCurrentDirectory(), procName + ".txt");
-            //fileNameToWriteInfo = procName + ".txt";
+            fileNameToWriteInfo = Path.Combine(DifferentFunctions.BaseDir, procName + ".txt");
+            //fileNameToWriteInfo = Path.Combine(Directory.GetCurrentDirectory(), procName + ".txt");
+            
+            
 
             IsRunning = true;
             IsPreviousRunning = false;
@@ -171,8 +173,10 @@ namespace ATA_ClassLibrary
             IsRunning = isRunning;
             IsPreviousRunning = false;
             process = null;
-            //fileNameToWriteInfo = name + ".txt";
-            fileNameToWriteInfo = Path.Combine(Directory.GetCurrentDirectory(), name + ".txt");
+
+            fileNameToWriteInfo = Path.Combine(DifferentFunctions.BaseDir, name + ".txt");
+
+            //fileNameToWriteInfo = Path.Combine(Directory.GetCurrentDirectory(), name + ".txt");
 
             
 

@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         Title="" Height="450" Width="290"
         SizeToContent="WidthAndHeight"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize"
+        Background="#FFDCDCFD">
     <Grid>
 
         <Grid.ColumnDefinitions>
@@ -23,15 +24,17 @@
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
 
-        <!-- ROW 0 TO DELETE LATER -->
+        <!-- ROW 0 TO DELETE LATER 
         <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Text="HELLO ME IS 0 ROW 0 COLUMN"/>
-
-        <!-- ROW 1 THE HEADER  -->
-        <TextBlock Grid.Row="1" Grid.Column="1" Text="Active Processes &#10; Choose one and press set"/>
+        -->
         
+        
+        <!-- ROW 1 THE HEADER  -->
+        <TextBlock Grid.Row="1" Grid.Column="1" Text="Active Processes &#10; Choose one and press set" FontSize="14"/>
+       
         
         <!-- ROW 2 THE LISTBOX -->
-        <ListBox x:Name="ProcsList" Grid.Row="2" Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Visible" Height="320">
+        <ListBox x:Name="ProcsList" Grid.Row="2" Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Visible" Height="320" Background="#FFD7D7F3">
             <!--<ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Path=ProcessName}"/>
@@ -41,10 +44,11 @@
 
 
         <!-- ROW 3 THE BUTTON -->
-        <Button x:Name="setButton" Content="Set" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Right" Margin="0,5,0,5" Width="40" Click="SetButton_Click" />
+        <Button x:Name="setButton" Content="Set" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Right" Margin="0,5,0,5" Width="40" Click="SetButton_Click" Background="#FF71A1E2" FontSize="14" FontWeight="Bold" />
     
-        <!-- ROW 4 TO DELETE LATER -->
+        <!-- ROW 4 TO DELETE LATER 
         <TextBlock Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Text="HELLO ME IS 4 ROW 0 COLUMN"/>
-
+        -->
+        
     </Grid>
 </Window>

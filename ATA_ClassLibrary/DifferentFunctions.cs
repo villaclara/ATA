@@ -9,9 +9,11 @@ namespace ATA_ClassLibrary
 {
     public static class DifferentFunctions
     {
+        public static string BaseDir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+
         // path for the procs file with names of all selected processes
         // it will be - Default path to the folder of project and procs.txt name
-        public static string fileWithProcesses = Path.Combine(Directory.GetCurrentDirectory() + "\\procs.txt");
+        public static string fileWithProcesses = Path.Combine(BaseDir, "procs.txt");
 
         // gets list of active processes
         public static List<Process> GetActiveProcesses()
