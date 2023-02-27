@@ -4,6 +4,14 @@
              xmlns:local="clr-namespace:ATA_WPF"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+       
+        
+        <!-- adding resource dictionary Dictionary1.xaml to the project 
+        where is specified all shared resources for buttons etc -->
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Dictionary1.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

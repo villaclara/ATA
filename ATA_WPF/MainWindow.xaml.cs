@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -11,6 +12,7 @@ using System.Windows.Automation.Provider;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -252,13 +254,13 @@ namespace ATA_WPF
         // MB WILL LATER USE
         private void Proc_Ended (object sender, ProcessHandlerEventArgs e)
         {
-            MessageBox.Show(e.ProcIndex.ToString());
+            System.Windows.MessageBox.Show(e.ProcIndex.ToString());
             processArray[e.ProcIndex].process = null;
 
             
         }
 
-
+        #region SET BUTTONS
         //////////////////////////////////////////////////////////////////////////////////
         //
         // SECTION FOR SET BUTTONS 
@@ -284,6 +286,9 @@ namespace ATA_WPF
                 ProcInstanceClass.selectedProc = "";
                 DisplayInfoProcess(processArray[0], firstProcessName, firstProcessUpTime, firstProcessTotalUpTime, firstProcessIsRun);
            
+
+
+                showFirstProcessAllTimes.IsEnabled = true;
             }
 
 
@@ -374,10 +379,99 @@ namespace ATA_WPF
             }
         }
 
+
+
         //
         // END OF SET BUTTONS
         //
         //////////////////////////////////////////////////////////////////////////////////
 
+        #endregion SET BUTTONS
+
+        //
+        //////////////////////////////////////////////////////////////////////////////////
+        //
+        // ANOTHER BUTTONS
+
+
+        // clik on button from the topbar menu
+        // Reset All
+        private void ResetAll_Click(object sender, RoutedEventArgs e)
+        {
+            ProcInstanceClass procInstanceNull = new();
+            for (int i = 0; i < processArray.Length; i++)
+            {
+                processArray[i] = procInstanceNull;
+            }
+
+
+            File.WriteAllText(DifferentFunctions.fileWithProcesses, "");
+            WorkerWithFileClass.createDefault();
+            DisplayAllInfo();
+
+
+        }
+
+
+        // click on Reset all and delete button from topbar menu
+        private void ResetAndDeleteAll_Click(object sender, RoutedEventArgs e)
+        {
+            //MessageBoxButton choice = MessageBoxButton.YesNo;
+            //var result = System.Windows.MessageBox.Show("All saved time will be deleted. Do you want to proceed?", "?", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            //if (result == MessageBoxResult.Yes)
+            //{
+            //    System.Windows.MessageBox.Show("OK");
+            //}
+
+            this.SizeToContent = SizeToContent.Manual;
+            this.Height = 500;
+
+            TextBlock textBlock = new TextBlock();
+            textBlock.Text = "bruh";
+
+            Grid.SetColumn(textBlock, 0);
+            Grid.SetColumnSpan(textBlock, 5);
+            Grid.SetRow(textBlock, 9);
+            myGrid.Children.Add(textBlock);
+        }
+
+        private void resetFirstButton_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+
+        #region SHOW ALL TIME BUTTONS CLICK
+
+        // firstbutton show all time
+        // increases window size and then displaying meessage
+        // or if clicked again then just sets the normal window
+        private void showFirstProcessAllTimes_Click(object sender, RoutedEventArgs e)
+        {
+            if (showFirstProcessAllTimes.IsChecked == true)
+            {
+                this.SizeToContent = SizeToContent.Manual;
+                this.Height = 500;
+
+                showFirstProcessAllTimes.Content = "back";
+            }
+
+
+            if (showFirstProcessAllTimes.IsChecked == false)
+            {
+                this.Height = 300;
+                this.SizeToContent = SizeToContent.WidthAndHeight;
+
+                showFirstProcessAllTimes.Content = "WIP";
+            }
+        }
+
+
+
+
+
+
+
+        #endregion SHOW ALL TIME BUTTONS END
     }
 }
