@@ -9,7 +9,7 @@ namespace ATA_ClassLibrary
 {
     public static class DifferentFunctions
     {
-        public static string BaseDir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+        public static string BaseDir = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
 
         // path for the procs file with names of all selected processes
         // it will be - Default path to the folder of project and procs.txt name
@@ -59,17 +59,29 @@ namespace ATA_ClassLibrary
 
 
 
-        // NOT USED ANYWHERE
-        // 
-        // the realisation of this method was moved to 
-        // WorkerWithFileClass.writeToFileInfoAboutProcs(ProcInstance[] procs)
-        public static void AddMinuteToTodaysTimeIfTheProcessIsRunning(ProcInstanceClass proc)
+       //
+       // resets total uptime of the process 
+       // and calls the function from WorkerWithFileClass to delete array from file
+       public static bool resetTotalUptime(ProcInstanceClass procInstance)
         {
-            if (proc.IsRunning && proc.checkIfTodayDateWasAddedToUpTimesList())
+            // if the process is running then we return false and show the messagebox which requires to close the process
+            if (checkIfProcessIsRunningWithStringName(procInstance.ProcName))
             {
-                proc.UpTimes.Last().UpMinutes += 1;    
-            }           
+                return false;
+            }
+
+            // if the file is not written then false is returned
+            if (!WorkerWithFileClass.writeTimeForRestartButton(procInstance))
+            {
+                return false;
+            }
+
+            // if everything is ok - we return true
+            return true;
+
+            
         }
+
 
     }
 }

@@ -69,41 +69,24 @@ namespace ATA_ClassLibrary
            
             File.WriteAllText( fileNameToWrite, "");
 
+
             foreach (var upTime in upTimes)
             {
                 using (FileStream fileStream = new FileStream(fileNameToWrite, FileMode.Append))
                 {
-
-
                     using (StreamWriter writer = new StreamWriter(fileStream))
                     {
-                        // calculate current session to record proper value to the file
-                        //procInstance.calculateUpTimeCurrentSession();
-                        //if (!checkIfTodayWasAlreadyWritten("", procInstance))
-                        //{
-
-
-                        //    writer.Write(DateOnly.FromDateTime(DateTime.Now) + "," + procInstance.UpTimeMinutesCurrentSession + ",");
-                        //    return true;
-
-                        //}
-                        
-
                         writer.Write(upTime.UpDate.ToString() + ',' + upTime.UpMinutes.ToString() + ',');
 
-
-
-
-
                     }
-
                 }
             }
                 return true;
         }
 
 
-        // writes to file with given array of processes
+        // writes list of each process UPTIMES
+        // to file with given array of processes
         public static void writeToFileInfoAboutProcs(ProcInstanceClass[] procs)
         {
             foreach (var proc in procs)
@@ -142,6 +125,8 @@ namespace ATA_ClassLibrary
         }
 
 
+        // writes the first info to the file about process
+        // after user SETS the process
         public static void writeToFileInfoAboutOneProcFromSetProcButton(ProcInstanceClass proc)
         {
 
@@ -168,6 +153,15 @@ namespace ATA_ClassLibrary
             else return "";
         }
 
+
+        // clears the file
+        // 
+        // used in Restart time button
+        public static bool writeTimeForRestartButton (ProcInstanceClass proc)
+        {
+            File.WriteAllText(proc.fileNameToWriteInfo, DateOnly.FromDateTime(DateTime.Now) + ",0,");
+            return true;
+        }
 
         // NOT USED ANYMORE
         // 

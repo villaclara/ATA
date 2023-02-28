@@ -204,7 +204,7 @@ namespace ATA_WPF
         }
 
 
-
+        #region PROCESS EVENTS REGION
 
         // TO USE IN NEXT UPDATE
         //
@@ -260,6 +260,13 @@ namespace ATA_WPF
             
         }
 
+        #endregion END PROCESS EVENTS REGION
+
+        private void showMessagebox (string message, string title, MessageBoxButton messageBoxButtons)
+        {
+            System.Windows.MessageBox.Show(message, title, messageBoxButtons);
+        }
+
         #region SET BUTTONS
         //////////////////////////////////////////////////////////////////////////////////
         //
@@ -285,10 +292,12 @@ namespace ATA_WPF
                 WorkerWithFileClass.writeToFileInfoAboutOneProcFromSetProcButton(processArray[0]);
                 ProcInstanceClass.selectedProc = "";
                 DisplayInfoProcess(processArray[0], firstProcessName, firstProcessUpTime, firstProcessTotalUpTime, firstProcessIsRun);
-           
 
 
+                resetFirstButton.IsEnabled = true;
                 showFirstProcessAllTimes.IsEnabled = true;
+                deleteFirstButton.IsEnabled = true;
+                
             }
 
 
@@ -313,6 +322,9 @@ namespace ATA_WPF
                 DisplayInfoProcess(processArray[1], secondProcessName, secondProcessUpTime, secondProcessTotalUpTime, secondProcessIsRun);
 
 
+                resetSecondButton.IsEnabled = true;
+                showSecondProcessAllTimes.IsEnabled = true;
+                deleteSecondButton.IsEnabled = true;
             }
         }
 
@@ -334,6 +346,10 @@ namespace ATA_WPF
                 ProcInstanceClass.selectedProc = "";
                 DisplayInfoProcess(processArray[2], thirdProcessName, thirdProcessUpTime, thirdProcessTotalUpTime, thirdProcessIsRun);
 
+
+                resetThirdButton.IsEnabled = true;
+                showThirdProcessAllTimes.IsEnabled = true;
+                deleteThirdButton.IsEnabled = true;
             }
         }
 
@@ -355,6 +371,10 @@ namespace ATA_WPF
                 ProcInstanceClass.selectedProc = "";
                 DisplayInfoProcess(processArray[3], fourthProcessName, fourthProcessUpTime, fourthProcessTotalUpTime, fourthProcessIsRun);
 
+
+                resetFourthButton.IsEnabled = true;
+                showFourthProcessAllTimes.IsEnabled = true;
+                deleteFourthButton.IsEnabled = true;
             }
         }
 
@@ -376,6 +396,11 @@ namespace ATA_WPF
                 ProcInstanceClass.selectedProc = "";
                 DisplayInfoProcess(processArray[4], fifthProcessName, fifthProcessUpTime, fifthProcessTotalUpTime, fifthProcessIsRun);
 
+
+                resetFifthButton.IsEnabled = true;
+                showFifthProcessAllTimes.IsEnabled = true;
+                deleteFifthButton.IsEnabled = true;
+                
             }
         }
 
@@ -423,46 +448,128 @@ namespace ATA_WPF
             //    System.Windows.MessageBox.Show("OK");
             //}
 
-            this.SizeToContent = SizeToContent.Manual;
-            this.Height = 500;
-
-            TextBlock textBlock = new TextBlock();
-            textBlock.Text = "bruh";
-
-            Grid.SetColumn(textBlock, 0);
-            Grid.SetColumnSpan(textBlock, 5);
-            Grid.SetRow(textBlock, 9);
-            myGrid.Children.Add(textBlock);
+            
         }
 
         private void resetFirstButton_Click(object sender, RoutedEventArgs e)
         {
+            // trying to reset buttons and if could not do then show messsage
+            if (!DifferentFunctions.resetTotalUptime(processArray[0]))
+            {
+                showMessagebox(message: "Application is currently running. Please close the app and try again.", title: "NOT DONE CLOWN", MessageBoxButton.OK);
+            }
             
+            else
+            {
+                DisplayInfo(processArray[0], 0, firstProcessName, firstProcessUpTime, firstProcessTotalUpTime, firstProcessIsRun);
+            }
+
+        }
+
+        private void resetSecondButton_Click(object sender, RoutedEventArgs e)
+        {
+            // trying to reset buttons and if could not do then show messsage
+            if (!DifferentFunctions.resetTotalUptime(processArray[1]))
+            {
+                showMessagebox(message: "Application is currently running. Please close the app and try again.", title: "NOT DONE CLOWN", MessageBoxButton.OK);
+            }
+
+            else
+            {
+                DisplayInfo(processArray[1], 1, secondProcessName, secondProcessUpTime, secondProcessTotalUpTime, secondProcessIsRun);
+            }
+
+        }
+
+        private void resetThirdButton_Click(object sender, RoutedEventArgs e)
+        {
+            // trying to reset buttons and if could not do then show messsage
+            if (!DifferentFunctions.resetTotalUptime(processArray[2]))
+            {
+                showMessagebox(message: "Application is currently running. Please close the app and try again.", title: "NOT DONE CLOWN", MessageBoxButton.OK);
+            }
+
+            else
+            {
+                DisplayInfo(processArray[2], 2, thirdProcessName, thirdProcessUpTime, thirdProcessTotalUpTime, thirdProcessIsRun);
+            }
+
+        }
+
+        private void resetFourthButton_Click(object sender, RoutedEventArgs e)
+        {
+            // trying to reset buttons and if could not do then show messsage
+            if (!DifferentFunctions.resetTotalUptime(processArray[3]))
+            {
+                showMessagebox(message: "Application is currently running. Please close the app and try again.", title: "NOT DONE CLOWN", MessageBoxButton.OK);
+            }
+
+            else
+            {
+                DisplayInfo(processArray[3], 3, firstProcessName, fourthProcessUpTime, fourthProcessTotalUpTime, fourthProcessIsRun);
+            }
+
+        }
+
+        private void resetFifthtButton_Click(object sender, RoutedEventArgs e)
+        {
+            // trying to reset buttons and if could not do then show messsage
+            if (!DifferentFunctions.resetTotalUptime(processArray[4]))
+            {
+                showMessagebox(message: "Application is currently running. Please close the app and try again.", title: "NOT DONE CLOWN", MessageBoxButton.OK);
+            }
+
+            else
+            {
+                DisplayInfo(processArray[4], 4, fifthProcessName, fifthProcessUpTime, fifthProcessTotalUpTime, fifthProcessIsRun);
+            }
+
         }
 
 
+
+
         #region SHOW ALL TIME BUTTONS CLICK
+
+
+        private bool isClickedFirst = false;
 
         // firstbutton show all time
         // increases window size and then displaying meessage
         // or if clicked again then just sets the normal window
         private void showFirstProcessAllTimes_Click(object sender, RoutedEventArgs e)
         {
-            if (showFirstProcessAllTimes.IsChecked == true)
-            {
-                this.SizeToContent = SizeToContent.Manual;
-                this.Height = 500;
+            this.SizeToContent = SizeToContent.Manual;
+            TextBlock textBlock = new TextBlock();
+            textBlock.Text = "bruh";
+            Grid.SetColumn(textBlock, 0);
+            Grid.SetColumnSpan(textBlock, 5);
+            Grid.SetRow(textBlock, 9);
 
-                showFirstProcessAllTimes.Content = "back";
-            }
-
-
-            if (showFirstProcessAllTimes.IsChecked == false)
+            if (isClickedFirst)
             {
                 this.Height = 300;
+
+
+                //myGrid.Children.Remove(textBlock);
+                myGrid.RowDefinitions.RemoveAt(8);
+
+
                 this.SizeToContent = SizeToContent.WidthAndHeight;
 
-                showFirstProcessAllTimes.Content = "WIP";
+                isClickedFirst = false;
+            }
+
+            else
+            {
+
+                this.Height = 501;
+
+
+
+                //myGrid.Children.Add(textBlock);
+                myGrid.RowDefinitions.Insert(8, new RowDefinition());
+                isClickedFirst = true;
             }
         }
 
@@ -473,5 +580,7 @@ namespace ATA_WPF
 
 
         #endregion SHOW ALL TIME BUTTONS END
+
+
     }
 }
