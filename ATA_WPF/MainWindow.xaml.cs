@@ -118,11 +118,11 @@ namespace ATA_WPF
         // one function for all info
         private void DisplayAllInfo()
         {
-            DisplayInfo(processArray[0], 0, pName: firstProcessName, pUpTime: firstProcessUpTime, pTotalUpTime: firstProcessTotalUpTime, isRun: firstProcessIsRun);
-            DisplayInfo(processArray[1], 1, pName: secondProcessName, pUpTime: secondProcessUpTime, pTotalUpTime: secondProcessTotalUpTime, isRun: secondProcessIsRun);
-            DisplayInfo(processArray[2], 2, pName: thirdProcessName, pUpTime: thirdProcessUpTime, pTotalUpTime: thirdProcessTotalUpTime, isRun: thirdProcessIsRun);
-            DisplayInfo(processArray[3], 3, pName: fourthProcessName, pUpTime: fourthProcessUpTime, pTotalUpTime: fourthProcessTotalUpTime, isRun: fourthProcessIsRun);
-            DisplayInfo(processArray[4], 4, pName: fifthProcessName, pUpTime: fifthProcessUpTime, pTotalUpTime: fifthProcessTotalUpTime, isRun: fifthProcessIsRun);
+            DisplayInfo(processArray[0], 0, pName: firstProcessName, pUpTime: firstProcessUpTime, pTotalUpTime: firstProcessTotalUpTime, isRun: firstProcessIsRun, resetFirstButton, showFirstProcessAllTimes, deleteFirstButton);
+            DisplayInfo(processArray[1], 1, pName: secondProcessName, pUpTime: secondProcessUpTime, pTotalUpTime: secondProcessTotalUpTime, isRun: secondProcessIsRun, resetSecondButton, showSecondProcessAllTimes, deleteSecondButton);
+            DisplayInfo(processArray[2], 2, pName: thirdProcessName, pUpTime: thirdProcessUpTime, pTotalUpTime: thirdProcessTotalUpTime, isRun: thirdProcessIsRun, resetThirdButton, showThirdProcessAllTimes, deleteThirdButton);
+            DisplayInfo(processArray[3], 3, pName: fourthProcessName, pUpTime: fourthProcessUpTime, pTotalUpTime: fourthProcessTotalUpTime, isRun: fourthProcessIsRun, resetFourthButton, showFourthProcessAllTimes, deleteFourthButton);
+            DisplayInfo(processArray[4], 4, pName: fifthProcessName, pUpTime: fifthProcessUpTime, pTotalUpTime: fifthProcessTotalUpTime, isRun: fifthProcessIsRun, resetFifthButton, showFifthProcessAllTimes, deleteFifthButton);
         }
 
 
@@ -174,12 +174,17 @@ namespace ATA_WPF
 
 
         // checks the process and calls the displayinfoprocess
-        public void DisplayInfo (ProcInstanceClass proc, int procIndex, TextBlock pName, TextBlock pUpTime, TextBlock pTotalUpTime, TextBlock isRun)
+        public void DisplayInfo (ProcInstanceClass proc, int procIndex, TextBlock pName, TextBlock pUpTime, TextBlock pTotalUpTime, TextBlock isRun, System.Windows.Controls.Button restart, System.Windows.Controls.Button details, System.Windows.Controls.Button delete)
         {
             // get name of searched process to display info
             string name = WorkerWithFileClass.getProcessFromFileWithGivenIndex(procIndex);
+            System.Windows.MessageBox.Show(name);
             if (name == "empty")
             {
+                restart.IsEnabled = false;
+                details.IsEnabled = false;
+                delete.IsEnabled = false;
+                System.Windows.MessageBox.Show("empty name");
                 return;
             }
 
@@ -188,6 +193,9 @@ namespace ATA_WPF
             if (proc.process == null && DifferentFunctions.checkIfProcessIsRunningWithStringName(name) == true)
             {
                 proc.process = ProcInstanceClass.getProcByName(name);
+                restart.IsEnabled = true;
+                details.IsEnabled = true;
+                delete.IsEnabled = true;
             }
 
             proc.setIsPreviousRunning();
@@ -197,7 +205,12 @@ namespace ATA_WPF
             if (DifferentFunctions.checkIfProcessIsRunningWithStringName(name) == false)
             {
                 proc.process = null;
+                restart.IsEnabled = false;
+                details.IsEnabled = false;
+                delete.IsEnabled = false;
             }
+
+            
 
             DisplayInfoProcess(proc,  pName,  pUpTime,  pTotalUpTime, isRun);
 
@@ -461,7 +474,7 @@ namespace ATA_WPF
             
             else
             {
-                DisplayInfo(processArray[0], 0, firstProcessName, firstProcessUpTime, firstProcessTotalUpTime, firstProcessIsRun);
+                DisplayInfo(processArray[0], 0, pName: firstProcessName, pUpTime: firstProcessUpTime, pTotalUpTime: firstProcessTotalUpTime, isRun: firstProcessIsRun, resetFirstButton, showFirstProcessAllTimes, deleteFirstButton);
             }
 
         }
@@ -476,7 +489,7 @@ namespace ATA_WPF
 
             else
             {
-                DisplayInfo(processArray[1], 1, secondProcessName, secondProcessUpTime, secondProcessTotalUpTime, secondProcessIsRun);
+                DisplayInfo(processArray[1], 1, pName: secondProcessName, pUpTime: secondProcessUpTime, pTotalUpTime: secondProcessTotalUpTime, isRun: secondProcessIsRun, resetSecondButton, showSecondProcessAllTimes, deleteSecondButton);
             }
 
         }
@@ -491,7 +504,7 @@ namespace ATA_WPF
 
             else
             {
-                DisplayInfo(processArray[2], 2, thirdProcessName, thirdProcessUpTime, thirdProcessTotalUpTime, thirdProcessIsRun);
+                DisplayInfo(processArray[2], 2, pName: thirdProcessName, pUpTime: thirdProcessUpTime, pTotalUpTime: thirdProcessTotalUpTime, isRun: thirdProcessIsRun, resetThirdButton, showThirdProcessAllTimes, deleteThirdButton);
             }
 
         }
@@ -506,7 +519,7 @@ namespace ATA_WPF
 
             else
             {
-                DisplayInfo(processArray[3], 3, firstProcessName, fourthProcessUpTime, fourthProcessTotalUpTime, fourthProcessIsRun);
+                DisplayInfo(processArray[3], 3, pName: fourthProcessName, pUpTime: fourthProcessUpTime, pTotalUpTime: fourthProcessTotalUpTime, isRun: fourthProcessIsRun, resetFourthButton, showFourthProcessAllTimes, deleteFourthButton);
             }
 
         }
@@ -521,7 +534,7 @@ namespace ATA_WPF
 
             else
             {
-                DisplayInfo(processArray[4], 4, fifthProcessName, fifthProcessUpTime, fifthProcessTotalUpTime, fifthProcessIsRun);
+                DisplayInfo(processArray[4], 4, pName: fifthProcessName, pUpTime: fifthProcessUpTime, pTotalUpTime: fifthProcessTotalUpTime, isRun: fifthProcessIsRun, resetFifthButton, showFifthProcessAllTimes, deleteFifthButton);
             }
 
         }
@@ -579,8 +592,53 @@ namespace ATA_WPF
 
 
 
+
         #endregion SHOW ALL TIME BUTTONS END
 
+        private void deleteSecondButton_Click(object sender, RoutedEventArgs e)
+        {
+            ProcInstanceClass procInstanceNull = new();
+            processArray[1] = procInstanceNull;
+            WorkerWithFileClass.writeProcessToFileAtIndex(1, "empty");
+            DisplayAllInfo();
+        }
 
+        private void deleteFirstButton_Click(object sender, RoutedEventArgs e)
+        {
+            ProcInstanceClass procInstanceNull = new();
+            processArray[0] = procInstanceNull;
+            WorkerWithFileClass.writeProcessToFileAtIndex(0, "empty");
+            DisplayAllInfo();
+        }
+
+        private void deleteThirdButton_Click(object sender, RoutedEventArgs e)
+        {
+            ProcInstanceClass procInstanceNull = new();
+            processArray[2] = procInstanceNull;
+            WorkerWithFileClass.writeProcessToFileAtIndex(2, "empty");
+            DisplayAllInfo();
+        }
+
+        private void deleteFourthButton_Click(object sender, RoutedEventArgs e)
+        {
+            ProcInstanceClass procInstanceNull = new();
+            processArray[3] = procInstanceNull;
+            WorkerWithFileClass.writeProcessToFileAtIndex(3, "empty");
+            DisplayAllInfo();
+        }
+
+        private void deleteFifthButton_Click(object sender, RoutedEventArgs e)
+        {
+            ProcInstanceClass procInstanceNull = new();
+            processArray[4] = procInstanceNull;
+            WorkerWithFileClass.writeProcessToFileAtIndex(4, "empty");
+            DisplayAllInfo();
+        }
+
+
+        private void showFifthProcessAllTimes_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

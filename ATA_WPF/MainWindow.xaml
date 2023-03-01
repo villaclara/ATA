@@ -108,7 +108,7 @@
         <Button x:Name="showFirstProcessAllTimes" Grid.Row="2" Grid.Column="8" Style="{StaticResource styleButtonKey}" IsEnabled="False" Click="showFirstProcessAllTimes_Click" >
             <Image Source="img\detailsicon.ico" Height="25" Width="25"/>
         </Button>
-        <Button x:Name="deleteFirstButton" Grid.Row="2" Grid.Column="9" Style="{StaticResource styleButtonKey}" IsEnabled="False" >
+        <Button x:Name="deleteFirstButton" Grid.Row="2" Grid.Column="9" Style="{StaticResource styleButtonKey}" IsEnabled="False" Click="deleteFirstButton_Click" >
             <Image Source="img\xicon.ico" Height="25" Width="25"/>
         </Button>
 
@@ -130,7 +130,7 @@
         <Button x:Name="showSecondProcessAllTimes" Grid.Row="3" Grid.Column="8" Style="{StaticResource styleSecondRowButton}" IsEnabled="False" >
             <Image Source="img\detailsicon.ico" Height="25" Width="25"/>
         </Button>
-        <Button x:Name="deleteSecondButton" Grid.Row="3" Grid.Column="9" Style="{StaticResource styleSecondRowButton}" IsEnabled="False">
+        <Button x:Name="deleteSecondButton" Grid.Row="3" Grid.Column="9" Style="{StaticResource styleSecondRowButton}" IsEnabled="False" Click="deleteSecondButton_Click">
             <Image Source="img\xicon.ico" Height="25" Width="25"/>
         </Button>
 
@@ -152,7 +152,7 @@
         <Button x:Name="showThirdProcessAllTimes" Grid.Row="4" Grid.Column="8" Style="{StaticResource styleThirdRowButton}" IsEnabled="False" >
             <Image Source="img\detailsicon.ico" Height="25" Width="25"/>
         </Button>
-        <Button x:Name="deleteThirdButton" Grid.Row="4" Grid.Column="9" Style="{StaticResource styleThirdRowButton}" IsEnabled="False">
+        <Button x:Name="deleteThirdButton" Grid.Row="4" Grid.Column="9" Style="{StaticResource styleThirdRowButton}" IsEnabled="False" Click="deleteThirdButton_Click">
             <Image Source="img\xicon.ico" Height="25" Width="25"/>
         </Button>
 
@@ -172,7 +172,7 @@
         <Button x:Name="showFourthProcessAllTimes" Grid.Row="5" Grid.Column="8" Style="{StaticResource styleFourthRowButtons}" IsEnabled="False">
             <Image Source="img\detailsicon.ico" Height="25" Width="25"/>
         </Button>
-        <Button x:Name="deleteFourthButton" Grid.Row="5" Grid.Column="9" Style="{StaticResource styleFourthRowButtons}" IsEnabled="False">
+        <Button x:Name="deleteFourthButton" Grid.Row="5" Grid.Column="9" Style="{StaticResource styleFourthRowButtons}" IsEnabled="False" Click="deleteFourthButton_Click">
             <Image Source="img\xicon.ico" Height="25" Width="25"/>
         </Button>
 
@@ -189,10 +189,10 @@
         <Button x:Name="resetFifthButton" Grid.Row="6" Grid.Column="7" Style="{StaticResource styleFifthRowButtons}"  IsEnabled="False" Click="resetFifthtButton_Click">
             <Image Source="img\restarticon1.ico" Height="25" Width="25"/>
         </Button>
-        <Button x:Name="showFifthProcessAllTimes" Grid.Row="6" Grid.Column="8" Style="{StaticResource styleFifthRowButtons}" IsEnabled="False">
+        <Button x:Name="showFifthProcessAllTimes" Grid.Row="6" Grid.Column="8" Style="{StaticResource styleFifthRowButtons}" IsEnabled="False" Click="showFifthProcessAllTimes_Click">
             <Image Source="img\detailsicon.ico" Height="25" Width="25"/>
         </Button>
-        <Button x:Name="deleteFifthButton" Grid.Row="6" Grid.Column="9" Style="{StaticResource styleFifthRowButtons}" Width="50" IsEnabled="False">
+        <Button x:Name="deleteFifthButton" Grid.Row="6" Grid.Column="9" Style="{StaticResource styleFifthRowButtons}" Width="50" IsEnabled="False" Click="deleteFifthButton_Click">
             <Image Source="img\xicon.ico" Height="25" Width="25"/>
         </Button>
 

@@ -50,6 +50,20 @@ namespace ATA_ClassLibrary
 
         }
 
+        public static void writeProcessToFileAtIndex (int index, string name)
+        {
+            string[] procs = ReadFromFileWithGivenName(DifferentFunctions.fileWithProcesses).Split(',');
+            procs[index] = name;
+
+            string fullNames = "";
+            for(int i = 0; i < 5; i++)
+            {
+                fullNames += procs[i] + ',';
+            }
+
+            File.WriteAllText(DifferentFunctions.fileWithProcesses, fullNames);
+        }
+
         // create default procs file and fill it with the empty names
         public static void createDefault()
         {
@@ -91,6 +105,9 @@ namespace ATA_ClassLibrary
         {
             foreach (var proc in procs)
             {
+
+                if (proc.ProcName == "")
+                    return;
 
                 // retrieve the list of uptimes 
                 // it works because we are in the foreach 
