@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ATA_WPF"
         mc:Ignorable="d"
-        Title="ATA 0.1.0" Height="300" Width="765"
+        Title="ATA 0.1.2" Height="500" Width="765"
         ResizeMode="CanMinimize"
         Icon="/icon2.png"
-        SizeToContent="WidthAndHeight"  FontFamily="Consolas">
+        SizeToContent="Manual"  FontFamily="Consolas">
 
     <Window.Resources>
         <ResourceDictionary Source="Dictionary1.xaml"/>
@@ -41,7 +41,7 @@
             <RowDefinition Height="auto" MinHeight="45"/>
             <RowDefinition Height="auto" MinHeight="45"/>
             <RowDefinition Height="20" MinHeight="20"/>
-            <RowDefinition Height="*" />
+            <RowDefinition Height="200" />
         </Grid.RowDefinitions>
 
 
@@ -74,7 +74,7 @@
         <!-- MENU ROW 0 -->
         <Menu x:Name="TopMenu" VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="10">
             <MenuItem Header="ATA" >
-                <MenuItem Header="Open Folder"/>
+                <MenuItem Header="Info" Click="Info_Click"/>
             </MenuItem>
             
             <MenuItem Header="Options" >
@@ -197,9 +197,15 @@
         </Button>
 
 
+        <!-- THE DETAILS SECTION -->
+        <DataGrid x:Name="detailsDataGrid" ItemsSource="{Binding}" AutoGenerateColumns="False" Grid.Column="3" Grid.Row="8" Grid.ColumnSpan="3" Height="100">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Date" Binding="{Binding UpDate}" Width="100" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Time" Binding="{Binding UpMinutes}" Width="100" IsReadOnly="True"/>
+            </DataGrid.Columns>
+        </DataGrid>
 
 
-        <Border Grid.Column="0" Grid.ColumnSpan="11" Grid.Row="7" Grid.RowSpan="2" Background="#FF68A5E2"/>
 
 
 
