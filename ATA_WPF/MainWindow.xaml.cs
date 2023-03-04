@@ -38,6 +38,7 @@ namespace ATA_WPF
         {
             InitializeComponent();
 
+            this.Width = 765;
             this.Height = 320;
 
             createIfNeededStartingFile();
@@ -486,13 +487,25 @@ namespace ATA_WPF
         // click on Reset all and delete button from topbar menu
         private void ResetAndDeleteAll_Click(object sender, RoutedEventArgs e)
         {
-            
+            ProcInstanceClass procInstanceNull = new();
+            for (int i = 0; i < 5; i++)
+            {
+                processArray[i] = procInstanceNull;
+                WorkerWithFileClass.writeProcessToFileAtIndex(i, "empty");
+            }
+            DisplayAllInfo();
 
-            
+
         }
 
         private void resetFirstButton_Click(object sender, RoutedEventArgs e)
         {
+            MessageBoxResult result = System.Windows.MessageBox.Show("Are you sure? The time will be restarted.", "WTF", MessageBoxButton.YesNo);
+
+            if (result == MessageBoxResult.No)
+            {
+                return;
+            }
             // trying to reset buttons and if could not do then show messsage
             if (!DifferentFunctions.resetTotalUptime(processArray[0]))
             {
@@ -508,6 +521,12 @@ namespace ATA_WPF
 
         private void resetSecondButton_Click(object sender, RoutedEventArgs e)
         {
+            MessageBoxResult result = System.Windows.MessageBox.Show("Are you sure? The time will be restarted.", "WTF", MessageBoxButton.YesNo);
+
+            if (result == MessageBoxResult.No)
+            {
+                return;
+            }
             // trying to reset buttons and if could not do then show messsage
             if (!DifferentFunctions.resetTotalUptime(processArray[1]))
             {
@@ -523,6 +542,12 @@ namespace ATA_WPF
 
         private void resetThirdButton_Click(object sender, RoutedEventArgs e)
         {
+            MessageBoxResult result = System.Windows.MessageBox.Show("Are you sure? The time will be restarted.", "WTF", MessageBoxButton.YesNo);
+
+            if (result == MessageBoxResult.No)
+            {
+                return;
+            }
             // trying to reset buttons and if could not do then show messsage
             if (!DifferentFunctions.resetTotalUptime(processArray[2]))
             {
@@ -538,6 +563,12 @@ namespace ATA_WPF
 
         private void resetFourthButton_Click(object sender, RoutedEventArgs e)
         {
+            MessageBoxResult result = System.Windows.MessageBox.Show("Are you sure? The time will be restarted.", "WTF", MessageBoxButton.YesNo);
+
+            if (result == MessageBoxResult.No)
+            {
+                return;
+            }
             // trying to reset buttons and if could not do then show messsage
             if (!DifferentFunctions.resetTotalUptime(processArray[3]))
             {
@@ -553,6 +584,14 @@ namespace ATA_WPF
 
         private void resetFifthtButton_Click(object sender, RoutedEventArgs e)
         {
+
+            MessageBoxResult result = System.Windows.MessageBox.Show("Are you sure? The time will be restarted.", "WTF", MessageBoxButton.YesNo);
+
+            if (result == MessageBoxResult.No)
+            {
+                return;
+            }
+
             // trying to reset buttons and if could not do then show messsage
             if (!DifferentFunctions.resetTotalUptime(processArray[4]))
             {
@@ -573,49 +612,37 @@ namespace ATA_WPF
 
 
         private bool isClickedFirst = false;
+        private bool isClickedSecond = false;
+        private bool isClickedThird = false;
+        private bool isClickedFourth = false;
+        private bool isClickedFifth = false;
 
         // firstbutton show all time
         // increases window size and then displaying meessage
         // or if clicked again then just sets the normal window
         private void showFirstProcessAllTimes_Click(object sender, RoutedEventArgs e)
         {
-            this.SizeToContent = SizeToContent.Manual;
-            TextBlock textBlock = new TextBlock();
-            textBlock.Text = "bruh";
-            Grid.SetColumn(textBlock, 0);
-            Grid.SetColumnSpan(textBlock, 5);
-            Grid.SetRow(textBlock, 9);
+            setWidthWindowWithBooleanAndShowDetails(isClickedFirst, 0);
+        }
 
-            if (isClickedFirst)
-            {
-                this.Height = 300;
+        private void showSecondProcessAllTimes_Click(object sender, RoutedEventArgs e)
+        {
+            setWidthWindowWithBooleanAndShowDetails(isClickedSecond, 1);
+        }
 
+        private void showThirdProcessAllTimes_Click(object sender, RoutedEventArgs e)
+        {
+            setWidthWindowWithBooleanAndShowDetails(isClickedThird, 2);
+        }
 
-                //myGrid.Children.Remove(textBlock);
-                myGrid.RowDefinitions.RemoveAt(8);
-
-
-                this.SizeToContent = SizeToContent.WidthAndHeight;
-
-                isClickedFirst = false;
-            }
-
-            else
-            {
-
-                this.Height = 501;
-
-
-
-                //myGrid.Children.Add(textBlock);
-                myGrid.RowDefinitions.Insert(8, new RowDefinition());
-                isClickedFirst = true;
-            }
+        private void showFourthProcessAllTimes_Click(object sender, RoutedEventArgs e)
+        {
+            setWidthWindowWithBooleanAndShowDetails(isClickedFourth, 3);
         }
 
         private void showFifthProcessAllTimes_Click(object sender, RoutedEventArgs e)
         {
-
+            setWidthWindowWithBooleanAndShowDetails(isClickedFifth, 5);
         }
 
 
@@ -625,7 +652,22 @@ namespace ATA_WPF
 
         #endregion SHOW ALL TIME BUTTONS END
 
+        private bool deleteFile (string filename)
+        {
+            MessageBoxResult result = System.Windows.MessageBox.Show("Are you sure? The time will be permanently deleted.", "WTF", MessageBoxButton.YesNo);
 
+            if (result == MessageBoxResult.No)
+            {
+                return false;
+            }
+
+            if (File.Exists(filename))
+            {
+                File.Delete(filename);
+            }
+
+            return true;
+        }
 
         #region DELETE BUTTONS REGION
 
@@ -633,12 +675,20 @@ namespace ATA_WPF
 
         // ALL buttons do the same behavior
         //
-        // 1. assigning new empty variable to appropriate member of array of procInstances
-        // 2. writing 'empty' word to the fileWithProcesses text file - procs.txt
-        // 3. displaying updated info
+        // 1. calls function that shows messagebox with confirmation on delete
+        // 2. if the answer is YES then deletes the file and returns true and go to step 4
+        // 3. if the answer is NO then return back
+        // 4. assigning new empty variable to appropriate member of array of procInstances
+        // 5. writing 'empty' word to the fileWithProcesses text file - procs.txt
+        // 6. displaying updated info
         private void deleteSecondButton_Click(object sender, RoutedEventArgs e)
         {
-            
+
+            if (!deleteFile(processArray[1].fileNameToWriteInfo))
+            {
+                return;
+            }
+
             ProcInstanceClass procInstanceNull = new();
             processArray[1] = procInstanceNull;
             WorkerWithFileClass.writeProcessToFileAtIndex(1, "empty");
@@ -650,11 +700,22 @@ namespace ATA_WPF
                         secondProcessIsRun,
                         resetSecondButton,
                         showSecondProcessAllTimes,
-                        deleteSecondButton); 
+                        deleteSecondButton);
+
+            this.Width = 765;
+            isClickedFirst = false;
+
+
         }
 
         private void deleteFirstButton_Click(object sender, RoutedEventArgs e)
         {
+            if (!deleteFile(processArray[0].fileNameToWriteInfo))
+            {
+                return;
+            }
+
+
             ProcInstanceClass procInstanceNull = new();
             processArray[0] = procInstanceNull;
             WorkerWithFileClass.writeProcessToFileAtIndex(0, "empty");
@@ -667,10 +728,21 @@ namespace ATA_WPF
                         resetFirstButton,
                         showFirstProcessAllTimes,
                         deleteFirstButton);
+
+
+            this.Width = 765;
+            isClickedFirst = false;
+
+
         }
 
         private void deleteThirdButton_Click(object sender, RoutedEventArgs e)
         {
+            if (!deleteFile(processArray[2].fileNameToWriteInfo))
+            {
+                return;
+            }
+
             ProcInstanceClass procInstanceNull = new();
             processArray[2] = procInstanceNull;
             WorkerWithFileClass.writeProcessToFileAtIndex(2, "empty");
@@ -683,10 +755,20 @@ namespace ATA_WPF
                resetThirdButton,
                showThirdProcessAllTimes,
                deleteThirdButton);
+
+            this.Width = 765;
+            isClickedFirst = false;
+
+
         }
 
         private void deleteFourthButton_Click(object sender, RoutedEventArgs e)
         {
+            if (!deleteFile(processArray[3].fileNameToWriteInfo))
+            {
+                return;
+            }
+
             ProcInstanceClass procInstanceNull = new();
             processArray[3] = procInstanceNull;
             WorkerWithFileClass.writeProcessToFileAtIndex(3, "empty");
@@ -699,10 +781,21 @@ namespace ATA_WPF
                 resetFourthButton,
                 showFourthProcessAllTimes,
                 deleteFourthButton);
+
+            this.Width = 765;
+            isClickedFirst = false;
+
+
         }
 
         private void deleteFifthButton_Click(object sender, RoutedEventArgs e)
         {
+
+            if (!deleteFile(processArray[4].fileNameToWriteInfo))
+            {
+                return;
+            }
+
             ProcInstanceClass procInstanceNull = new();
             processArray[4] = procInstanceNull;
             WorkerWithFileClass.writeProcessToFileAtIndex(4, "empty");
@@ -715,29 +808,45 @@ namespace ATA_WPF
                 resetFifthButton,
                 showFifthProcessAllTimes,
                 deleteFifthButton);
+            this.Width = 765;
+            isClickedFirst = false;
+
+
         }
 
         #endregion DELETE BUTTONS END REGION
 
         private void Info_Click(object sender, RoutedEventArgs e)
         {
+            InfoWindow infoWindow = new InfoWindow();
+            infoWindow.Show();
+        }
+
+        private void setWidthWindowWithBooleanAndShowDetails (bool isClicked, int index)
+        {
             if (!isClickedFirst)
             {
-                this.Height = 520;
+                this.Width = 985;
                 isClickedFirst = true;
 
-
-                IEnumerable<UpTime> upTimes = processArray[0].retrieveListOfUpTimesForCurrentProcess(processArray[0].fileNameToWriteInfo);
-
-                detailsDataGrid.DataContext = upTimes;
-                //detailsDataGrid.ItemsSource = upTimes;
+                showDetailsWithGivenProcessIndex(index);
             }
 
             else
             {
-                this.Height = 320;
+                this.Width = 765;
                 isClickedFirst = false;
             }
         }
+
+        private void showDetailsWithGivenProcessIndex(int index)
+        {
+            IEnumerable<UpTime> upTimes = processArray[index].retrieveListOfUpTimesForCurrentProcess(processArray[index].fileNameToWriteInfo);
+
+            detailsDataGrid.DataContext = upTimes;
+
+        }
+
+       
     }
 }

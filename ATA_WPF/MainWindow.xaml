@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ATA_WPF"
         mc:Ignorable="d"
-        Title="ATA 0.1.2" Height="500" Width="765"
+        Title="ATA 0.1.2" Height="300" Width="985"
         ResizeMode="CanMinimize"
         Icon="/icon2.png"
         SizeToContent="Manual"  FontFamily="Consolas">
@@ -13,17 +13,17 @@
     <Window.Resources>
         <ResourceDictionary Source="Dictionary1.xaml"/>
     </Window.Resources>
-    
-    
-    
-    
-    
+
+
+
+
+
     <Grid x:Name="myGrid">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="0"/>
+            <ColumnDefinition Width="0"/>
             <ColumnDefinition Width="auto" MinWidth="65"/>
-            <ColumnDefinition Width="auto" MinWidth="130"/>
+            <ColumnDefinition Width="130" />
             <ColumnDefinition Width="auto" MinWidth="60"/>
             <ColumnDefinition Width="auto" MinWidth="100"/>
             <ColumnDefinition Width="auto" MinWidth="240"/>
@@ -31,17 +31,17 @@
             <ColumnDefinition Width="auto" MinWidth="50"/>
             <ColumnDefinition Width="auto" MinWidth="50"/>
             <ColumnDefinition Width="20" MinWidth="20"/>
+            <ColumnDefinition Width="200" x:Name="ColDataGrid" MaxWidth="200"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
-            <RowDefinition Height="auto" MinHeight="20"/>
-            <RowDefinition Height="auto" MinHeight="45"/>
-            <RowDefinition Height="auto" MinHeight="45"/>
-            <RowDefinition Height="auto" MinHeight="45"/>
-            <RowDefinition Height="auto" MinHeight="45"/>
-            <RowDefinition Height="auto" MinHeight="45"/>
             <RowDefinition Height="20" MinHeight="20"/>
-            <RowDefinition Height="200" />
+            <RowDefinition Height="45" MinHeight="45"/>
+            <RowDefinition Height="45" MinHeight="45"/>
+            <RowDefinition Height="45" MinHeight="45"/>
+            <RowDefinition Height="45" MinHeight="45"/>
+            <RowDefinition Height="45" MinHeight="45"/>
+            <RowDefinition Height="20" MinHeight="20"/>
         </Grid.RowDefinitions>
 
 
@@ -69,14 +69,14 @@
         <Border Grid.Column="0" Grid.ColumnSpan="11" Grid.Row="0" Grid.RowSpan="2" Background="#FFE3EAEF"/>
 
         <!-- The left text SELECT PROCESS -->
-        
+
 
         <!-- MENU ROW 0 -->
         <Menu x:Name="TopMenu" VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="10">
             <MenuItem Header="ATA" >
                 <MenuItem Header="Info" Click="Info_Click"/>
             </MenuItem>
-            
+
             <MenuItem Header="Options" >
                 <MenuItem Header="Reset All" Click="ResetAll_Click"/>
                 <MenuItem Header="Reset and delete all" Click="ResetAndDeleteAll_Click"/>
@@ -127,7 +127,7 @@
         <Button x:Name="resetSecondButton" Grid.Row="3" Grid.Column="7" Style="{StaticResource styleSecondRowButton}" IsEnabled="False" Click="resetSecondButton_Click" >
             <Image Source="img\restarticon1.ico" Height="25" Width="25"/>
         </Button>
-        <Button x:Name="showSecondProcessAllTimes" Grid.Row="3" Grid.Column="8" Style="{StaticResource styleSecondRowButton}" IsEnabled="False" >
+        <Button x:Name="showSecondProcessAllTimes" Grid.Row="3" Grid.Column="8" Style="{StaticResource styleSecondRowButton}" IsEnabled="False" Click="showSecondProcessAllTimes_Click" >
             <Image Source="img\detailsicon.ico" Height="25" Width="25"/>
         </Button>
         <Button x:Name="deleteSecondButton" Grid.Row="3" Grid.Column="9" Style="{StaticResource styleSecondRowButton}" IsEnabled="False" Click="deleteSecondButton_Click">
@@ -149,7 +149,7 @@
         <Button x:Name="resetThirdButton" Grid.Row="4" Grid.Column="7" Style="{StaticResource styleThirdRowButton}" IsEnabled="False" Click="resetThirdButton_Click" >
             <Image Source="img\restarticon1.ico" Height="25" Width="25"/>
         </Button>
-        <Button x:Name="showThirdProcessAllTimes" Grid.Row="4" Grid.Column="8" Style="{StaticResource styleThirdRowButton}" IsEnabled="False" >
+        <Button x:Name="showThirdProcessAllTimes" Grid.Row="4" Grid.Column="8" Style="{StaticResource styleThirdRowButton}" IsEnabled="False" Click="showThirdProcessAllTimes_Click" >
             <Image Source="img\detailsicon.ico" Height="25" Width="25"/>
         </Button>
         <Button x:Name="deleteThirdButton" Grid.Row="4" Grid.Column="9" Style="{StaticResource styleThirdRowButton}" IsEnabled="False" Click="deleteThirdButton_Click">
@@ -169,7 +169,7 @@
         <Button x:Name="resetFourthButton" Grid.Row="5" Grid.Column="7" Style="{StaticResource styleFourthRowButtons}" IsEnabled="False" Click="resetFourthButton_Click">
             <Image Source="img\restarticon1.ico" Height="25" Width="25"/>
         </Button>
-        <Button x:Name="showFourthProcessAllTimes" Grid.Row="5" Grid.Column="8" Style="{StaticResource styleFourthRowButtons}" IsEnabled="False">
+        <Button x:Name="showFourthProcessAllTimes" Grid.Row="5" Grid.Column="8" Style="{StaticResource styleFourthRowButtons}" IsEnabled="False" Click="showFourthProcessAllTimes_Click">
             <Image Source="img\detailsicon.ico" Height="25" Width="25"/>
         </Button>
         <Button x:Name="deleteFourthButton" Grid.Row="5" Grid.Column="9" Style="{StaticResource styleFourthRowButtons}" IsEnabled="False" Click="deleteFourthButton_Click">
@@ -198,14 +198,26 @@
 
 
         <!-- THE DETAILS SECTION -->
-        <DataGrid x:Name="detailsDataGrid" ItemsSource="{Binding}" AutoGenerateColumns="False" Grid.Column="3" Grid.Row="8" Grid.ColumnSpan="3" Height="100">
+        <DataGrid Style="{StaticResource styleDataGrid}" x:Name="detailsDataGrid" ItemsSource="{Binding}" AutoGenerateColumns="False" Grid.Column="11"  Grid.Row="0" Grid.RowSpan="7" CanUserResizeColumns="False" CanUserResizeRows="False" >
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Date" Binding="{Binding UpDate}" Width="100" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Time" Binding="{Binding UpMinutes}" Width="100" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Date" Binding="{Binding UpDate}" HeaderStyle="{StaticResource styleDataGridColumnHeader}" Width="105" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Time" Binding="{Binding UpMinutes}" HeaderStyle="{StaticResource styleDataGridColumnHeader}" Width="70" IsReadOnly="True"/>
             </DataGrid.Columns>
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="Background" Value="#FF51D3FF"/>
+                    <Setter Property="IsEnabled" Value="True"/>
+                    <Setter Property="Focusable" Value="False"/>
+                    <Setter Property="Height" Value="22"/>
+                    <Setter Property="FontSize" Value="12"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                    
+                </Style>
+            </DataGrid.RowStyle>
         </DataGrid>
 
 
+        <Border Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="12" Background="#FF70AEED"/>
 
 
 
@@ -215,6 +227,8 @@
         <Border Grid.Column="4" Grid.Row="1" Grid.RowSpan="6" BorderBrush="#FF676767" BorderThickness="0,0,1,0"/>
         <Border Grid.Column="5" Grid.Row="1" Grid.RowSpan="6" BorderBrush="#FF676767" BorderThickness="0,0,1,0"/>
         <Border Grid.Column="6" Grid.Row="1" Grid.RowSpan="6" BorderBrush="#FF676767" BorderThickness="0,0,1,0"/>
+
+        <Border Grid.Column="10" Grid.Row="0" Grid.RowSpan="7" BorderBrush="#FF676767" BorderThickness="0,0,1,0"/>
 
 
         <!-- HORIZONTAL BORDERS BETWEEN CELLS -->
@@ -228,4 +242,7 @@
 
 
     </Grid>
+
+   
+  
 </Window>
