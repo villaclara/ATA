@@ -5,30 +5,42 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ATA_WPF"
         mc:Ignorable="d"
-        Title="ATA 0.1.0" Height="300" Width="745"
-        ResizeMode="CanMinimize" 
+        Title="ATA 0.1.2" Height="300" Width="985"
+        ResizeMode="CanMinimize"
         Icon="/icon2.png"
-        SizeToContent="WidthAndHeight" FontFamily="Consolas">
-    <Grid>
+        SizeToContent="Manual"  FontFamily="Consolas">
+
+    <Window.Resources>
+        <ResourceDictionary Source="Dictionary1.xaml"/>
+    </Window.Resources>
+
+
+
+
+
+    <Grid x:Name="myGrid">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="auto" MinWidth="64"/>
-            <ColumnDefinition Width="auto" MinWidth="130"/>
-            <ColumnDefinition Width="auto" MinWidth="59"/>
-            <ColumnDefinition Width="auto" MinWidth="130"/>
-            <ColumnDefinition Width="auto" MinWidth="270"/>
+            <ColumnDefinition Width="0"/>
+            <ColumnDefinition Width="0"/>
+            <ColumnDefinition Width="auto" MinWidth="65"/>
+            <ColumnDefinition Width="130" />
+            <ColumnDefinition Width="auto" MinWidth="60"/>
+            <ColumnDefinition Width="auto" MinWidth="100"/>
+            <ColumnDefinition Width="auto" MinWidth="240"/>
             <ColumnDefinition Width="auto" MinWidth="50"/>
-            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="auto" MinWidth="50"/>
+            <ColumnDefinition Width="auto" MinWidth="50"/>
+            <ColumnDefinition Width="20" MinWidth="20"/>
+            <ColumnDefinition Width="200" x:Name="ColDataGrid" MaxWidth="200"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
-            <RowDefinition Height="auto" MinHeight="20"/>
-            <RowDefinition Height="auto" MinHeight="45"/>
-            <RowDefinition Height="auto" MinHeight="45"/>
-            <RowDefinition Height="auto" MinHeight="45"/>
-            <RowDefinition Height="auto" MinHeight="45"/>
-            <RowDefinition Height="auto" MinHeight="45"/>
+            <RowDefinition Height="20" MinHeight="20"/>
+            <RowDefinition Height="45" MinHeight="45"/>
+            <RowDefinition Height="45" MinHeight="45"/>
+            <RowDefinition Height="45" MinHeight="45"/>
+            <RowDefinition Height="45" MinHeight="45"/>
+            <RowDefinition Height="45" MinHeight="45"/>
             <RowDefinition Height="20" MinHeight="20"/>
         </Grid.RowDefinitions>
 
@@ -54,185 +66,158 @@
         </TextBlock>-->
 
         <!-- BORDER for the first row -->
-        <Border Grid.Column="0" Grid.ColumnSpan="10" Grid.Row="0" Grid.RowSpan="2" Background="#FFE3EAEF"/>
+        <Border Grid.Column="0" Grid.ColumnSpan="11" Grid.Row="0" Grid.RowSpan="2" Background="#FFE3EAEF"/>
 
         <!-- The left text SELECT PROCESS -->
 
 
+        <!-- MENU ROW 0 -->
+        <Menu x:Name="TopMenu" VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="10">
+            <MenuItem Header="ATA" >
+                <MenuItem Header="Info" Click="Info_Click"/>
+            </MenuItem>
+
+            <MenuItem Header="Options" >
+                <MenuItem Header="Reset All" Click="ResetAll_Click"/>
+                <MenuItem Header="Reset and delete all" Click="ResetAndDeleteAll_Click"/>
+            </MenuItem>
+        </Menu>
 
 
         <!-- Header ROW 1-->
-        <TextBlock Grid.Row="1" Grid.Column="4" Text="Active" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Constantia" FontSize="16" TextDecorations="Underline"/>
-        <TextBlock Grid.Row="1" Grid.Column="3" Text="Name" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Constantia" FontSize="16" TextDecorations="Underline"/>
-        <TextBlock Grid.Row="1" Grid.Column="5" Text="Current UpTime" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Constantia" FontSize="16" TextDecorations="Underline"/>
-        <TextBlock Grid.Row="1" Grid.Column="6" Text="Total UpTime" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Constantia" FontSize="16" TextDecorations="Underline"/>
+        <TextBlock Grid.Row="1" Grid.Column="4" Text="Active" Style="{StaticResource styleForHeaderTextBlock}" />
+        <TextBlock Grid.Row="1" Grid.Column="3" Text="Name"  Style="{StaticResource styleForHeaderTextBlock}" />
+        <TextBlock Grid.Row="1" Grid.Column="5" Text="UpTime" Style="{StaticResource styleForHeaderTextBlock}" />
+        <TextBlock Grid.Row="1" Grid.Column="6" Text="Total UpTime"  Style="{StaticResource styleForHeaderTextBlock}" />
 
 
 
 
         <!-- First Process GRID ROW 2 -->
-        <Border Grid.Column="0" Grid.ColumnSpan="10" Grid.Row="2" Background="#FFD8E3ED"/>
-        <Button x:Name="setFirstProcess" Grid.Row="2" Grid.Column="2" Height="45" FontFamily="Consolas" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Width="64" Click="setFirstProcessButton_Click" FontStretch="Expanded" Foreground="#FF6B6B6B" >
-            <Image Source="/ar1.png" Height="30" Width="40" />
-            <Button.Style>
-                <Style TargetType="{x:Type Button}">
-                    <Setter Property="Background" Value="#FFD8E3ED"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type Button}">
-                                <Border Background="{TemplateBinding Background}">
-                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                    <Style.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="#FFEDF4F7"/>
-                            <Setter Property="Button.BorderBrush" Value="Black"/>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
+        <Border Grid.Column="0" Grid.ColumnSpan="11" Grid.Row="2" Background="#FFD8E3ED" Style="{StaticResource borderForButtonsStyle}" />
+        <Button x:Name="setFirstProcess" Grid.Row="2" Grid.Column="2" Style = "{StaticResource styleButtonKey}" Click="setFirstProcessButton_Click" BorderBrush="Black" BorderThickness="1,1,1,1">
+            <Image Source="img\ar1.ico" Height="30" Width="40" />
         </Button>
-        <TextBlock x:Name="firstProcessName" Grid.Row="2" Grid.Column="3" Text="(first proc)" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" FontWeight="Bold" FontSize="16" />
-        <TextBlock x:Name="firstProcessIsRun" Grid.Row="2" Grid.Column="4" Text="IsRun" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" FontWeight="Bold"/>
-        <TextBlock x:Name="firstProcessUpTime" Grid.Row="2" Grid.Column="5" Text="(first proc)" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0"  />
-        <TextBlock x:Name="firstProcessTotalUpTime" Grid.Row="2" Grid.Column="6" Text="TotalUpTime: (first proc)" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,-4,0" />
-        <Button x:Name="showFirstProcessAllTimes" Content="WIP" Grid.Row="2" Grid.Column="7" Height="30" IsEnabled="False" />
+        <TextBlock x:Name="firstProcessName" Grid.Row="2" Grid.Column="3" Text="(first proc)" Style="{StaticResource styleNameProcess}" />
+        <TextBlock x:Name="firstProcessIsRun" Grid.Row="2" Grid.Column="4" Text="IsRun" Style="{StaticResource styleIsRun}" />
+        <TextBlock x:Name="firstProcessUpTime" Grid.Row="2" Grid.Column="5" Text="(first proc)" Style="{StaticResource styleCurrentUptime}"  />
+        <TextBlock x:Name="firstProcessTotalUpTime" Grid.Row="2" Grid.Column="6" Text="TotalUpTime: (first proc)" Style="{StaticResource styleTotalUptime}" />
+        <Button x:Name="resetFirstButton" Grid.Row="2" Grid.Column="7" Style = "{StaticResource styleButtonKey}" IsEnabled="False" Click="resetFirstButton_Click" >
+            <Image Source="img\restarticon1.ico" Height="25" Width="25"/>
+        </Button>
+        <Button x:Name="showFirstProcessAllTimes" Grid.Row="2" Grid.Column="8" Style="{StaticResource styleButtonKey}" IsEnabled="False" Click="showFirstProcessAllTimes_Click" >
+            <Image Source="img\detailsicon.ico" Height="25" Width="25"/>
+        </Button>
+        <Button x:Name="deleteFirstButton" Grid.Row="2" Grid.Column="9" Style="{StaticResource styleButtonKey}" IsEnabled="False" Click="deleteFirstButton_Click" >
+            <Image Source="img\xicon.ico" Height="25" Width="25"/>
+        </Button>
+
 
 
 
         <!-- Second Process GRID ROW 3 -->
-        <Border Grid.Column="0" Grid.ColumnSpan="10" Grid.Row="3" Background="#FFC1D7E6"/>
-        <Button x:Name="setSecondProcess" Grid.Row="3" Grid.Column="2" FontFamily="Consolas" FontSize="14" FontWeight="Bold" Height="45" HorizontalAlignment="Right" VerticalAlignment="Center" Width="64" Click="setSecondProcess_Click" Foreground="#FF4C4949" >
-            <Image Source="/ar1.png" Height="30" Width="40" />
-            <Button.Style>
-                <Style TargetType="{x:Type Button}">
-                    <Setter Property="Background" Value="#FFC1D7E6"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type Button}">
-                                <Border Background="{TemplateBinding Background}">
-                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                    <Style.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="#FFEDF4F7"/>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
+        <Border Grid.Column="0" Grid.ColumnSpan="11" Grid.Row="3" Background="#FFC1D7E6"/>
+        <Button x:Name="setSecondProcess" Grid.Row="3" Grid.Column="2" Style="{StaticResource styleSecondRowButton}" FontFamily="Consolas" FontSize="14" FontWeight="Bold" Height="45" HorizontalAlignment="Right" VerticalAlignment="Center" Width="64" Click="setSecondProcess_Click" Foreground="#FF4C4949" >
+            <Image Source="img\ar1.ico" Height="30" Width="40" />
         </Button>
-        <TextBlock x:Name="secondProcessName" Grid.Row="3" Grid.Column="3" Text="(second proc)" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" FontWeight="Bold" FontSize="16" />
-        <TextBlock x:Name="secondProcessIsRun" Grid.Row="3" Grid.Column="4" Text="IsRun" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" FontWeight="Bold"/>
-        <TextBlock x:Name="secondProcessUpTime" Grid.Row="3" Grid.Column="5" Text="(second proc)"  HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0"/>
-        <TextBlock x:Name="secondProcessTotalUpTime" Grid.Row="3" Grid.Column="6" Text="TotalUpTime: (second proc)"  HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,0,0" />
-        <Button x:Name="showSecondProcessAllTimes" Content="WIP" Grid.Row="3" Grid.Column="7" Height="30" IsEnabled="False" />
+        <TextBlock x:Name="secondProcessName" Grid.Row="3" Grid.Column="3" Text="(second proc)" Style="{StaticResource styleNameProcess}" />
+        <TextBlock x:Name="secondProcessIsRun" Grid.Row="3" Grid.Column="4" Text="IsRun" Style="{StaticResource styleIsRun}" />
+        <TextBlock x:Name="secondProcessUpTime" Grid.Row="3" Grid.Column="5" Text="(second proc)" Style="{StaticResource styleCurrentUptime}" />
+        <TextBlock x:Name="secondProcessTotalUpTime" Grid.Row="3" Grid.Column="6" Text="TotalUpTime: (second proc)" Style="{StaticResource styleTotalUptime}" />
+        <Button x:Name="resetSecondButton" Grid.Row="3" Grid.Column="7" Style="{StaticResource styleSecondRowButton}" IsEnabled="False" Click="resetSecondButton_Click" >
+            <Image Source="img\restarticon1.ico" Height="25" Width="25"/>
+        </Button>
+        <Button x:Name="showSecondProcessAllTimes" Grid.Row="3" Grid.Column="8" Style="{StaticResource styleSecondRowButton}" IsEnabled="False" Click="showSecondProcessAllTimes_Click" >
+            <Image Source="img\detailsicon.ico" Height="25" Width="25"/>
+        </Button>
+        <Button x:Name="deleteSecondButton" Grid.Row="3" Grid.Column="9" Style="{StaticResource styleSecondRowButton}" IsEnabled="False" Click="deleteSecondButton_Click">
+            <Image Source="img\xicon.ico" Height="25" Width="25"/>
+        </Button>
+
 
 
 
         <!-- Third Process GRID ROW 4 -->
-        <Border Grid.Column="0" Grid.ColumnSpan="10" Grid.Row="4" Background="#FFAAD3E8"/>
-        <Button x:Name="setThirdProcess" Grid.Row="4" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Consolas" FontWeight="Bold" FontSize="14" Height="45" Width="64" Click="setThirdProcess_Click" >
-            <Image Source="/ar1.png" Height="30" Width="40" />
-            <Button.Style>
-                <Style TargetType="{x:Type Button}">
-                    <Setter Property="Background" Value="#FFAAD3E8"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type Button}">
-                                <Border Background="{TemplateBinding Background}">
-                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                    <Style.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="#FFEDF4F7"/>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
+        <Border Grid.Column="0" Grid.ColumnSpan="11" Grid.Row="4" Background="#FFAAD3E8"/>
+        <Button x:Name="setThirdProcess" Grid.Row="4" Grid.Column="2" Style="{StaticResource styleThirdRowButton}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Consolas" FontWeight="Bold" FontSize="14" Height="45" Width="64" Click="setThirdProcess_Click" >
+            <Image Source="img\ar1.ico" Height="30" Width="40" />
         </Button>
-        <TextBlock x:Name="thirdProcessName" Grid.Row="4" Grid.Column="3" Text="(third proc)" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" FontSize="16" FontWeight="Bold" />
-        <TextBlock x:Name="thirdProcessIsRun" Grid.Row="4" Grid.Column="4" Text="IsRun" HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="16" FontWeight="Bold"/>
-        <TextBlock x:Name="thirdProcessUpTime" Grid.Row="4" Grid.Column="5" Text="(third proc)" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" />
-        <TextBlock x:Name="thirdProcessTotalUpTime" Grid.Row="4" Grid.Column="6" Text="TotalUpTime: (third proc)" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,0,0"  />
-        <Button x:Name="showThirdProcessAllTimes" Content="WIP" Grid.Row="4" Grid.Column="7" Height="30" IsEnabled="False" />
+        <TextBlock x:Name="thirdProcessName" Grid.Row="4" Grid.Column="3" Text="(third proc)" Style="{StaticResource styleNameProcess}" />
+        <TextBlock x:Name="thirdProcessIsRun" Grid.Row="4" Grid.Column="4" Text="IsRun" Style="{StaticResource styleIsRun}" />
+        <TextBlock x:Name="thirdProcessUpTime" Grid.Row="4" Grid.Column="5" Text="(third proc)" Style="{StaticResource styleCurrentUptime}" />
+        <TextBlock x:Name="thirdProcessTotalUpTime" Grid.Row="4" Grid.Column="6" Text="TotalUpTime: (third proc)" Style="{StaticResource styleTotalUptime}" />
+        <Button x:Name="resetThirdButton" Grid.Row="4" Grid.Column="7" Style="{StaticResource styleThirdRowButton}" IsEnabled="False" Click="resetThirdButton_Click" >
+            <Image Source="img\restarticon1.ico" Height="25" Width="25"/>
+        </Button>
+        <Button x:Name="showThirdProcessAllTimes" Grid.Row="4" Grid.Column="8" Style="{StaticResource styleThirdRowButton}" IsEnabled="False" Click="showThirdProcessAllTimes_Click" >
+            <Image Source="img\detailsicon.ico" Height="25" Width="25"/>
+        </Button>
+        <Button x:Name="deleteThirdButton" Grid.Row="4" Grid.Column="9" Style="{StaticResource styleThirdRowButton}" IsEnabled="False" Click="deleteThirdButton_Click">
+            <Image Source="img\xicon.ico" Height="25" Width="25"/>
+        </Button>
 
 
         <!-- Fourth Process GRID ROW 5 -->
-        <Border Grid.Column="0" Grid.ColumnSpan="10" Grid.Row="5" Background="#FF90CCEA"/>
-        <Button x:Name="setFourthProcess" Grid.Row="5" Grid.Column="2" Width="64" Height="45" FontFamily="Consolas" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Click="setFourthProcess_Click" >
-            <Image Source="/ar1.png" Height="30" Width="40" />
-
-            <Button.Style>
-                <Style TargetType="{x:Type Button}">
-                    <Setter Property="Background" Value="#FF90CCEA"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type Button}">
-                                <Border Background="{TemplateBinding Background}">
-                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                    <Style.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="#FFEDF4F7"/>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
-
+        <Border Grid.Column="0" Grid.ColumnSpan="11" Grid.Row="5" Background="#FF90CCEA"/>
+        <Button x:Name="setFourthProcess" Grid.Row="5" Grid.Column="2" Style="{StaticResource styleFourthRowButtons}" Width="64" Height="45" FontFamily="Consolas" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Click="setFourthProcess_Click" >
+            <Image Source="img\ar1.ico" Height="30" Width="40" />
         </Button>
-        <TextBlock x:Name="fourthProcessName" Grid.Row="5" Grid.Column="3" Text="(fourth proc)" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" FontWeight="Bold" FontSize="16" />
-        <TextBlock x:Name="fourthProcessIsRun" Grid.Row="5" Grid.Column="4" Text="IsRun" HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="16" FontWeight="Bold"/>
-        <TextBlock x:Name="fourthProcessUpTime" Grid.Row="5" Grid.Column="5" Text="(fourth proc)" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" />
-        <TextBlock x:Name="fourthProcessTotalUpTime" Grid.Row="5" Grid.Column="6" Text="TotalUpTime: (fourth proc)" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,0,0"  />
-        <Button x:Name="showFourthProcessAllTimes" Content="WIP" Grid.Row="5" Grid.Column="7" Height="30" IsEnabled="False"/>
+        <TextBlock x:Name="fourthProcessName" Grid.Row="5" Grid.Column="3" Text="(fourth proc)" Style="{StaticResource styleNameProcess}" />
+        <TextBlock x:Name="fourthProcessIsRun" Grid.Row="5" Grid.Column="4" Text="IsRun" Style="{StaticResource styleIsRun}" />
+        <TextBlock x:Name="fourthProcessUpTime" Grid.Row="5" Grid.Column="5" Text="(fourth proc)" Style="{StaticResource styleCurrentUptime}" />
+        <TextBlock x:Name="fourthProcessTotalUpTime" Grid.Row="5" Grid.Column="6" Text="TotalUpTime: (fourth proc)" Style="{StaticResource styleTotalUptime}"  />
+        <Button x:Name="resetFourthButton" Grid.Row="5" Grid.Column="7" Style="{StaticResource styleFourthRowButtons}" IsEnabled="False" Click="resetFourthButton_Click">
+            <Image Source="img\restarticon1.ico" Height="25" Width="25"/>
+        </Button>
+        <Button x:Name="showFourthProcessAllTimes" Grid.Row="5" Grid.Column="8" Style="{StaticResource styleFourthRowButtons}" IsEnabled="False" Click="showFourthProcessAllTimes_Click">
+            <Image Source="img\detailsicon.ico" Height="25" Width="25"/>
+        </Button>
+        <Button x:Name="deleteFourthButton" Grid.Row="5" Grid.Column="9" Style="{StaticResource styleFourthRowButtons}" IsEnabled="False" Click="deleteFourthButton_Click">
+            <Image Source="img\xicon.ico" Height="25" Width="25"/>
+        </Button>
 
 
         <!-- Fifth Process GRID ROW 6 -->
-        <Border Grid.Column="0" Grid.ColumnSpan="10" Grid.Row="6" Background="#FF7DB3EA"/>
-        <Button x:Name="setFifthProcess"  Grid.Row="6" Grid.Column="2" Height="45" Width="64" FontFamily="Consolas" FontWeight="Bold" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" Click="setFifthProcess_Click" Cursor="Arrow" >
-            <Image Source="/ar1.png" Height="30" Width="40" />
-            <Button.Style>
-                <Style TargetType="{x:Type Button}">
-                    <Setter Property="Background" Value="#FF7DB3EA"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type Button}">
-                                <Border Background="{TemplateBinding Background}">
-                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                    <Style.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="#FFEDF4F7"/>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
-
+        <Border Grid.Column="0" Grid.ColumnSpan="11" Grid.Row="6" Background="#FF7DB3EA"/>
+        <Button x:Name="setFifthProcess"  Grid.Row="6" Grid.Column="2" Style="{StaticResource styleFifthRowButtons}" Height="45" Width="64" FontFamily="Consolas" FontWeight="Bold" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" Click="setFifthProcess_Click" Cursor="Arrow" >
+            <Image Source="img\ar1.ico" Height="30" Width="40" />
         </Button>
-        <TextBlock x:Name="fifthProcessName" Grid.Row="6" Grid.Column="3" Text="(fifth proc)" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" FontWeight="Bold" FontSize="16" />
-        <TextBlock x:Name="fifthProcessIsRun" Grid.Row="6" Grid.Column="4" Text="IsRun" HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="16" TextAlignment="Center" FontWeight="Bold"/>
-        <TextBlock x:Name="fifthProcessUpTime" Grid.Row="6" Grid.Column="5" Text="(fifth proc)" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0"/>
-        <TextBlock x:Name="fifthProcessTotalUpTime" Grid.Row="6" Grid.Column="6" Text="TotalUpTime: (fifth proc)" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,0,0"  />
-        <Button x:Name="showFifthProcessAllTimes" Content="WIP" Grid.Row="6" Grid.Column="7" Height="30" IsEnabled="False"/>
+        <TextBlock x:Name="fifthProcessName" Grid.Row="6" Grid.Column="3" Text="(fifth proc)" Style="{StaticResource styleNameProcess}" />
+        <TextBlock x:Name="fifthProcessIsRun" Grid.Row="6" Grid.Column="4" Text="IsRun" Style="{StaticResource styleIsRun}" />
+        <TextBlock x:Name="fifthProcessUpTime" Grid.Row="6" Grid.Column="5" Text="(fifth proc)" Style="{StaticResource styleCurrentUptime}" />
+        <TextBlock x:Name="fifthProcessTotalUpTime" Grid.Row="6" Grid.Column="6" Text="TotalUpTime: (fifth proc)" Style="{StaticResource styleTotalUptime}" />
+        <Button x:Name="resetFifthButton" Grid.Row="6" Grid.Column="7" Style="{StaticResource styleFifthRowButtons}"  IsEnabled="False" Click="resetFifthtButton_Click">
+            <Image Source="img\restarticon1.ico" Height="25" Width="25"/>
+        </Button>
+        <Button x:Name="showFifthProcessAllTimes" Grid.Row="6" Grid.Column="8" Style="{StaticResource styleFifthRowButtons}" IsEnabled="False" Click="showFifthProcessAllTimes_Click">
+            <Image Source="img\detailsicon.ico" Height="25" Width="25"/>
+        </Button>
+        <Button x:Name="deleteFifthButton" Grid.Row="6" Grid.Column="9" Style="{StaticResource styleFifthRowButtons}" Width="50" IsEnabled="False" Click="deleteFifthButton_Click">
+            <Image Source="img\xicon.ico" Height="25" Width="25"/>
+        </Button>
 
 
+        <!-- THE DETAILS SECTION -->
+        <DataGrid Style="{StaticResource styleDataGrid}" x:Name="detailsDataGrid" ItemsSource="{Binding}" AutoGenerateColumns="False" Grid.Column="11"  Grid.Row="0" Grid.RowSpan="7" CanUserResizeColumns="False" CanUserResizeRows="False" >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Date" Binding="{Binding UpDate}" HeaderStyle="{StaticResource styleDataGridColumnHeader}" Width="105" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Time" Binding="{Binding UpMinutes}" HeaderStyle="{StaticResource styleDataGridColumnHeader}" Width="70" IsReadOnly="True"/>
+            </DataGrid.Columns>
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="Background" Value="#FF51D3FF"/>
+                    <Setter Property="IsEnabled" Value="True"/>
+                    <Setter Property="Focusable" Value="False"/>
+                    <Setter Property="Height" Value="22"/>
+                    <Setter Property="FontSize" Value="12"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                    
+                </Style>
+            </DataGrid.RowStyle>
+        </DataGrid>
 
-        <Border Grid.Column="0" Grid.ColumnSpan="10" Grid.Row="7" Grid.RowSpan="2" Background="#FF68A5E2"/>
+
+        <Border Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="12" Background="#FF70AEED"/>
 
 
 
@@ -241,15 +226,23 @@
         <Border Grid.Column="3" Grid.Row="1" Grid.RowSpan="6" BorderBrush="#FF676767" BorderThickness="0,0,1,0"/>
         <Border Grid.Column="4" Grid.Row="1" Grid.RowSpan="6" BorderBrush="#FF676767" BorderThickness="0,0,1,0"/>
         <Border Grid.Column="5" Grid.Row="1" Grid.RowSpan="6" BorderBrush="#FF676767" BorderThickness="0,0,1,0"/>
+        <Border Grid.Column="6" Grid.Row="1" Grid.RowSpan="6" BorderBrush="#FF676767" BorderThickness="0,0,1,0"/>
 
-        <Border Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="7" BorderBrush="#FF676767" BorderThickness="0,1,0,0"/>
-        <Border Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="7" BorderBrush="#FF676767" BorderThickness="0,1,0,0"/>
-        <Border Grid.Column="2" Grid.Row="5" Grid.ColumnSpan="6" BorderBrush="#FF676767" BorderThickness="0,1,0,0"/>
-        <Border Grid.Column="2" Grid.Row="6" Grid.ColumnSpan="6" BorderBrush="#FF676767" BorderThickness="0,1,0,0"/>
+        <Border Grid.Column="10" Grid.Row="0" Grid.RowSpan="7" BorderBrush="#FF676767" BorderThickness="0,0,1,0"/>
+
+
+        <!-- HORIZONTAL BORDERS BETWEEN CELLS -->
+        <Border Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="9" BorderBrush="#FF676767" BorderThickness="0,1,0,0"/>
+        <Border Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="9" BorderBrush="#FF676767" BorderThickness="0,1,0,0"/>
+        <Border Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="9" BorderBrush="#FF676767" BorderThickness="0,1,0,0"/>
+        <Border Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="9" BorderBrush="#FF676767" BorderThickness="0,1,0,0"/>
 
         <!-- END OF BORDERS -->
 
 
 
     </Grid>
+
+   
+  
 </Window>

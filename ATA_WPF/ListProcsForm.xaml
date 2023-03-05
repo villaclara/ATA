@@ -30,16 +30,11 @@
         
         
         <!-- ROW 1 THE HEADER  -->
-        <TextBlock Grid.Row="1" Grid.Column="1" Text="Active Processes &#10; Choose one and press set" FontSize="14"/>
+        <TextBlock Grid.Row="1" Grid.Column="1" Text="Active Processes &#10;Choose one and press set." FontSize="14" Style="{StaticResource styleCurrentUptime}" />
        
         
         <!-- ROW 2 THE LISTBOX -->
         <ListBox x:Name="ProcsList" Grid.Row="2" Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Visible" Height="320" Background="#FFD7D7F3">
-            <!--<ListBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Path=ProcessName}"/>
-                </DataTemplate>
-            </ListBox.ItemTemplate>-->
         </ListBox>
 
 

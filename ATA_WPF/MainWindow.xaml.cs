@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -11,6 +12,7 @@ using System.Windows.Automation.Provider;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -36,13 +38,21 @@ namespace ATA_WPF
         {
             InitializeComponent();
 
+            this.Width = 765;
+            this.Height = 320;
+
             createIfNeededStartingFile();
 
             initializeProcesses();
 
-            DisplayStartingInfo();         
+            DisplayStartingInfo();
 
-            
+#if DEBUG
+
+            System.Windows.MessageBox.Show("Debug mode");
+
+
+#else
             // Icon and delegate for displaying minimized icon in the taskbar
             // delegate == event
             System.Windows.Forms.NotifyIcon nico = new System.Windows.Forms.NotifyIcon();
@@ -60,6 +70,8 @@ namespace ATA_WPF
             // adding registry key to launch app on windows startup
             RegistryKey reg = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
             reg.SetValue("ATA", Process.GetCurrentProcess().MainModule.FileName.ToString());
+
+#endif
         }
 
 
@@ -116,11 +128,11 @@ namespace ATA_WPF
         // one function for all info
         private void DisplayAllInfo()
         {
-            DisplayInfo(processArray[0], 0, pName: firstProcessName, pUpTime: firstProcessUpTime, pTotalUpTime: firstProcessTotalUpTime, isRun: firstProcessIsRun);
-            DisplayInfo(processArray[1], 1, pName: secondProcessName, pUpTime: secondProcessUpTime, pTotalUpTime: secondProcessTotalUpTime, isRun: secondProcessIsRun);
-            DisplayInfo(processArray[2], 2, pName: thirdProcessName, pUpTime: thirdProcessUpTime, pTotalUpTime: thirdProcessTotalUpTime, isRun: thirdProcessIsRun);
-            DisplayInfo(processArray[3], 3, pName: fourthProcessName, pUpTime: fourthProcessUpTime, pTotalUpTime: fourthProcessTotalUpTime, isRun: fourthProcessIsRun);
-            DisplayInfo(processArray[4], 4, pName: fifthProcessName, pUpTime: fifthProcessUpTime, pTotalUpTime: fifthProcessTotalUpTime, isRun: fifthProcessIsRun);
+            DisplayInfo(processArray[0], 0, pName: firstProcessName, pUpTime: firstProcessUpTime, pTotalUpTime: firstProcessTotalUpTime, isRun: firstProcessIsRun, resetFirstButton, showFirstProcessAllTimes, deleteFirstButton);
+            DisplayInfo(processArray[1], 1, pName: secondProcessName, pUpTime: secondProcessUpTime, pTotalUpTime: secondProcessTotalUpTime, isRun: secondProcessIsRun, resetSecondButton, showSecondProcessAllTimes, deleteSecondButton);
+            DisplayInfo(processArray[2], 2, pName: thirdProcessName, pUpTime: thirdProcessUpTime, pTotalUpTime: thirdProcessTotalUpTime, isRun: thirdProcessIsRun, resetThirdButton, showThirdProcessAllTimes, deleteThirdButton);
+            DisplayInfo(processArray[3], 3, pName: fourthProcessName, pUpTime: fourthProcessUpTime, pTotalUpTime: fourthProcessTotalUpTime, isRun: fourthProcessIsRun, resetFourthButton, showFourthProcessAllTimes, deleteFourthButton);
+            DisplayInfo(processArray[4], 4, pName: fifthProcessName, pUpTime: fifthProcessUpTime, pTotalUpTime: fifthProcessTotalUpTime, isRun: fifthProcessIsRun, resetFifthButton, showFifthProcessAllTimes, deleteFifthButton);
         }
 
 
@@ -172,12 +184,13 @@ namespace ATA_WPF
 
 
         // checks the process and calls the displayinfoprocess
-        public void DisplayInfo (ProcInstanceClass proc, int procIndex, TextBlock pName, TextBlock pUpTime, TextBlock pTotalUpTime, TextBlock isRun)
+        public void DisplayInfo (ProcInstanceClass proc, int procIndex, TextBlock pName, TextBlock pUpTime, TextBlock pTotalUpTime, TextBlock isRun, System.Windows.Controls.Button restart, System.Windows.Controls.Button details, System.Windows.Controls.Button delete)
         {
             // get name of searched process to display info
             string name = WorkerWithFileClass.getProcessFromFileWithGivenIndex(procIndex);
             if (name == "empty")
             {
+
                 return;
             }
 
@@ -186,6 +199,7 @@ namespace ATA_WPF
             if (proc.process == null && DifferentFunctions.checkIfProcessIsRunningWithStringName(name) == true)
             {
                 proc.process = ProcInstanceClass.getProcByName(name);
+
             }
 
             proc.setIsPreviousRunning();
@@ -195,14 +209,43 @@ namespace ATA_WPF
             if (DifferentFunctions.checkIfProcessIsRunningWithStringName(name) == false)
             {
                 proc.process = null;
+               
             }
 
+            // enabling / disabling buttons on the rigth side
+            setRightButtonsIsEnabled(restart, details, delete, proc);
+
+
+            // display info
             DisplayInfoProcess(proc,  pName,  pUpTime,  pTotalUpTime, isRun);
 
         }
 
+       
+
+        // enables or disables right buttons - restart, details and delete
+        // checks the procinstance.procName variable
+        private void setRightButtonsIsEnabled(System.Windows.Controls.Button restart, System.Windows.Controls.Button details, System.Windows.Controls.Button delete, ProcInstanceClass proc)
+        {
+            if (proc.ProcName == "")
+            {
+                restart.IsEnabled = false;
+                details.IsEnabled = false;
+                delete.IsEnabled = false;
+            }
+
+            else
+            {
+                restart.IsEnabled = true;
+                details.IsEnabled = true;
+                delete.IsEnabled = true;
+
+            }
+        }
 
 
+
+        #region PROCESS EVENTS REGION
 
         // TO USE IN NEXT UPDATE
         //
@@ -252,13 +295,23 @@ namespace ATA_WPF
         // MB WILL LATER USE
         private void Proc_Ended (object sender, ProcessHandlerEventArgs e)
         {
-            MessageBox.Show(e.ProcIndex.ToString());
+            System.Windows.MessageBox.Show(e.ProcIndex.ToString());
             processArray[e.ProcIndex].process = null;
 
             
         }
 
+        #endregion END PROCESS EVENTS REGION
 
+        private void showMessagebox (string message, string title, MessageBoxButton messageBoxButtons)
+        {
+            System.Windows.MessageBox.Show(message, title, messageBoxButtons);
+        }
+
+
+
+
+        #region SET BUTTONS
         //////////////////////////////////////////////////////////////////////////////////
         //
         // SECTION FOR SET BUTTONS 
@@ -283,7 +336,12 @@ namespace ATA_WPF
                 WorkerWithFileClass.writeToFileInfoAboutOneProcFromSetProcButton(processArray[0]);
                 ProcInstanceClass.selectedProc = "";
                 DisplayInfoProcess(processArray[0], firstProcessName, firstProcessUpTime, firstProcessTotalUpTime, firstProcessIsRun);
-           
+
+
+                resetFirstButton.IsEnabled = true;
+                showFirstProcessAllTimes.IsEnabled = true;
+                deleteFirstButton.IsEnabled = true;
+                
             }
 
 
@@ -308,6 +366,9 @@ namespace ATA_WPF
                 DisplayInfoProcess(processArray[1], secondProcessName, secondProcessUpTime, secondProcessTotalUpTime, secondProcessIsRun);
 
 
+                resetSecondButton.IsEnabled = true;
+                showSecondProcessAllTimes.IsEnabled = true;
+                deleteSecondButton.IsEnabled = true;
             }
         }
 
@@ -329,6 +390,10 @@ namespace ATA_WPF
                 ProcInstanceClass.selectedProc = "";
                 DisplayInfoProcess(processArray[2], thirdProcessName, thirdProcessUpTime, thirdProcessTotalUpTime, thirdProcessIsRun);
 
+
+                resetThirdButton.IsEnabled = true;
+                showThirdProcessAllTimes.IsEnabled = true;
+                deleteThirdButton.IsEnabled = true;
             }
         }
 
@@ -350,6 +415,10 @@ namespace ATA_WPF
                 ProcInstanceClass.selectedProc = "";
                 DisplayInfoProcess(processArray[3], fourthProcessName, fourthProcessUpTime, fourthProcessTotalUpTime, fourthProcessIsRun);
 
+
+                resetFourthButton.IsEnabled = true;
+                showFourthProcessAllTimes.IsEnabled = true;
+                deleteFourthButton.IsEnabled = true;
             }
         }
 
@@ -371,13 +440,425 @@ namespace ATA_WPF
                 ProcInstanceClass.selectedProc = "";
                 DisplayInfoProcess(processArray[4], fifthProcessName, fifthProcessUpTime, fifthProcessTotalUpTime, fifthProcessIsRun);
 
+
+                resetFifthButton.IsEnabled = true;
+                showFifthProcessAllTimes.IsEnabled = true;
+                deleteFifthButton.IsEnabled = true;
+                
             }
         }
+
+
 
         //
         // END OF SET BUTTONS
         //
         //////////////////////////////////////////////////////////////////////////////////
 
+        #endregion SET BUTTONS
+
+        //
+        //////////////////////////////////////////////////////////////////////////////////
+        //
+        // ANOTHER BUTTONS
+
+
+        // clik on button from the topbar menu
+        // Reset All
+        private void ResetAll_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = System.Windows.MessageBox.Show("Are you sure? All will be restarted.", "WTF", MessageBoxButton.YesNo);
+
+            if (result == MessageBoxResult.No)
+            {
+                return;
+            }
+            ProcInstanceClass procInstanceNull = new();
+            for (int i = 0; i < processArray.Length; i++)
+            {
+                processArray[i] = procInstanceNull;
+            }
+
+
+            File.WriteAllText(DifferentFunctions.fileWithProcesses, "");
+            WorkerWithFileClass.createDefault();
+            DisplayAllInfo();
+
+
+        }
+
+
+        #region RESET BUTTONS REGION
+
+        // click on Reset all and delete button from topbar menu
+        private void ResetAndDeleteAll_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = System.Windows.MessageBox.Show("Are you sure? EVERYTHING will be deleted", "WTF", MessageBoxButton.YesNo);
+
+            if (result == MessageBoxResult.No)
+            {
+                return;
+            }
+            ProcInstanceClass procInstanceNull = new();
+            for (int i = 0; i < 5; i++)
+            {
+                processArray[i] = procInstanceNull;
+                WorkerWithFileClass.writeProcessToFileAtIndex(i, "empty");
+            }
+            DisplayAllInfo();
+
+
+        }
+
+        private void resetFirstButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = System.Windows.MessageBox.Show("Are you sure? The time will be restarted.", "WTF", MessageBoxButton.YesNo);
+
+            if (result == MessageBoxResult.No)
+            {
+                return;
+            }
+            // trying to reset buttons and if could not do then show messsage
+            if (!DifferentFunctions.resetTotalUptime(processArray[0]))
+            {
+                showMessagebox(message: "Application is currently running. Please close the app and try again.", title: "NOT DONE CLOWN", MessageBoxButton.OK);
+            }
+            
+            else
+            {
+                DisplayInfo(processArray[0], 0, pName: firstProcessName, pUpTime: firstProcessUpTime, pTotalUpTime: firstProcessTotalUpTime, isRun: firstProcessIsRun, resetFirstButton, showFirstProcessAllTimes, deleteFirstButton);
+            }
+
+        }
+
+        private void resetSecondButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = System.Windows.MessageBox.Show("Are you sure? The time will be restarted.", "WTF", MessageBoxButton.YesNo);
+
+            if (result == MessageBoxResult.No)
+            {
+                return;
+            }
+            // trying to reset buttons and if could not do then show messsage
+            if (!DifferentFunctions.resetTotalUptime(processArray[1]))
+            {
+                showMessagebox(message: "Application is currently running. Please close the app and try again.", title: "NOT DONE CLOWN", MessageBoxButton.OK);
+            }
+
+            else
+            {
+                DisplayInfo(processArray[1], 1, pName: secondProcessName, pUpTime: secondProcessUpTime, pTotalUpTime: secondProcessTotalUpTime, isRun: secondProcessIsRun, resetSecondButton, showSecondProcessAllTimes, deleteSecondButton);
+            }
+
+        }
+
+        private void resetThirdButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = System.Windows.MessageBox.Show("Are you sure? The time will be restarted.", "WTF", MessageBoxButton.YesNo);
+
+            if (result == MessageBoxResult.No)
+            {
+                return;
+            }
+            // trying to reset buttons and if could not do then show messsage
+            if (!DifferentFunctions.resetTotalUptime(processArray[2]))
+            {
+                showMessagebox(message: "Application is currently running. Please close the app and try again.", title: "NOT DONE CLOWN", MessageBoxButton.OK);
+            }
+
+            else
+            {
+                DisplayInfo(processArray[2], 2, pName: thirdProcessName, pUpTime: thirdProcessUpTime, pTotalUpTime: thirdProcessTotalUpTime, isRun: thirdProcessIsRun, resetThirdButton, showThirdProcessAllTimes, deleteThirdButton);
+            }
+
+        }
+
+        private void resetFourthButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = System.Windows.MessageBox.Show("Are you sure? The time will be restarted.", "WTF", MessageBoxButton.YesNo);
+
+            if (result == MessageBoxResult.No)
+            {
+                return;
+            }
+            // trying to reset buttons and if could not do then show messsage
+            if (!DifferentFunctions.resetTotalUptime(processArray[3]))
+            {
+                showMessagebox(message: "Application is currently running. Please close the app and try again.", title: "NOT DONE CLOWN", MessageBoxButton.OK);
+            }
+
+            else
+            {
+                DisplayInfo(processArray[3], 3, pName: fourthProcessName, pUpTime: fourthProcessUpTime, pTotalUpTime: fourthProcessTotalUpTime, isRun: fourthProcessIsRun, resetFourthButton, showFourthProcessAllTimes, deleteFourthButton);
+            }
+
+        }
+
+        private void resetFifthtButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            MessageBoxResult result = System.Windows.MessageBox.Show("Are you sure? The time will be restarted.", "WTF", MessageBoxButton.YesNo);
+
+            if (result == MessageBoxResult.No)
+            {
+                return;
+            }
+
+            // trying to reset buttons and if could not do then show messsage
+            if (!DifferentFunctions.resetTotalUptime(processArray[4]))
+            {
+                showMessagebox(message: "Application is currently running. Please close the app and try again.", title: "NOT DONE CLOWN", MessageBoxButton.OK);
+            }
+
+            else
+            {
+                DisplayInfo(processArray[4], 4, pName: fifthProcessName, pUpTime: fifthProcessUpTime, pTotalUpTime: fifthProcessTotalUpTime, isRun: fifthProcessIsRun, resetFifthButton, showFifthProcessAllTimes, deleteFifthButton);
+            }
+
+        }
+
+        #endregion RESET BUTTONS END REGION
+
+
+        #region SHOW ALL TIME BUTTONS CLICK
+
+
+        private bool isClickedFirst = false;
+        private bool isClickedSecond = false;
+        private bool isClickedThird = false;
+        private bool isClickedFourth = false;
+        private bool isClickedFifth = false;
+
+        // firstbutton show all time
+        // increases window size and then displaying meessage
+        // or if clicked again then just sets the normal window
+        private void showFirstProcessAllTimes_Click(object sender, RoutedEventArgs e)
+        {
+            setWidthWindowWithBooleanAndShowDetails(isClickedFirst, 0);
+        }
+
+        private void showSecondProcessAllTimes_Click(object sender, RoutedEventArgs e)
+        {
+            setWidthWindowWithBooleanAndShowDetails(isClickedSecond, 1);
+        }
+
+        private void showThirdProcessAllTimes_Click(object sender, RoutedEventArgs e)
+        {
+            setWidthWindowWithBooleanAndShowDetails(isClickedThird, 2);
+        }
+
+        private void showFourthProcessAllTimes_Click(object sender, RoutedEventArgs e)
+        {
+            setWidthWindowWithBooleanAndShowDetails(isClickedFourth, 3);
+        }
+
+        private void showFifthProcessAllTimes_Click(object sender, RoutedEventArgs e)
+        {
+            setWidthWindowWithBooleanAndShowDetails(isClickedFifth, 5);
+        }
+
+
+
+
+
+
+        #endregion SHOW ALL TIME BUTTONS END
+
+        private bool deleteFile (string filename)
+        {
+            MessageBoxResult result = System.Windows.MessageBox.Show("Are you sure? The time will be permanently deleted.", "WTF", MessageBoxButton.YesNo);
+
+            if (result == MessageBoxResult.No)
+            {
+                return false;
+            }
+
+            if (File.Exists(filename))
+            {
+                File.Delete(filename);
+            }
+
+            return true;
+        }
+
+        #region DELETE BUTTONS REGION
+
+
+
+        // ALL buttons do the same behavior
+        //
+        // 1. calls function that shows messagebox with confirmation on delete
+        // 2. if the answer is YES then deletes the file and returns true and go to step 4
+        // 3. if the answer is NO then return back
+        // 4. assigning new empty variable to appropriate member of array of procInstances
+        // 5. writing 'empty' word to the fileWithProcesses text file - procs.txt
+        // 6. displaying updated info
+        private void deleteSecondButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (!deleteFile(processArray[1].fileNameToWriteInfo))
+            {
+                return;
+            }
+
+            ProcInstanceClass procInstanceNull = new();
+            processArray[1] = procInstanceNull;
+            WorkerWithFileClass.writeProcessToFileAtIndex(1, "empty");
+            DisplayInfo(processArray[1],
+                        1,
+                        secondProcessName,
+                        secondProcessUpTime,
+                        secondProcessTotalUpTime,
+                        secondProcessIsRun,
+                        resetSecondButton,
+                        showSecondProcessAllTimes,
+                        deleteSecondButton);
+
+            this.Width = 765;
+            isClickedFirst = false;
+
+
+        }
+
+        private void deleteFirstButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!deleteFile(processArray[0].fileNameToWriteInfo))
+            {
+                return;
+            }
+
+
+            ProcInstanceClass procInstanceNull = new();
+            processArray[0] = procInstanceNull;
+            WorkerWithFileClass.writeProcessToFileAtIndex(0, "empty");
+            DisplayInfo(processArray[0],
+                        0,
+                        firstProcessName,
+                        firstProcessUpTime,
+                        firstProcessTotalUpTime,
+                        firstProcessIsRun,
+                        resetFirstButton,
+                        showFirstProcessAllTimes,
+                        deleteFirstButton);
+
+
+            this.Width = 765;
+            isClickedFirst = false;
+
+
+        }
+
+        private void deleteThirdButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!deleteFile(processArray[2].fileNameToWriteInfo))
+            {
+                return;
+            }
+
+            ProcInstanceClass procInstanceNull = new();
+            processArray[2] = procInstanceNull;
+            WorkerWithFileClass.writeProcessToFileAtIndex(2, "empty");
+            DisplayInfo(processArray[2],
+                2,
+               thirdProcessName,
+               thirdProcessUpTime,
+               thirdProcessTotalUpTime,
+               thirdProcessIsRun,
+               resetThirdButton,
+               showThirdProcessAllTimes,
+               deleteThirdButton);
+
+            this.Width = 765;
+            isClickedFirst = false;
+
+
+        }
+
+        private void deleteFourthButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!deleteFile(processArray[3].fileNameToWriteInfo))
+            {
+                return;
+            }
+
+            ProcInstanceClass procInstanceNull = new();
+            processArray[3] = procInstanceNull;
+            WorkerWithFileClass.writeProcessToFileAtIndex(3, "empty");
+            DisplayInfo(processArray[3],
+                3,
+                fourthProcessName,
+                fourthProcessUpTime,
+                fourthProcessTotalUpTime,
+                fourthProcessIsRun,
+                resetFourthButton,
+                showFourthProcessAllTimes,
+                deleteFourthButton);
+
+            this.Width = 765;
+            isClickedFirst = false;
+
+
+        }
+
+        private void deleteFifthButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (!deleteFile(processArray[4].fileNameToWriteInfo))
+            {
+                return;
+            }
+
+            ProcInstanceClass procInstanceNull = new();
+            processArray[4] = procInstanceNull;
+            WorkerWithFileClass.writeProcessToFileAtIndex(4, "empty");
+            DisplayInfo(processArray[4],
+                4,
+                fifthProcessName,
+                fifthProcessUpTime,
+                fifthProcessTotalUpTime,
+                fifthProcessIsRun,
+                resetFifthButton,
+                showFifthProcessAllTimes,
+                deleteFifthButton);
+            this.Width = 765;
+            isClickedFirst = false;
+
+
+        }
+
+        #endregion DELETE BUTTONS END REGION
+
+        private void Info_Click(object sender, RoutedEventArgs e)
+        {
+            InfoWindow infoWindow = new InfoWindow();
+            infoWindow.Show();
+        }
+
+        private void setWidthWindowWithBooleanAndShowDetails (bool isClicked, int index)
+        {
+            if (!isClickedFirst)
+            {
+                this.Width = 985;
+                isClickedFirst = true;
+
+                showDetailsWithGivenProcessIndex(index);
+            }
+
+            else
+            {
+                this.Width = 765;
+                isClickedFirst = false;
+            }
+        }
+
+        private void showDetailsWithGivenProcessIndex(int index)
+        {
+            IEnumerable<UpTime> upTimes = processArray[index].retrieveListOfUpTimesForCurrentProcess(processArray[index].fileNameToWriteInfo);
+
+            detailsDataGrid.DataContext = upTimes;
+
+        }
+
+       
     }
 }

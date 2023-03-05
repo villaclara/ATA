@@ -1,0 +1,50 @@
+﻿<Window x:Class="ATA_WPF.InfoWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ATA_WPF"
+        mc:Ignorable="d"
+        Title="Info" Height="450" Width="600"
+        FontFamily="Cascadia Mono"
+        ResizeMode="NoResize"
+        >
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="20" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="20" />
+        </Grid.RowDefinitions>
+
+
+
+        <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource styleInfoTextBlock}" Text="Info about all features" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Cascadia Mono" FontWeight="Bold" FontSize="16"/>
+        <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource styleInfoTextBlock}" >
+            <Image Source="img\ar1.ico" Height="20" Width="20"/>
+            <Run> - press to set the programm and track its active time.</Run>
+        </TextBlock>
+        <TextBlock Grid.Row="3" Grid.Column="1" Style="{StaticResource styleInfoTextBlock}">
+            <Image Source="img\restarticon1.ico" Height="20" Width="20"/>
+            <Run>- Restart time button. Allows you to reset tracked time. If you want restart all times then go Options -> Reset All.</Run>
+        </TextBlock>
+        <TextBlock Grid.Row="4" Grid.Column="1" Style="{StaticResource styleInfoTextBlock}" >
+            <Image Source="img\detailsicon.ico" Height="20" Width="20" />
+            <Run>- Details button. When pressed shows you the time used for each day when the programm and process were active. Is disabled if the process is not set.  </Run> 
+        </TextBlock>
+        <TextBlock Grid.Row="5" Grid.Column="1" Style="{StaticResource styleInfoTextBlock}" >
+            <Image Source="img\xicon.ico" Height="20" Width="20"/>
+            <Run>- Delete button. Deletes the process and time tracked with file deletion. So you will lose all time tracked, be careful. Similar to restart but you need to set the process again after using this.</Run>
+        </TextBlock>
+    </Grid>
+</Window>
