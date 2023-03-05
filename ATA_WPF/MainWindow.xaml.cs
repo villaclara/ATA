@@ -467,6 +467,12 @@ namespace ATA_WPF
         // Reset All
         private void ResetAll_Click(object sender, RoutedEventArgs e)
         {
+            MessageBoxResult result = System.Windows.MessageBox.Show("Are you sure? All will be restarted.", "WTF", MessageBoxButton.YesNo);
+
+            if (result == MessageBoxResult.No)
+            {
+                return;
+            }
             ProcInstanceClass procInstanceNull = new();
             for (int i = 0; i < processArray.Length; i++)
             {
@@ -487,6 +493,12 @@ namespace ATA_WPF
         // click on Reset all and delete button from topbar menu
         private void ResetAndDeleteAll_Click(object sender, RoutedEventArgs e)
         {
+            MessageBoxResult result = System.Windows.MessageBox.Show("Are you sure? EVERYTHING will be deleted", "WTF", MessageBoxButton.YesNo);
+
+            if (result == MessageBoxResult.No)
+            {
+                return;
+            }
             ProcInstanceClass procInstanceNull = new();
             for (int i = 0; i < 5; i++)
             {
