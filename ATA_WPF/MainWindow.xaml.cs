@@ -654,7 +654,7 @@ namespace ATA_WPF
 
         private void showFifthProcessAllTimes_Click(object sender, RoutedEventArgs e)
         {
-            setWidthWindowWithBooleanAndShowDetails(isClickedFifth, 5);
+            setWidthWindowWithBooleanAndShowDetails(isClickedFifth, 4);
         }
 
 
