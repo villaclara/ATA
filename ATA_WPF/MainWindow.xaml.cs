@@ -336,16 +336,10 @@ namespace ATA_WPF
                 WorkerWithFileClass.writeToFileInfoAboutOneProcFromSetProcButton(processArray[0]);
                 ProcInstanceClass.selectedProc = "";
                 DisplayInfoProcess(processArray[0], firstProcessName, firstProcessUpTime, firstProcessTotalUpTime, firstProcessIsRun);
-
-
                 resetFirstButton.IsEnabled = true;
                 showFirstProcessAllTimes.IsEnabled = true;
                 deleteFirstButton.IsEnabled = true;
-                
             }
-
-
-
         }
 
         private void setSecondProcess_Click(object sender, RoutedEventArgs e)
