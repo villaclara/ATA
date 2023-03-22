@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -47,25 +48,20 @@ namespace ATA_WPF
 
             DisplayStartingInfo();
 
+            setupTrayIcon();
+
+
 #if DEBUG
 
             System.Windows.MessageBox.Show("Debug mode");
 
 
-#else
-            // Icon and delegate for displaying minimized icon in the taskbar
-            // delegate == event
-            System.Windows.Forms.NotifyIcon nico = new System.Windows.Forms.NotifyIcon();
-            //nico.Icon = new System.Drawing.Icon("icon2_super.ico");
-            
-            nico.Icon = new System.Drawing.Icon(System.IO.Path.Combine(BaseDir, "icon2_super.ico"));
-            nico.Visible = true;
-            nico.DoubleClick += delegate (object sender, EventArgs args)
-            {
-                this.Show();
-                this.WindowState = WindowState.Normal;
-            };
 
+            
+            
+
+#else
+           
 
             // adding registry key to launch app on windows startup
             RegistryKey reg = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
@@ -124,6 +120,52 @@ namespace ATA_WPF
             }
         }
 
+        // initializes and setups the TRAY ICON
+        // 
+        private void setupTrayIcon()
+        {
+            // Icon and delegate for displaying minimized icon in the taskbar
+            // delegate == event
+            System.Windows.Forms.NotifyIcon nico = new System.Windows.Forms.NotifyIcon();
+            //nico.Icon = new System.Drawing.Icon("icon2_super.ico");
+
+            nico.Icon = new System.Drawing.Icon(System.IO.Path.Combine(BaseDir, "icon2_super.ico"));
+            nico.Visible = true;
+            nico.DoubleClick += delegate (object sender, EventArgs args)
+            {
+                this.Show();
+                this.WindowState = WindowState.Normal;
+            };
+
+            ToolStripMenuItem openItem = new ToolStripMenuItem("Open");
+            ToolStripMenuItem checkUpdateItem = new ToolStripMenuItem("Check update");
+            ToolStripMenuItem closeItem = new ToolStripMenuItem("Exit");
+            nico.ContextMenuStrip = new ContextMenuStrip();
+            nico.ContextMenuStrip.Items.AddRange(new[] { openItem, checkUpdateItem, closeItem });
+
+
+            nico.Text = "ATA";
+
+            closeItem.Click += delegate (object sender, EventArgs args)
+            {
+                nico.Visible = false;
+                this.Close();
+            };
+
+            openItem.Click += delegate (object sender, EventArgs args)
+            {
+                this.Show();
+                this.WindowState = WindowState.Normal;
+            };
+
+            checkUpdateItem.Click += CheckUpdateItem_Click;
+
+        }
+
+        private void CheckUpdateItem_Click(object? sender, EventArgs e)
+        {
+            
+        }
 
         // one function for all info
         private void DisplayAllInfo()
