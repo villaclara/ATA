@@ -283,11 +283,8 @@ namespace ATA_WPF
                 WorkerWithFileClass.writeToFileInfoAboutOneProcFromSetProcButton(processArray[0]);
                 ProcInstanceClass.selectedProc = "";
                 DisplayInfoProcess(processArray[0], firstProcessName, firstProcessUpTime, firstProcessTotalUpTime, firstProcessIsRun);
-           
+          
             }
-
-
-
         }
 
         private void setSecondProcess_Click(object sender, RoutedEventArgs e)
