@@ -33,19 +33,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <COMReference Include="{215d64d2-031c-33c7-96e3-61794cd1ee61}">
-      <WrapperTool>tlbimp</WrapperTool>
-      <VersionMinor>4</VersionMinor>
-      <VersionMajor>2</VersionMajor>
-      <Guid>215d64d2-031c-33c7-96e3-61794cd1ee61</Guid>
-    </COMReference>
-  </ItemGroup>
-
-  <ItemGroup>
     <Resource Include="ar1.png" />
     <Resource Include="arrow2.png" />
     <Resource Include="bluearrow.png" />
-    <Resource Include="icon2.png" />
+    <Resource Include="icon2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="img\ar1.ico" />
     <Resource Include="img\deleteicon.ico" />
     <Resource Include="img\detailsicon.ico" />
@@ -61,6 +54,12 @@
 
   <ItemGroup>
     <Folder Include="bin\Debug\net6.0-windows\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Apis.Auth" Version="1.60.0" />
+    <PackageReference Include="Google.Apis.Drive.v3" Version="1.60.0.2986" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
 </Project>

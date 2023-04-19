@@ -162,6 +162,7 @@ namespace ATA_WPF
 
         }
 
+
         private void CheckUpdateItem_Click(object? sender, EventArgs e)
         {
             
@@ -275,13 +276,11 @@ namespace ATA_WPF
                 details.IsEnabled = false;
                 delete.IsEnabled = false;
             }
-
             else
             {
                 restart.IsEnabled = true;
                 details.IsEnabled = true;
                 delete.IsEnabled = true;
-
             }
         }
 
@@ -345,10 +344,7 @@ namespace ATA_WPF
 
         #endregion END PROCESS EVENTS REGION
 
-        private void showMessagebox (string message, string title, MessageBoxButton messageBoxButtons)
-        {
-            System.Windows.MessageBox.Show(message, title, messageBoxButtons);
-        }
+        private void showMessagebox (string m, string t, MessageBoxButton mB) => System.Windows.MessageBox.Show(m, t, mB);
 
 
 
@@ -368,12 +364,7 @@ namespace ATA_WPF
 
             if (ProcInstanceClass.selectedProc != null && ProcInstanceClass.selectedProc != "")
             {
-                processArray[0] = new ProcInstanceClass(ProcInstanceClass.selectedProc);
-                             
-                //ProcessHandlerEventArgs eh = new ProcessHandlerEventArgs(0);
-                
-                //processArray[0].process.Exited += FirstProcExited;
-                
+                processArray[0] = new ProcInstanceClass(ProcInstanceClass.selectedProc);                
                 WorkerWithFileClass.AddProcessNameToFile(processArray[0].ProcName, processArray, 0);
                 WorkerWithFileClass.writeToFileInfoAboutOneProcFromSetProcButton(processArray[0]);
                 ProcInstanceClass.selectedProc = "";
@@ -557,7 +548,7 @@ namespace ATA_WPF
             // trying to reset buttons and if could not do then show messsage
             if (!DifferentFunctions.resetTotalUptime(processArray[0]))
             {
-                showMessagebox(message: "Application is currently running. Please close the app and try again.", title: "NOT DONE CLOWN", MessageBoxButton.OK);
+                showMessagebox(m: "Application is currently running. Please close the app and try again.", t: "NOT DONE CLOWN", MessageBoxButton.OK);
             }
             
             else
@@ -578,7 +569,7 @@ namespace ATA_WPF
             // trying to reset buttons and if could not do then show messsage
             if (!DifferentFunctions.resetTotalUptime(processArray[1]))
             {
-                showMessagebox(message: "Application is currently running. Please close the app and try again.", title: "NOT DONE CLOWN", MessageBoxButton.OK);
+                showMessagebox(m: "Application is currently running. Please close the app and try again.", t: "NOT DONE CLOWN", MessageBoxButton.OK);
             }
 
             else
@@ -599,7 +590,7 @@ namespace ATA_WPF
             // trying to reset buttons and if could not do then show messsage
             if (!DifferentFunctions.resetTotalUptime(processArray[2]))
             {
-                showMessagebox(message: "Application is currently running. Please close the app and try again.", title: "NOT DONE CLOWN", MessageBoxButton.OK);
+                showMessagebox(m: "Application is currently running. Please close the app and try again.", t: "NOT DONE CLOWN", MessageBoxButton.OK);
             }
 
             else
@@ -620,7 +611,7 @@ namespace ATA_WPF
             // trying to reset buttons and if could not do then show messsage
             if (!DifferentFunctions.resetTotalUptime(processArray[3]))
             {
-                showMessagebox(message: "Application is currently running. Please close the app and try again.", title: "NOT DONE CLOWN", MessageBoxButton.OK);
+                showMessagebox(m: "Application is currently running. Please close the app and try again.", t: "NOT DONE CLOWN", MessageBoxButton.OK);
             }
 
             else
@@ -643,7 +634,7 @@ namespace ATA_WPF
             // trying to reset buttons and if could not do then show messsage
             if (!DifferentFunctions.resetTotalUptime(processArray[4]))
             {
-                showMessagebox(message: "Application is currently running. Please close the app and try again.", title: "NOT DONE CLOWN", MessageBoxButton.OK);
+                showMessagebox(m: "Application is currently running. Please close the app and try again.", t: "NOT DONE CLOWN", MessageBoxButton.OK);
             }
 
             else
@@ -729,33 +720,7 @@ namespace ATA_WPF
         // 4. assigning new empty variable to appropriate member of array of procInstances
         // 5. writing 'empty' word to the fileWithProcesses text file - procs.txt
         // 6. displaying updated info
-        private void deleteSecondButton_Click(object sender, RoutedEventArgs e)
-        {
-
-            if (!deleteFile(processArray[1].fileNameToWriteInfo))
-            {
-                return;
-            }
-
-            ProcInstanceClass procInstanceNull = new();
-            processArray[1] = procInstanceNull;
-            WorkerWithFileClass.writeProcessToFileAtIndex(1, "empty");
-            DisplayInfo(processArray[1],
-                        1,
-                        secondProcessName,
-                        secondProcessUpTime,
-                        secondProcessTotalUpTime,
-                        secondProcessIsRun,
-                        resetSecondButton,
-                        showSecondProcessAllTimes,
-                        deleteSecondButton);
-
-            this.Width = 765;
-            isClickedFirst = false;
-
-
-        }
-
+       
         private void deleteFirstButton_Click(object sender, RoutedEventArgs e)
         {
             if (!deleteFile(processArray[0].fileNameToWriteInfo))
@@ -783,6 +748,34 @@ namespace ATA_WPF
 
 
         }
+
+        private void deleteSecondButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (!deleteFile(processArray[1].fileNameToWriteInfo))
+            {
+                return;
+            }
+
+            ProcInstanceClass procInstanceNull = new();
+            processArray[1] = procInstanceNull;
+            WorkerWithFileClass.writeProcessToFileAtIndex(1, "empty");
+            DisplayInfo(processArray[1],
+                        1,
+                        secondProcessName,
+                        secondProcessUpTime,
+                        secondProcessTotalUpTime,
+                        secondProcessIsRun,
+                        resetSecondButton,
+                        showSecondProcessAllTimes,
+                        deleteSecondButton);
+
+            this.Width = 765;
+            isClickedFirst = false;
+
+
+        }
+
 
         private void deleteThirdButton_Click(object sender, RoutedEventArgs e)
         {
@@ -864,12 +857,15 @@ namespace ATA_WPF
 
         #endregion DELETE BUTTONS END REGION
 
+        // when choosing the Info in the TopBarMenuStrip
+        // shows new window InfoWindow with its content
         private void Info_Click(object sender, RoutedEventArgs e)
         {
             InfoWindow infoWindow = new InfoWindow();
             infoWindow.Show();
         }
 
+        // is used to set and reset window width when asking to show details
         private void setWidthWindowWithBooleanAndShowDetails (bool isClicked, int index)
         {
             if (!isClickedFirst)
@@ -887,6 +883,7 @@ namespace ATA_WPF
             }
         }
 
+        // show detailed time about process with given index
         private void showDetailsWithGivenProcessIndex(int index)
         {
             IEnumerable<UpTime> upTimes = processArray[index].retrieveListOfUpTimesForCurrentProcess(processArray[index].fileNameToWriteInfo);

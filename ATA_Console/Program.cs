@@ -1,16 +1,21 @@
 ﻿
 using ATA_ClassLibrary;
 using ATA_WPF;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
+using System.Net;
 using System.Timers;
+using System.Windows.Controls;
 
 namespace ATA_Console
 {
     internal class Program
     {
 
-        static void Main(string[] args)
+        [STAThread]
+        static async Task Main(string[] args)
         {
             ////ProcInstanceClass selectedProcess = new();
             //bool wantExit = false;
@@ -78,24 +83,61 @@ namespace ATA_Console
 
             //}
 
-            bool toCreate = true;
-            string[] strs = WorkerWithFileClass.ReadFromFileWithGivenName(DifferentFunctions.fileWithProcesses).Split(',');
-            foreach (string str in strs)
+            //Console.WriteLine("HELO");
+
+            //System.Windows.Application app = new System.Windows.Application();
+            //app.Run(new MainWindow());
+
+            //Console.WriteLine("HELO");
+            //var client = new HttpClient();
+            //string page = await client.GetStringAsync(@"http://ataidentifier.great-site.net/index.html");
+
+            //Console.WriteLine(page);
+            //Console.ReadLine();
+
+            //WebBrowser browser = new WebBrowser();
+            //browser.Navigate("http://ataident.byethost11.com/index.html");
+            //var aa = browser.Document;
+            //string ss = aa.ToString();
+            //Console.WriteLine(ss);
+
+
+            // IMBA
+            var httpClient = new HttpClient();
+            var publicFolderId = "11owhMTSElIkavHKBC517PUpdQU0m2nqn";
+            var googleDriveApiKey = "AIzaSyA2RGmLbJIiNRVhuKNMaa9VYDBB7sKoknk";
+            var nextPageToken = "";
+
+
+            var fileId = "";
+            var client = new WebClient();
+
+
+            do
             {
-                if (str != "empty" && str != "")
-                    toCreate = false;
-            }
-            if (toCreate)
-            {
-                WorkerWithFileClass.createDefault();
-            }
+                var folderContentsUri = $"https://www.googleapis.com/drive/v3/files?q='{publicFolderId}'+in+parents&key={googleDriveApiKey}";
+                if (!String.IsNullOrEmpty(nextPageToken))
+                {
+                    folderContentsUri += $"&pageToken={nextPageToken}";
+                }
+                var contentsJson = await httpClient.GetStringAsync(folderContentsUri);
+                var contents = (JObject)JsonConvert.DeserializeObject(contentsJson);
+                nextPageToken = (string)contents["nextPageToken"];
+                foreach (var file in (JArray)contents["files"])
+                {
+                    var id = (string)file["id"];
+                    fileId = (string)file["id"];
+                    var name = (string)file["name"];
+                    Console.WriteLine($"{id}:{name}");
+                    var linkk = @"https://drive.google.com/uc?export=download&id=" + fileId;
+                    client.DownloadFile(linkk, "upd\\" + name);
+                }
+            } while (!String.IsNullOrEmpty(nextPageToken));
 
 
-            ProcInstanceClass[] processArray = new ProcInstanceClass[5];
-            processArray[1] = new ProcInstanceClass("devenv");
-            WorkerWithFileClass.AddProcessNameToFile(processArray[1].ProcName, processArray, 1);
+            
 
-
+          
         }
 
         private static void Timer_Elapsed(object? sender, ElapsedEventArgs e)
