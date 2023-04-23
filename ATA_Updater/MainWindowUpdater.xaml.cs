@@ -15,12 +15,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace ATA_WPF
+namespace ATA_Updater
 {
     /// <summary>
     /// Interaction logic for TryStartupWindow.xaml
     /// </summary>
-    public partial class TryStartupWindow : Window
+    public partial class MainWindowUpdater : Window
     {
         private int intForCheckingTextBlock;
         private readonly System.Timers.Timer timer = new(1000);
@@ -28,26 +28,30 @@ namespace ATA_WPF
 
         private bool _error403Occured = false;
 
+        
 
-        public TryStartupWindow()
+
+        public MainWindowUpdater()
         {
             InitializeComponent();
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            
+            
+            updater = new UpdateChecker();
 
-
-
+            
             // WRITES THE CURRENT VERSION INTO VERSION FILE 
             WorkerWithFileClass.writeVersionFile("0.1.3", "0.1.3");
 
 
 
-            updater = new UpdateChecker();
+  
 
             intForCheckingTextBlock = 0;
             // TextBlock1 IsEnabled is False by default
             // chaning to trigger and UPD() to start updating
-            TextBlock1.IsEnabledChanged += TextBlock1_IsEnabledChanged;
-            TextBlock1.IsEnabled = true;
+            TextBlock2.IsEnabledChanged += TextBlock1_IsEnabledChanged;
+            TextBlock2.IsEnabled = true;
 
         }
 
@@ -78,6 +82,7 @@ namespace ATA_WPF
             {
                 updater.DoActionsWhenNoUpdateNeeded();
                 ShowMainWindow();
+
                 return;
             }
 
@@ -87,13 +92,13 @@ namespace ATA_WPF
             // if TRUE - we need to update
             if (updater.CompareVersion())
             {
-                ChekingTextBlock.Text = $"Update is available. Downloading now";
+                CheckingTextBlock.Text = $"Update is available. Downloading now";
 
                 // waiting for updater to move files from location -> backup
                 // and update -> location
                 await updater.PerformMovingFiles();
 
-                ChekingTextBlock.Text = "Update Completed. The app will be restarted now.";
+                CheckingTextBlock.Text = "Update Completed.";
 
                 // casually waiting 1 sec to display the window
                 await Task.Delay(2000);
@@ -104,8 +109,8 @@ namespace ATA_WPF
                 //System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
                 //Application.Current.Shutdown();
 
-                Application.Current.Shutdown();
-                System.Diagnostics.Process.Start(Environment.GetCommandLineArgs()[0]);
+                //Application.Current.Shutdown();
+                //System.Diagnostics.Process.Start(Environment.GetCommandLineArgs()[0]);
             }
 
 
@@ -115,13 +120,16 @@ namespace ATA_WPF
             // and delete files from update folder
             else
             {
-                ChekingTextBlock.Text = $"The App is up to date.";
+                CheckingTextBlock.Text = $"The App is up to date.";
                 updater.DoActionsWhenNoUpdateNeeded();
                 //casually waiting 2 sec
                 await Task.Delay(2000);
 
-                ShowMainWindow();
+
             }
+
+            ShowMainWindow();
+
         }
 
 
@@ -131,6 +139,8 @@ namespace ATA_WPF
         {
             try
             {
+                LoggerService.Log($"Started updating from MainWindowUpdater.xaml.");
+
                 // starting updating
                 // deleting old files
                 // downloading new
@@ -143,10 +153,10 @@ namespace ATA_WPF
             // sometimes google may throw 403 exception
             // when downloading files
             // so it is covered by this exception
-            catch (Exception)
-            {
+            catch (Exception e)
+            {                
                 timer.Stop();
-                ChekingTextBlock.Text = "Error when updating. Try again later.";
+                CheckingTextBlock.Text = "Error when updating. Try again later.";
                 _error403Occured = true;
             }
         }
@@ -155,10 +165,15 @@ namespace ATA_WPF
         // closes current
         private void ShowMainWindow()
         {
-            MainWindow main = new MainWindow();
-            this.Close();
-            Task.Delay(500);
-            main.Show();
+            //MainWindow main = new();
+            //this.Close();
+            //Task.Delay(500);
+            //main.Show();
+
+            System.Diagnostics.Process.Start("ATA_WPF.exe");
+            Application.Current.Shutdown();
+
+
         }
 
         // timer to count seconds when animating the checkingtextblock
@@ -175,15 +190,15 @@ namespace ATA_WPF
         private void Timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
         {
             this.Dispatcher.Invoke(() =>
-                {
-                    ChekingTextBlock.Text = TextToDisplay(intForCheckingTextBlock);
-                    intForCheckingTextBlock++;
-                });
+            {
+                CheckingTextBlock.Text = TextToDisplay(intForCheckingTextBlock);
+                intForCheckingTextBlock++;
+            });
         }
 
         // switch on i % 2 and return text to display in ChekingTextBlock
         // used pattern matching in it
-        private string TextToDisplay (int i)
+        private string TextToDisplay(int i)
         {
             var res = i % 2;
             return res switch

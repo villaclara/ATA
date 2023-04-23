@@ -1,13 +1,4 @@
-﻿
-using ATA_ClassLibrary;
-using ATA_WPF;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
-using System;
-using System.Diagnostics;
-using System.Net;
-using System.Timers;
-using System.Windows.Controls;
+﻿using System.Timers;
 
 namespace ATA_Console
 {
@@ -83,11 +74,15 @@ namespace ATA_Console
 
             //}
 
-            //Console.WriteLine("HELO");
+            ////Console.WriteLine("HELO");
+            //await Console.Out.WriteLineAsync("Starting new app.");
+            //Application.Current.Shutdown();
+            
 
-            //System.Windows.Application app = new System.Windows.Application();
-            //app.Run(new MainWindow());
+            //await Console.Out.WriteLineAsync("App started.");
+            //System.Diagnostics.Process.Start(Environment.GetCommandLineArgs()[0]);
 
+            //Console.WriteLine("Closing this app");
             //Console.WriteLine("HELO");
             //var client = new HttpClient();
             //string page = await client.GetStringAsync(@"http://ataidentifier.great-site.net/index.html");
@@ -103,41 +98,49 @@ namespace ATA_Console
 
 
             // IMBA
-            var httpClient = new HttpClient();
-            var publicFolderId = "11owhMTSElIkavHKBC517PUpdQU0m2nqn";
-            var googleDriveApiKey = "AIzaSyA2RGmLbJIiNRVhuKNMaa9VYDBB7sKoknk";
-            var nextPageToken = "";
+            //var httpClient = new HttpClient();
+            //var publicFolderId = "11owhMTSElIkavHKBC517PUpdQU0m2nqn";
+            //var googleDriveApiKey = "AIzaSyA2RGmLbJIiNRVhuKNMaa9VYDBB7sKoknk";
+            //var nextPageToken = "";
 
 
-            var fileId = "";
-            var client = new WebClient();
+            //var fileId = "";
+            //var client = new WebClient();
 
 
-            do
-            {
-                var folderContentsUri = $"https://www.googleapis.com/drive/v3/files?q='{publicFolderId}'+in+parents&key={googleDriveApiKey}";
-                if (!String.IsNullOrEmpty(nextPageToken))
-                {
-                    folderContentsUri += $"&pageToken={nextPageToken}";
-                }
-                var contentsJson = await httpClient.GetStringAsync(folderContentsUri);
-                var contents = (JObject)JsonConvert.DeserializeObject(contentsJson);
-                nextPageToken = (string)contents["nextPageToken"];
-                foreach (var file in (JArray)contents["files"])
-                {
-                    var id = (string)file["id"];
-                    fileId = (string)file["id"];
-                    var name = (string)file["name"];
-                    Console.WriteLine($"{id}:{name}");
-                    var linkk = @"https://drive.google.com/uc?export=download&id=" + fileId;
-                    client.DownloadFile(linkk, "upd\\" + name);
-                }
-            } while (!String.IsNullOrEmpty(nextPageToken));
+            //do
+            //{
+            //    var folderContentsUri = $"https://www.googleapis.com/drive/v3/files?q='{publicFolderId}'+in+parents&key={googleDriveApiKey}";
+            //    if (!String.IsNullOrEmpty(nextPageToken))
+            //    {
+            //        folderContentsUri += $"&pageToken={nextPageToken}";
+            //    }
+            //    var contentsJson = await httpClient.GetStringAsync(folderContentsUri);
+            //    var contents = (JObject)JsonConvert.DeserializeObject(contentsJson);
+            //    nextPageToken = (string)contents["nextPageToken"];
+            //    foreach (var file in (JArray)contents["files"])
+            //    {
+            //        var id = (string)file["id"];
+            //        fileId = (string)file["id"];
+            //        var name = (string)file["name"];
+            //        Console.WriteLine($"{id}:{name}");
+            //        var linkk = @"https://drive.google.com/uc?export=download&id=" + fileId;
+            //        client.DownloadFile(linkk, "upd\\" + name);
+            //    }
+            //} while (!String.IsNullOrEmpty(nextPageToken));
 
 
             
+            // TRY TO DOWNLOAD ATA_WPF NORMALLY USING HTTPCLIENT
+            var client = new HttpClient();
+            // https://drive.google.com/file/d/1HVKbLeXrlo6IiurhzCTPEq-lPPRgmk1r/view?usp=share_link
+            var link = @"https://drive.google.com/uc?export=download&id=1HVKbLeXrlo6IiurhzCTPEq-lPPRgmk1r";
 
-          
+            // https://www.googleapis.com/drive/v3/files/FileID?alt=media&key=APIKey
+            var link2 = @"https://www.googleapis.com/drive/v3/files/1HVKbLeXrlo6IiurhzCTPEq-lPPRgmk1r?alt=media&key=AIzaSyA2RGmLbJIiNRVhuKNMaa9VYDBB7sKoknk";
+            var downloaded = await client.GetByteArrayAsync(link2);
+            System.IO.File.WriteAllBytes(".\\upd\\ATA_WPF.txt", downloaded);
+
         }
 
         private static void Timer_Elapsed(object? sender, ElapsedEventArgs e)

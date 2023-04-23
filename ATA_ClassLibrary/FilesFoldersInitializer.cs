@@ -18,7 +18,7 @@ namespace ATA_ClassLibrary
         public void InitializeEverything()
         {
             CreateBackupUpdateFolders();
-
+            CreateLogFile();
         }
 
         private void CreateBackupUpdateFolders()
@@ -33,7 +33,31 @@ namespace ATA_ClassLibrary
 
         }
 
+        private void CreateLogFile()
+        {
+            if (!File.Exists(LocationExe + "\\log.txt"))
+                File.Create(LocationExe + "\\log.txt");
+        }
 
+
+        // deletes the files from the given path to folder
+        public void DeleteFilesFromFolder(string _folderLoc)
+        {
+            var files = Directory.GetFiles(_folderLoc);
+            if (files.Length > 0)
+            {
+                foreach (var file in files)
+                {
+                    File.Delete(file);
+                   
+                    // logging
+                    LoggerService.Log($"Deleted file {file} from {_folderLoc}.");
+                }
+            }
+        }
+
+        
+        
                
     }
 }

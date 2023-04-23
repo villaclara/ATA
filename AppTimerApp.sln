@@ -11,6 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ATA_ClassLibrary", "ATA_Cla
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "AppTimerApp", "AppTimerApp\AppTimerApp.vdproj", "{CFCA99BE-E9F8-478D-AF7B-26063DDC6C6E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ATA_Updater", "ATA_Updater\ATA_Updater.csproj", "{6EBC4286-68B8-4011-8534-93F58F507997}"
+	ProjectSection(ProjectDependencies) = postProject
+		{16D07562-0F3F-4A1B-8B5A-C7CFC340BD45} = {16D07562-0F3F-4A1B-8B5A-C7CFC340BD45}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +36,10 @@ Global
 		{1491D21A-93BB-435A-9CB0-68880D5A7C11}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CFCA99BE-E9F8-478D-AF7B-26063DDC6C6E}.Debug|Any CPU.ActiveCfg = Debug
 		{CFCA99BE-E9F8-478D-AF7B-26063DDC6C6E}.Release|Any CPU.ActiveCfg = Release
+		{6EBC4286-68B8-4011-8534-93F58F507997}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EBC4286-68B8-4011-8534-93F58F507997}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EBC4286-68B8-4011-8534-93F58F507997}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EBC4286-68B8-4011-8534-93F58F507997}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

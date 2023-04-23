@@ -1,7 +1,4 @@
-﻿using Google.Apis.Auth.OAuth2;
-using Google.Apis.Drive.v3;
-using Google.Apis.Services;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -50,6 +47,8 @@ namespace ATA_ClassLibrary
         public bool IsUpd = false;
         public bool Restart = false;
 
+        private readonly FilesFoldersInitializer fInitializer;
+
         // ctor
         // gets the backup and update directories to be created
         // initializes the current version
@@ -58,21 +57,24 @@ namespace ATA_ClassLibrary
 
 
             // check if folders is not created then creates it
-            FilesFoldersInitializer initializer = new();
-            initializer.InitializeEverything();
+            fInitializer = new();
+            fInitializer.InitializeEverything();
+            
 
             // retrieve and assing current version
             // assing latest version new object
             _currentV = GetVersion(_location);
             _latestV = new Version();
 
-            IsUpdateNeeded = $"No update is needed. The App is launching now. cur - {_currentV}, new - {_latestV}";
+            IsUpdateNeeded = $"No update is needed. The App is launching now.";
+
+            LoggerService.ClearLogFile();
 
         }
 
 
 
-    
+        
 
 
         // !!!!!!!!!!!!!!!!!!!!!!!!!
@@ -88,8 +90,6 @@ namespace ATA_ClassLibrary
 
             // assign the latest version 
             _latestV = GetVersion(_updateLoc);
-
-            
 
 
         }
@@ -141,8 +141,17 @@ namespace ATA_ClassLibrary
                 {
                     var id = (string)file["id"];
                     var name = (string)file["name"];
+                    
+                    // BAD LINK AS .EXE FILES HAS GOOGLE VIRUS WARNINGS AND COULD NOT BE DOWNLOADED PROPERLY
                     var linkk = @"https://drive.google.com/uc?export=download&id=" + id;
-                    files.Add(new FileToDownloadModel(name, linkk));
+
+                    // SHOULD BE BETTER LINK WITHOUT GOOGLE VIRUS WARNINGS
+                    var betterLink = @$"https://www.googleapis.com/drive/v3/files/{id}?alt=media&key={googleDriveApiKey}";
+
+
+                    files.Add(new FileToDownloadModel(name, betterLink));
+
+                    LoggerService.Log($"Adding {name} at {betterLink} to List of files to download.");
                 }
             } while (!String.IsNullOrEmpty(nextPageToken));
 
@@ -153,26 +162,41 @@ namespace ATA_ClassLibrary
 
             foreach(var f in files)
             {
+                // logging
+                LoggerService.Log($"Downloading file {f.Name}");
+                
                 tasks.Add(Task.Run(() => DownloadFile(f)));
             }
 
             // waiting for all tasks to be done
             await Task.WhenAll(tasks);
+
         }
 
         // download the file function
         // return FileToDownload object
         private async Task DownloadFile(FileToDownloadModel f)
         {
+
+            // default error message is used to log when the file was successfully downloaded
+            string errorMessage = "was downloaded with code 0";
+
             try
             {
                 var downloaded = await hclient.GetByteArrayAsync(f.Link);
                 File.WriteAllBytes(".\\update\\" + f.Name, downloaded);
             }
-            catch
+            catch (Exception e)
             {
-                IsUpdateNeeded = "error when trying to check update.";
+                errorMessage = "was NOT downloaded with code -1 and msg - " + e.Message;
+                IsUpdateNeeded = "Error when trying to check update.";
                 return;
+            }
+
+            finally
+            {
+                // logging
+                LoggerService.Log($"File {f.Name} {errorMessage}.");
             }
 
         }
@@ -183,14 +207,8 @@ namespace ATA_ClassLibrary
         // to prevent for stacking files
         private void DeleteFilesFromUpdateFolder(string folder)
         {
-            var files = Directory.GetFiles(folder);
-            if (files.Length > 0)
-            {
-                foreach (var file in files)
-                {
-                    File.Delete(file);
-                }
-            }
+            
+            fInitializer.DeleteFilesFromFolder(folder);
         }
 
 
@@ -201,20 +219,35 @@ namespace ATA_ClassLibrary
             var files = Directory.EnumerateFiles(sourceDirectory);
 
             foreach (var file in files)
-            { 
+            {
+                LoggerService.Log($"File {file} found at {sourceDirectory}.");
+
                 FileInfo f = new FileInfo(file);
 
                 if (f.Extension == ".txt")
                     continue;
 
+                if (f.Name.Contains("Updater"))
+                    continue;
+
                 if (f.Exists)
                 {
+                    LoggerService.Log($"File {file} moved from {sourceDirectory} to {destinationDirectory}.");
                     f.MoveTo(Path.Combine(destinationDirectory, f.Name));
                 }
 
             }
         }
 
+        // when the version is latest and no update is needed then the update folder should be cleaned
+        // also when the error occurred during downloading files
+        public void DoActionsWhenNoUpdateNeeded()
+        {
+            // logging
+            LoggerService.Log($"No Update needed and deleting some already downloaded files from {_updateLoc}.");
+
+            fInitializer.DeleteFilesFromFolder(_updateLoc);
+        }
 
         // one async method for all the moving stuff
         // 1. deletes files from backup folder

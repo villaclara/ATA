@@ -35,6 +35,7 @@ namespace ATA_WPF
 
         public static string BaseDir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
 
+        
         public MainWindow()
         {
             InitializeComponent();
