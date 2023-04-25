@@ -30,14 +30,22 @@ namespace ATA_ClassLibrary
         private Version _latestV;
 
         // list of files to be downloaded when updating
-        List<FileToDownloadModel> files = new List<FileToDownloadModel>();
+        List<FileToDownloadModel> files = new List<FileToDownloadModel>(); 
 
         // default location where the file version.json is 
-        private readonly string _location = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+        //private readonly string _location = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+        private readonly static string _location = System.AppDomain.CurrentDomain.BaseDirectory;
+
+        // used this because app starting from c:/windows/system32 and to prevent creating update and backup folders there
+        // maybe this or in FilesFolderInitializer fixed the issue
+
 
         // directory of backup and update folders
-        private readonly string _backupLoc = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\backup";
-        private readonly string _updateLoc = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\update";
+        //private readonly string _backupLoc = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\backup";
+        //private readonly string _updateLoc = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\update";
+        private readonly string _backupLoc = System.AppDomain.CurrentDomain.BaseDirectory + "\\backup";
+        private readonly string _updateLoc = System.AppDomain.CurrentDomain.BaseDirectory + "\\update";
+
 
         private readonly string _googleDriveLoc = @"https://drive.google.com/drive/u/0/folders/11owhMTSElIkavHKBC517PUpdQU0m2nqn";
 
@@ -157,7 +165,7 @@ namespace ATA_ClassLibrary
                     var betterLink = @$"https://www.googleapis.com/drive/v3/files/{id}?alt=media&key={googleDriveApiKey}";
 
 
-                    files.Add(new FileToDownloadModel(name, linkk));
+                    files.Add(new FileToDownloadModel(name, betterLink));
 
                     LoggerService.Log($"Adding {name} at {betterLink} to List of files to download.");
                 }
