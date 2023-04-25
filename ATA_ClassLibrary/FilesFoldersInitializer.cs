@@ -22,7 +22,7 @@ namespace ATA_ClassLibrary
         public void InitializeEverything()
         {
             CreateBackupUpdateFolders();
-            CreateLogFile();
+            //CreateLogFile();
 
 
             // WRITES THE CURRENT VERSION INTO FILE

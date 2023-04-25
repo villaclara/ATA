@@ -69,6 +69,8 @@ namespace ATA_ClassLibrary
 
             IsUpdateNeeded = $"No update is needed. The App is launching now.";
 
+            // creates log file if needed 
+            // or clears it if the log file is already created
             LoggerService.ClearLogFile();
 
             LoggerService.Log($"Current version - {_currentV}.");

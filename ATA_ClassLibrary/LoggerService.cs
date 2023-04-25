@@ -26,10 +26,8 @@ namespace ATA_ClassLibrary
 
         public static void ClearLogFile()
         {
-            if (File.Exists(_loggerFile))
-            {
-                File.WriteAllText(_loggerFile, string.Empty);
-            }
+            using StreamWriter sw = new StreamWriter(_loggerFile, false);
+            sw.Write("");
         }
     }
 }

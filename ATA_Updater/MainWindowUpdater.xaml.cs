@@ -1,6 +1,8 @@
 ﻿using ATA_ClassLibrary;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -18,7 +20,7 @@ using System.Windows.Shapes;
 namespace ATA_Updater
 {
     /// <summary>
-    /// Interaction logic for TryStartupWindow.xaml
+    /// Interaction logic for MainWindowUpdater.xaml
     /// </summary>
     public partial class MainWindowUpdater : Window
     {
@@ -104,7 +106,7 @@ namespace ATA_Updater
                 //logging
                 LoggerService.Log("Update completed.");
                 // casually waiting 1 sec to display the window
-                await Task.Delay(2000);
+                await Task.Delay(1000);
 
             }
 
@@ -175,7 +177,7 @@ namespace ATA_Updater
             catch (Exception ex)
             {
                 CheckingTextBlock.Text = "Error when starting. Starting App from backup.";
-                await Task.Delay(1000);
+                await Task.Delay(2000);
                 LoggerService.Log($"Error when starting ATA_WPF.exe - {ex.Message} \n Restoring ATA_WPF from backup.");
                 updater.RestoreFromBackup();
 
