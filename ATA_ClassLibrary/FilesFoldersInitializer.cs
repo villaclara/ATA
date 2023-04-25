@@ -14,11 +14,20 @@ namespace ATA_ClassLibrary
         // main exe location
         private readonly string LocationExe = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
         
+
+
+
+
         // main method that should call all private methods
         public void InitializeEverything()
         {
             CreateBackupUpdateFolders();
             CreateLogFile();
+
+
+            // WRITES THE CURRENT VERSION INTO FILE
+            WorkerWithFileClass.writeVersionFile("0.1.3", "0.1.3");
+
         }
 
         private void CreateBackupUpdateFolders()

@@ -25,27 +25,16 @@ namespace ATA_Updater
         private int intForCheckingTextBlock;
         private readonly System.Timers.Timer timer = new(1000);
         private readonly UpdateChecker updater;
-
         private bool _error403Occured = false;
-
-        
-
-
+      
         public MainWindowUpdater()
         {
             InitializeComponent();
-            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;         
             
             updater = new UpdateChecker();
-
             
-            // WRITES THE CURRENT VERSION INTO VERSION FILE 
-            WorkerWithFileClass.writeVersionFile("0.1.3", "0.1.3");
 
-
-
-  
 
             intForCheckingTextBlock = 0;
             // TextBlock1 IsEnabled is False by default
@@ -53,12 +42,21 @@ namespace ATA_Updater
             TextBlock2.IsEnabledChanged += TextBlock1_IsEnabledChanged;
             TextBlock2.IsEnabled = true;
 
+
+#if DEBUG
+
+#else
+            // adding registry key to launch app on windows startup
+            RegistryKey reg = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+            reg.SetValue("ATA", Process.GetCurrentProcess().MainModule.FileName.ToString());
+
+#endif
         }
 
 
         // function to start updating
         // is called when event 'TextBlock1.IsEnabledChanged' is raised at constructor
-        // needed to be here to AWAIT the UPD function
+        // needed to be here to AWAIT the UPD function because ctor can not be called ASYNC
         private async void TextBlock1_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             // starting animating textblock
@@ -68,18 +66,17 @@ namespace ATA_Updater
             await Upd();
 
             // casually waiting 5 sec
-            await Task.Delay(5000);
-
+            await Task.Delay(2000);
 
             // stopping the timer to stop updating the text "checking for update .."
             timer.Stop();
-
 
 
             // checking whether 403 error when downloading from google drive happenned
             // and if true -> then just show program and close this window
             if (_error403Occured)
             {
+                LoggerService.Log("Error 403 occurred and this logged from TextBlock1_IsEnabledChanged.");
                 updater.DoActionsWhenNoUpdateNeeded();
                 ShowMainWindow();
 
@@ -87,32 +84,29 @@ namespace ATA_Updater
             }
 
 
+
             // after the all files are downloaded and versions are initializes
             // gets the result of Comparing current and Latest versions
             // if TRUE - we need to update
             if (updater.CompareVersion())
             {
-                CheckingTextBlock.Text = $"Update is available. Downloading now";
-
+                CheckingTextBlock.Text = $"Update is available. The files will be updated automatically.";
+               
+                //logging
+                LoggerService.Log($"Update available. Current version is lower than newest.");
+                
                 // waiting for updater to move files from location -> backup
                 // and update -> location
                 await updater.PerformMovingFiles();
 
                 CheckingTextBlock.Text = "Update Completed.";
-
+               
+                //logging
+                LoggerService.Log("Update completed.");
                 // casually waiting 1 sec to display the window
                 await Task.Delay(2000);
 
-
-                // now the app should be restarted
-                // BUT IT DOES NOT WORK
-                //System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
-                //Application.Current.Shutdown();
-
-                //Application.Current.Shutdown();
-                //System.Diagnostics.Process.Start(Environment.GetCommandLineArgs()[0]);
             }
-
 
 
             // if the result of comparing is FALSE - we do not need update
@@ -121,13 +115,14 @@ namespace ATA_Updater
             else
             {
                 CheckingTextBlock.Text = $"The App is up to date.";
+                LoggerService.Log("Update unavailable. Current version is higher or equals newest.");
                 updater.DoActionsWhenNoUpdateNeeded();
                 //casually waiting 2 sec
-                await Task.Delay(2000);
-
+                await Task.Delay(1000);
 
             }
 
+            // starting ATA_WPF.exe app
             ShowMainWindow();
 
         }
@@ -137,23 +132,24 @@ namespace ATA_Updater
         // starting function
         private async Task Upd()
         {
+            LoggerService.Log($"Started updating from MainWindowUpdater.xaml.");
+
             try
             {
-                LoggerService.Log($"Started updating from MainWindowUpdater.xaml.");
 
                 // starting updating
                 // deleting old files
                 // downloading new
                 await updater.StartCheckingUpdate();
 
-                await Task.Delay(5000);
+                await Task.Delay(2000);
 
             }
 
             // sometimes google may throw 403 exception
             // when downloading files
             // so it is covered by this exception
-            catch (Exception e)
+            catch (Exception)
             {                
                 timer.Stop();
                 CheckingTextBlock.Text = "Error when updating. Try again later.";
@@ -163,16 +159,36 @@ namespace ATA_Updater
 
         // shows main window
         // closes current
-        private void ShowMainWindow()
+        private async Task ShowMainWindow()
         {
-            //MainWindow main = new();
-            //this.Close();
-            //Task.Delay(500);
-            //main.Show();
+            // logging
+            LoggerService.Log($"Starting App ATA_WPF.exe.");
+            CheckingTextBlock.Text = "Starting App.";
+            await Task.Delay(1000);
 
-            System.Diagnostics.Process.Start("ATA_WPF.exe");
-            Application.Current.Shutdown();
+            try
+            {
 
+                System.Diagnostics.Process.Start("ATA_WPF.exe");
+  
+            }
+            catch (Exception ex)
+            {
+                CheckingTextBlock.Text = "Error when starting. Starting App from backup.";
+                await Task.Delay(1000);
+                LoggerService.Log($"Error when starting ATA_WPF.exe - {ex.Message} \n Restoring ATA_WPF from backup.");
+                updater.RestoreFromBackup();
+
+                LoggerService.Log($"Startint ATA_WPF.exe");
+                System.Diagnostics.Process.Start("ATA_WPF.exe");
+            }
+
+            finally
+            {
+                // logging
+                LoggerService.Log($"Closing current ATA_Updater.exe app.");
+                Application.Current.Shutdown();
+            }
 
         }
 
@@ -198,7 +214,7 @@ namespace ATA_Updater
 
         // switch on i % 2 and return text to display in ChekingTextBlock
         // used pattern matching in it
-        private string TextToDisplay(int i)
+        private static string TextToDisplay(int i)
         {
             var res = i % 2;
             return res switch
@@ -208,18 +224,6 @@ namespace ATA_Updater
                 _ => "Checking for update."
             };
         }
-
-
-        private void MoveExeFile()
-        {
-            string backupLoc = @"C:\fls\projects\ATA\ATA_WPF\bin\Debug\net6.0-windows\backup";
-            string current = @"C:\fls\projects\ATA\ATA_WPF\bin\Debug\net6.0-windows\ATA_WPF.exe";
-            File.Move(current, backupLoc + "\\ATA_WPF.exe");
-
-            string update = @"C:\fls\projects\ATA\ATA_WPF\bin\Debug\net6.0-windows\update\ATA_WPF.exe";
-            File.Move(update, current);
-        }
-
 
         // allowing to move the window is the mouse is pressed anywhere at the window
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)

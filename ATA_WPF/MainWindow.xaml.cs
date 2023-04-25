@@ -64,9 +64,9 @@ namespace ATA_WPF
 #else
            
 
-            // adding registry key to launch app on windows startup
-            RegistryKey reg = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-            reg.SetValue("ATA", Process.GetCurrentProcess().MainModule.FileName.ToString());
+            //// adding registry key to launch app on windows startup
+            //RegistryKey reg = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+            //reg.SetValue("ATA", Process.GetCurrentProcess().MainModule.FileName.ToString());
 
 #endif
         }

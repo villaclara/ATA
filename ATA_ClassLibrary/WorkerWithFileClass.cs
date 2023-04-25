@@ -156,19 +156,14 @@ namespace ATA_ClassLibrary
         // writes the versions to a file 'version.json'
         public static void writeVersionFile (string currentVersion, string latestVersion)
         {
+            //if (!File.Exists(DifferentFunctions.BaseDir + $"\\version.json"))
+            //    File.Create(DifferentFunctions.BaseDir + $"\\version.json");
+
             // creating anonymous type and then serializing into json
             // anonymous type is needed to write CurrentVersion : x.x.x instead of Item1 : x.x.x
             string output = JsonConvert.SerializeObject(new { currentVersion, latestVersion}, Formatting.Indented);
-            try
-            {
-                using StreamWriter sw = new(DifferentFunctions.BaseDir + $"\\version.json", false);
-                sw.Write(output);
-            }
-            // need to think how to handle and where to display exception message
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
+            using StreamWriter sw = new(DifferentFunctions.BaseDir + $"\\version.json", false);
+            sw.Write(output);
         }
 
         // gets the values of current and latest versions from file 'version.json'
@@ -177,7 +172,7 @@ namespace ATA_ClassLibrary
             string result = ReadFromFileWithGivenName(fileName);
 
             if (result == "")
-                return ("undefined", "undefined");
+                return ("", "");
             
             
             // creating anonymous type for deserialization

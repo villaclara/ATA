@@ -29,20 +29,23 @@
 
 
 
-        <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource styleInfoTextBlock}" Text="Info about all features" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Cascadia Mono" FontWeight="Bold" FontSize="16"/>
-        <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource styleInfoTextBlock}" >
+        <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource styleInfoTextBlock}" Text="Info about all features v0.1.4" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Cascadia Mono" FontWeight="Bold" FontSize="16"/>
+
+        <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource styleInfoTextBlock}" Foreground="Black" Text="New Feature - AutoUpdater. Nothing to do, it will do all the work for you. Just run it once and it will always auto update to latest version when starting the app." VerticalAlignment="Center" TextWrapping="Wrap" />
+
+        <TextBlock Grid.Row="3" Grid.Column="1" Style="{StaticResource styleInfoTextBlock}" FontFamily="Arial" >
             <Image Source="img\ar1.ico" Height="20" Width="20"/>
             <Run> - press to set the programm and track its active time.</Run>
         </TextBlock>
-        <TextBlock Grid.Row="3" Grid.Column="1" Style="{StaticResource styleInfoTextBlock}">
+        <TextBlock Grid.Row="4" Grid.Column="1" Style="{StaticResource styleInfoTextBlock}" FontFamily="Arial">
             <Image Source="img\restarticon1.ico" Height="20" Width="20"/>
             <Run>- Restart time button. Allows you to reset tracked time. If you want restart all times then go Options -> Reset All.</Run>
         </TextBlock>
-        <TextBlock Grid.Row="4" Grid.Column="1" Style="{StaticResource styleInfoTextBlock}" >
+        <TextBlock Grid.Row="5" Grid.Column="1" Style="{StaticResource styleInfoTextBlock}" FontFamily="Arial" >
             <Image Source="img\detailsicon.ico" Height="20" Width="20" />
             <Run>- Details button. When pressed shows you the time used for each day when the programm and process were active. Is disabled if the process is not set.  </Run> 
         </TextBlock>
-        <TextBlock Grid.Row="5" Grid.Column="1" Style="{StaticResource styleInfoTextBlock}" >
+        <TextBlock Grid.Row="6" Grid.Column="1" Style="{StaticResource styleInfoTextBlock}" FontFamily="Arial" >
             <Image Source="img\xicon.ico" Height="20" Width="20"/>
             <Run>- Delete button. Deletes the process and time tracked with file deletion. So you will lose all time tracked, be careful. Similar to restart but you need to set the process again after using this.</Run>
         </TextBlock>

@@ -36,8 +36,8 @@ namespace ATA_ClassLibrary
         private readonly string _location = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
 
         // directory of backup and update folders
-        private string _backupLoc = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\backup";
-        private string _updateLoc = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\update";
+        private readonly string _backupLoc = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\backup";
+        private readonly string _updateLoc = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\update";
 
         private readonly string _googleDriveLoc = @"https://drive.google.com/drive/u/0/folders/11owhMTSElIkavHKBC517PUpdQU0m2nqn";
 
@@ -66,15 +66,18 @@ namespace ATA_ClassLibrary
             _currentV = GetVersion(_location);
             _latestV = new Version();
 
+
             IsUpdateNeeded = $"No update is needed. The App is launching now.";
 
             LoggerService.ClearLogFile();
 
+            LoggerService.Log($"Current version - {_currentV}.");
+            LoggerService.Log($"Latest version - {_latestV}.");
         }
 
 
 
-        
+
 
 
         // !!!!!!!!!!!!!!!!!!!!!!!!!
@@ -88,10 +91,13 @@ namespace ATA_ClassLibrary
             // downloads all the needed files to the update folder
             await DownloadFilesToUpdateFolderAsync();
 
+            //logging
+            LoggerService.Log($"Getting newest version.");
+            
             // assign the latest version 
             _latestV = GetVersion(_updateLoc);
-
-
+            //_latestV = new Version();
+            LoggerService.Log($"Latest version - {_latestV}.");
         }
 
 
@@ -149,7 +155,7 @@ namespace ATA_ClassLibrary
                     var betterLink = @$"https://www.googleapis.com/drive/v3/files/{id}?alt=media&key={googleDriveApiKey}";
 
 
-                    files.Add(new FileToDownloadModel(name, betterLink));
+                    files.Add(new FileToDownloadModel(name, linkk));
 
                     LoggerService.Log($"Adding {name} at {betterLink} to List of files to download.");
                 }
@@ -171,6 +177,9 @@ namespace ATA_ClassLibrary
             // waiting for all tasks to be done
             await Task.WhenAll(tasks);
 
+            LoggerService.Log($"File downloading function completed.");
+
+
         }
 
         // download the file function
@@ -181,6 +190,10 @@ namespace ATA_ClassLibrary
             // default error message is used to log when the file was successfully downloaded
             string errorMessage = "was downloaded with code 0";
 
+
+            //var downloaded = await hclient.GetByteArrayAsync(f.Link);
+            //File.WriteAllBytes(".\\update\\" + f.Name, downloaded);
+
             try
             {
                 var downloaded = await hclient.GetByteArrayAsync(f.Link);
@@ -189,8 +202,8 @@ namespace ATA_ClassLibrary
             catch (Exception e)
             {
                 errorMessage = "was NOT downloaded with code -1 and msg - " + e.Message;
-                IsUpdateNeeded = "Error when trying to check update.";
-                return;
+                IsUpdateNeeded = "Error when downloading";
+                throw new Exception(errorMessage);
             }
 
             finally
@@ -216,6 +229,7 @@ namespace ATA_ClassLibrary
         // and tries to move them into destination folder
         private void GetAndMoveFilesFromTo(string sourceDirectory, string  destinationDirectory)
         {
+
             var files = Directory.EnumerateFiles(sourceDirectory);
 
             foreach (var file in files)
@@ -224,6 +238,7 @@ namespace ATA_ClassLibrary
 
                 FileInfo f = new FileInfo(file);
 
+                // skips all the processes and updater files
                 if (f.Extension == ".txt")
                     continue;
 
@@ -233,7 +248,7 @@ namespace ATA_ClassLibrary
                 if (f.Exists)
                 {
                     LoggerService.Log($"File {file} moved from {sourceDirectory} to {destinationDirectory}.");
-                    f.MoveTo(Path.Combine(destinationDirectory, f.Name));
+                    f.MoveTo(Path.Combine(destinationDirectory, f.Name), true);
                 }
 
             }
@@ -261,7 +276,16 @@ namespace ATA_ClassLibrary
 
             await Task.Run(new Action(() => GetAndMoveFilesFromTo(_updateLoc, _location)));
 
+            await Task.Run(() => fInitializer.DeleteFilesFromFolder(_updateLoc));
+
             await Task.Delay(1000);
+        }
+
+
+        public void RestoreFromBackup()
+        {
+            LoggerService.Log($"Restoring files from {_backupLoc} to {_location}.");
+            GetAndMoveFilesFromTo(_backupLoc, _location);
         }
     }
 }
