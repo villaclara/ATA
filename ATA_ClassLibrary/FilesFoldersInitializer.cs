@@ -11,9 +11,11 @@ namespace ATA_ClassLibrary
     // has 1 public and all private methods
     public class FilesFoldersInitializer
     {
+
         // main exe location
         private readonly string LocationExe = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-        
+        //private readonly string LocationExe = System.AppDomain.CurrentDomain.BaseDirectory;
+
 
 
 
@@ -21,12 +23,17 @@ namespace ATA_ClassLibrary
         // main method that should call all private methods
         public void InitializeEverything()
         {
+            // to set the starting directory as ATA/
+            // not C:/windows/system32
+            // idk if this worked or from UpdateChecker class
+            System.IO.Directory.SetCurrentDirectory(System.AppDomain.CurrentDomain.BaseDirectory);
+
             CreateBackupUpdateFolders();
             //CreateLogFile();
 
 
             // WRITES THE CURRENT VERSION INTO FILE
-            WorkerWithFileClass.writeVersionFile("0.1.3", "0.1.3");
+            WorkerWithFileClass.writeVersionFile("0.1.4", "0.1.4");
 
         }
 
