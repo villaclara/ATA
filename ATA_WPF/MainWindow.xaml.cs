@@ -132,7 +132,7 @@ namespace ATA_WPF
 
             nico.Icon = new System.Drawing.Icon(System.IO.Path.Combine(BaseDir, "icon2_super.ico"));
             nico.Visible = true;
-            nico.DoubleClick += delegate (object sender, EventArgs args)
+            nico.DoubleClick += delegate (object? sender, EventArgs args)
             {
                 this.Show();
                 this.WindowState = WindowState.Normal;
@@ -147,13 +147,13 @@ namespace ATA_WPF
 
             nico.Text = "ATA";
 
-            closeItem.Click += delegate (object sender, EventArgs args)
+            closeItem.Click += delegate (object? sender, EventArgs args)
             {
                 nico.Visible = false;
                 this.Close();
             };
 
-            openItem.Click += delegate (object sender, EventArgs args)
+            openItem.Click += delegate (object? sender, EventArgs args)
             {
                 this.Show();
                 this.WindowState = WindowState.Normal;

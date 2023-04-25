@@ -32,17 +32,7 @@ namespace ATA_Updater
         public MainWindowUpdater()
         {
             InitializeComponent();
-            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;         
-            
-            updater = new UpdateChecker();
-            
-
-
-            intForCheckingTextBlock = 0;
-            // TextBlock1 IsEnabled is False by default
-            // chaning to trigger and UPD() to start updating
-            TextBlock2.IsEnabledChanged += TextBlock1_IsEnabledChanged;
-            TextBlock2.IsEnabled = true;
+           
 
 
 #if DEBUG
@@ -53,6 +43,19 @@ namespace ATA_Updater
             reg.SetValue("ATA", Process.GetCurrentProcess().MainModule.FileName.ToString());
 
 #endif
+
+
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+            updater = new UpdateChecker();
+
+
+
+            intForCheckingTextBlock = 0;
+            // TextBlock1 IsEnabled is False by default
+            // chaning to trigger and UPD() to start updating
+            TextBlock2.IsEnabledChanged += TextBlock1_IsEnabledChanged;
+            TextBlock2.IsEnabled = true;
         }
 
 
