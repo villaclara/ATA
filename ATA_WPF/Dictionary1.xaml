@@ -195,6 +195,7 @@
     <Style TargetType="TextBlock" x:Key="styleInfoTextBlock">
         <Setter Property="TextWrapping" Value="Wrap"/>
         <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Foreground" Value="Blue"/>
     </Style>
 
 

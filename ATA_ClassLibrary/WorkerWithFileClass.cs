@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace ATA_ClassLibrary
 {
@@ -26,13 +27,6 @@ namespace ATA_ClassLibrary
             {
                 returnString += processesFromFile[i] + ','; 
             }
-           //using (FileStream fileStream = File.OpenWrite(DifferentFunctions.fileWithProcesses))
-            //{
-            //    using (StreamWriter writer = new StreamWriter(fileStream))
-            //    {
-            //        writer.Write(returnString);
-            //    }
-            //}
 
             File.WriteAllText(DifferentFunctions.fileWithProcesses, returnString);
 
@@ -50,6 +44,9 @@ namespace ATA_ClassLibrary
 
         }
 
+
+        // writes the processes list into default 'procs.txt' file
+        // is at DELETE process button
         public static void writeProcessToFileAtIndex (int index, string name)
         {
             string[] procs = ReadFromFileWithGivenName(DifferentFunctions.fileWithProcesses).Split(',');
@@ -65,37 +62,13 @@ namespace ATA_ClassLibrary
         }
 
         // create default procs file and fill it with the empty names
+        // or when pressed 'RESET ALL' button
         public static void createDefault()
         {
             using (StreamWriter writer = new StreamWriter(File.OpenWrite(DifferentFunctions.fileWithProcesses)))
             {
                 writer.Write("empty,empty,empty,empty,empty");
             }
-        }
-
-
-        //
-        // writes to file with given FileName and process instance
-        //
-        // NOT USED ANYWHERE
-        public static bool writeToFileWithGivenName(string fileNameToWrite, ProcInstanceClass procInstance, List<UpTime> upTimes)
-        {
-           
-            File.WriteAllText( fileNameToWrite, "");
-
-
-            foreach (var upTime in upTimes)
-            {
-                using (FileStream fileStream = new FileStream(fileNameToWrite, FileMode.Append))
-                {
-                    using (StreamWriter writer = new StreamWriter(fileStream))
-                    {
-                        writer.Write(upTime.UpDate.ToString() + ',' + upTime.UpMinutes.ToString() + ',');
-
-                    }
-                }
-            }
-                return true;
         }
 
 
@@ -142,11 +115,10 @@ namespace ATA_ClassLibrary
         }
 
 
-        // writes the first info to the file about process
+        // writes the first time info to the file about process
         // after user SETS the process
         public static void writeToFileInfoAboutOneProcFromSetProcButton(ProcInstanceClass proc)
         {
-
             using (FileStream fileStream = new FileStream(proc.fileNameToWriteInfo, FileMode.Append))
             {
                 using (StreamWriter writer = new StreamWriter(fileStream))
@@ -180,26 +152,39 @@ namespace ATA_ClassLibrary
             return true;
         }
 
-        // NOT USED ANYMORE
-        // 
-        //
-        public static bool checkIfTodayWasAlreadyWritten (string readed, ProcInstanceClass procInstance)
+
+        // writes the versions to a file 'version.json'
+        public static void writeVersionFile (string currentVersion, string latestVersion)
         {
-            var today = DateOnly.FromDateTime(DateTime.Now);
+            //if (!File.Exists(DifferentFunctions.BaseDir + $"\\version.json"))
+            //    File.Create(DifferentFunctions.BaseDir + $"\\version.json");
 
-            string[] allStrings = readed.Split(',');
+            // creating anonymous type and then serializing into json
+            // anonymous type is needed to write CurrentVersion : x.x.x instead of Item1 : x.x.x
+            string output = JsonConvert.SerializeObject(new { currentVersion, latestVersion}, Formatting.Indented);
+            using StreamWriter sw = new(DifferentFunctions.BaseDir + $"\\version.json", false);
+            sw.Write(output);
+        }
 
-            List<DateOnly> dates = new List<DateOnly>();
+        // gets the values of current and latest versions from file 'version.json'
+        public static (string, string) getVersionFromFile (string fileName)
+        {
+            string result = ReadFromFileWithGivenName(fileName);
+
+            if (result == "")
+                return ("", "");
+            
+            
+            // creating anonymous type for deserialization
+            var versions = new { currentVersion = "", latestVersion = "" };
+            var re = JsonConvert.DeserializeAnonymousType(result, versions);
+
+            // converting anonymous type fields into valuetuple
+            (string, string) r = (re.currentVersion, re.latestVersion);
+            return r;
 
 
 
-           foreach (var time in procInstance.UpTimes)
-            {
-                if (time.UpDate == today)
-                    return true;
-            }
-
-            return false;
         }
     }
 }

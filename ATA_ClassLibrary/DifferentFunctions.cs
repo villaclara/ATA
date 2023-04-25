@@ -13,7 +13,7 @@ namespace ATA_ClassLibrary
 
         // path for the procs file with names of all selected processes
         // it will be - Default path to the folder of project and procs.txt name
-        public static string fileWithProcesses = Path.Combine(BaseDir, "procs.txt");
+        public static string fileWithProcesses = BaseDir + "\\procs.txt";
 
         // gets list of active processes
         public static List<Process> GetActiveProcesses()

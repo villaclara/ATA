@@ -1,16 +1,12 @@
-﻿
-using ATA_ClassLibrary;
-using ATA_WPF;
-using System;
-using System.Diagnostics;
-using System.Timers;
+﻿using System.Timers;
 
 namespace ATA_Console
 {
     internal class Program
     {
 
-        static void Main(string[] args)
+        [STAThread]
+        static async Task Main(string[] args)
         {
             ////ProcInstanceClass selectedProcess = new();
             //bool wantExit = false;
@@ -78,23 +74,72 @@ namespace ATA_Console
 
             //}
 
-            bool toCreate = true;
-            string[] strs = WorkerWithFileClass.ReadFromFileWithGivenName(DifferentFunctions.fileWithProcesses).Split(',');
-            foreach (string str in strs)
-            {
-                if (str != "empty" && str != "")
-                    toCreate = false;
-            }
-            if (toCreate)
-            {
-                WorkerWithFileClass.createDefault();
-            }
+            ////Console.WriteLine("HELO");
+            //await Console.Out.WriteLineAsync("Starting new app.");
+            //Application.Current.Shutdown();
+            
+
+            //await Console.Out.WriteLineAsync("App started.");
+            //System.Diagnostics.Process.Start(Environment.GetCommandLineArgs()[0]);
+
+            //Console.WriteLine("Closing this app");
+            //Console.WriteLine("HELO");
+            //var client = new HttpClient();
+            //string page = await client.GetStringAsync(@"http://ataidentifier.great-site.net/index.html");
+
+            //Console.WriteLine(page);
+            //Console.ReadLine();
+
+            //WebBrowser browser = new WebBrowser();
+            //browser.Navigate("http://ataident.byethost11.com/index.html");
+            //var aa = browser.Document;
+            //string ss = aa.ToString();
+            //Console.WriteLine(ss);
 
 
-            ProcInstanceClass[] processArray = new ProcInstanceClass[5];
-            processArray[1] = new ProcInstanceClass("devenv");
-            WorkerWithFileClass.AddProcessNameToFile(processArray[1].ProcName, processArray, 1);
+            // IMBA
+            //var httpClient = new HttpClient();
+            //var publicFolderId = "11owhMTSElIkavHKBC517PUpdQU0m2nqn";
+            //var googleDriveApiKey = "AIzaSyA2RGmLbJIiNRVhuKNMaa9VYDBB7sKoknk";
+            //var nextPageToken = "";
 
+
+            //var fileId = "";
+            //var client = new WebClient();
+
+
+            //do
+            //{
+            //    var folderContentsUri = $"https://www.googleapis.com/drive/v3/files?q='{publicFolderId}'+in+parents&key={googleDriveApiKey}";
+            //    if (!String.IsNullOrEmpty(nextPageToken))
+            //    {
+            //        folderContentsUri += $"&pageToken={nextPageToken}";
+            //    }
+            //    var contentsJson = await httpClient.GetStringAsync(folderContentsUri);
+            //    var contents = (JObject)JsonConvert.DeserializeObject(contentsJson);
+            //    nextPageToken = (string)contents["nextPageToken"];
+            //    foreach (var file in (JArray)contents["files"])
+            //    {
+            //        var id = (string)file["id"];
+            //        fileId = (string)file["id"];
+            //        var name = (string)file["name"];
+            //        Console.WriteLine($"{id}:{name}");
+            //        var linkk = @"https://drive.google.com/uc?export=download&id=" + fileId;
+            //        client.DownloadFile(linkk, "upd\\" + name);
+            //    }
+            //} while (!String.IsNullOrEmpty(nextPageToken));
+
+
+            
+            // TRY TO DOWNLOAD ATA_WPF NORMALLY USING HTTPCLIENT
+            var client = new HttpClient();
+            // https://drive.google.com/file/d/1HVKbLeXrlo6IiurhzCTPEq-lPPRgmk1r/view?usp=share_link
+            var link = @"https://drive.google.com/uc?export=download&id=1HVKbLeXrlo6IiurhzCTPEq-lPPRgmk1r";
+
+            // https://www.googleapis.com/drive/v3/files/FileID?alt=media&key=APIKey
+            var link2 = @"https://www.googleapis.com/drive/v3/files/1HVKbLeXrlo6IiurhzCTPEq-lPPRgmk1r?alt=media&key=AIzaSyA2RGmLbJIiNRVhuKNMaa9VYDBB7sKoknk";
+            var downloaded = await client.GetByteArrayAsync(link2);
+            System.IO.File.WriteAllBytes(".\\upd\\ATA_WPF.txt", downloaded);
 
         }
 
