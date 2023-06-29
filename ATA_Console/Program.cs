@@ -40,9 +40,9 @@ namespace ATA_Console
             //                break;
             //            }
             //            Console.WriteLine($"Process - {selectedProcess.process.ProcessName} - StartTime - {DateTime.Now - selectedProcess.process.StartTime} - Uptime - {selectedProcess.UpTimeMinutesCurrentSession}");
-            //            Console.WriteLine(selectedProcess.calculateUpTimeCurrentSession());
+            //            Console.WriteLine(selectedProcess.CalculateUpTimeCurrentSession());
 
-            //            //selectedProcess.retrieveListOfUpTimesForCurrentProcess(Path.Combine(Directory.GetCurrentDirectory(), "process1.txt"));
+            //            //selectedProcess.RetrieveListOfUpTimesForCurrentProcess(Path.Combine(Directory.GetCurrentDirectory(), "process1.txt"));
 
             //            Console.WriteLine($"TOTAL UPTIME - {selectedProcess.TotalUpTime}");
 
@@ -60,7 +60,7 @@ namespace ATA_Console
             //            break;
 
             //        case ConsoleKey.C:
-            //            selectedProcess.retrieveListOfUpTimesForCurrentProcess("process1.txt");
+            //            selectedProcess.RetrieveListOfUpTimesForCurrentProcess("process1.txt");
 
             //            break;
 
@@ -134,7 +134,7 @@ namespace ATA_Console
             // TRY TO DOWNLOAD ATA_WPF NORMALLY USING HTTPCLIENT
             var client = new HttpClient();
             // https://drive.google.com/file/d/1HVKbLeXrlo6IiurhzCTPEq-lPPRgmk1r/view?usp=share_link
-            var link = @"https://drive.google.com/uc?export=download&id=1HVKbLeXrlo6IiurhzCTPEq-lPPRgmk1r";
+            //var link = @"https://drive.google.com/uc?export=download&id=1HVKbLeXrlo6IiurhzCTPEq-lPPRgmk1r";
 
             // https://www.googleapis.com/drive/v3/files/FileID?alt=media&key=APIKey
             var link2 = @"https://www.googleapis.com/drive/v3/files/1HVKbLeXrlo6IiurhzCTPEq-lPPRgmk1r?alt=media&key=AIzaSyA2RGmLbJIiNRVhuKNMaa9VYDBB7sKoknk";

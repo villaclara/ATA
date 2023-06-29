@@ -13,11 +13,8 @@ namespace ATA_ClassLibrary
     {
 
         // main exe location
-        private readonly string LocationExe = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-        //private readonly string LocationExe = System.AppDomain.CurrentDomain.BaseDirectory;
-
-
-
+        private readonly string _locationExe = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)!;
+        //private readonly string _locationExe = System.AppDomain.CurrentDomain.BaseDirectory;
 
 
         // main method that should call all private methods
@@ -31,35 +28,33 @@ namespace ATA_ClassLibrary
             CreateBackupUpdateFolders();
             //CreateLogFile();
 
-
             // WRITES THE CURRENT VERSION INTO FILE
-            WorkerWithFileClass.writeVersionFile("0.1.4", "0.1.4");
+            WorkerWithFileClass.WriteVersionFile("0.1.4", "0.1.4");
 
         }
 
         private void CreateBackupUpdateFolders()
         {
             // create backup directory
-            if (!Directory.Exists(LocationExe + "\\backup"))
-                Directory.CreateDirectory(LocationExe + "\\backup");
+            if (!Directory.Exists(_locationExe + "\\backup"))
+                Directory.CreateDirectory(_locationExe + "\\backup");
 
             // create update directory
-            if (!Directory.Exists(LocationExe + "\\update"))
-                Directory.CreateDirectory(LocationExe + "\\update");
-
+            if (!Directory.Exists(_locationExe + "\\update"))
+                Directory.CreateDirectory(_locationExe + "\\update");
         }
 
         private void CreateLogFile()
         {
-            if (!File.Exists(LocationExe + "\\log.txt"))
-                File.Create(LocationExe + "\\log.txt");
+            if (!File.Exists(_locationExe + "\\log.txt"))
+                File.Create(_locationExe + "\\log.txt");
         }
 
 
         // deletes the files from the given path to folder
-        public void DeleteFilesFromFolder(string _folderLoc)
+        public void DeleteFilesFromFolder(string folderLoc)
         {
-            var files = Directory.GetFiles(_folderLoc);
+            var files = Directory.GetFiles(folderLoc);
             if (files.Length > 0)
             {
                 foreach (var file in files)
@@ -67,7 +62,7 @@ namespace ATA_ClassLibrary
                     File.Delete(file);
                    
                     // logging
-                    LoggerService.Log($"Deleted file {file} from {_folderLoc}.");
+                    LoggerService.Log($"Deleted file {file} from {folderLoc}.");
                 }
             }
         }

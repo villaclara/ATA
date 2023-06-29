@@ -41,8 +41,6 @@ namespace ATA_ClassLibrary
 
 
         // directory of backup and update folders
-        //private readonly string _backupLoc = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\backup";
-        //private readonly string _updateLoc = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\update";
         private readonly string _backupLoc = System.AppDomain.CurrentDomain.BaseDirectory + "\\backup";
         private readonly string _updateLoc = System.AppDomain.CurrentDomain.BaseDirectory + "\\update";
 
@@ -71,7 +69,7 @@ namespace ATA_ClassLibrary
 
             // retrieve and assing current version
             // assing latest version new object
-            _currentV = GetVersion(_location);
+            _currentV = _getVersion(_location);
             _latestV = new Version();
 
 
@@ -105,7 +103,7 @@ namespace ATA_ClassLibrary
             LoggerService.Log($"Getting newest version.");
             
             // assign the latest version 
-            _latestV = GetVersion(_updateLoc);
+            _latestV = _getVersion(_updateLoc);
             //_latestV = new Version();
             LoggerService.Log($"Latest version - {_latestV}.");
         }
@@ -119,9 +117,9 @@ namespace ATA_ClassLibrary
         // gets the Current version string from file and returns it
         // is called for current and for the downloaded in update folder
         // folder location is passed as parameter
-        private Version GetVersion(string directoryPath)
+        private Version _getVersion(string directoryPath)
         {
-            (string cur, string lat) = WorkerWithFileClass.getVersionFromFile(directoryPath + "\\version.json");
+            (string cur, string lat) = WorkerWithFileClass.GetVersionFromFile(directoryPath + "\\version.json");
             return new Version(cur);
         }
 
@@ -151,12 +149,12 @@ namespace ATA_ClassLibrary
                     folderContentsUri += $"&pageToken={nextPageToken}";
                 }
                 var contentsJson = await httpClient.GetStringAsync(folderContentsUri);
-                var contents = (JObject)JsonConvert.DeserializeObject(contentsJson);
-                nextPageToken = (string)contents["nextPageToken"];
-                foreach (var file in (JArray)contents["files"])
+                var contents = (JObject)JsonConvert.DeserializeObject(contentsJson)!;
+                nextPageToken = (string)contents["nextPageToken"]!;
+                foreach (var file in (JArray)contents["files"]!)
                 {
-                    var id = (string)file["id"];
-                    var name = (string)file["name"];
+                    var id = (string)file["id"]!;
+                    var name = (string)file["name"]!;
                     
                     // BAD LINK AS .EXE FILES HAS GOOGLE VIRUS WARNINGS AND COULD NOT BE DOWNLOADED PROPERLY
                     var linkk = @"https://drive.google.com/uc?export=download&id=" + id;

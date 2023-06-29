@@ -39,8 +39,8 @@ namespace ATA_Updater
 
 #else
             // adding registry key to launch app on windows startup
-            RegistryKey reg = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-            reg.SetValue("ATA", Process.GetCurrentProcess().MainModule.FileName.ToString());
+            RegistryKey reg = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true)!;
+            reg.SetValue("ATA", Process.GetCurrentProcess().MainModule!.FileName!.ToString());
 
 #endif
 
@@ -83,7 +83,7 @@ namespace ATA_Updater
             {
                 LoggerService.Log("Error 403 occurred and this logged from TextBlock1_IsEnabledChanged.");
                 updater.DoActionsWhenNoUpdateNeeded();
-                ShowMainWindow();
+                await ShowMainWindow();
 
                 return;
             }
@@ -128,7 +128,7 @@ namespace ATA_Updater
             }
 
             // starting ATA_WPF.exe app
-            ShowMainWindow();
+            await ShowMainWindow();
 
         }
 
