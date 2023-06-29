@@ -2,14 +2,17 @@
 
 This app allows you to measure time you spend on some application. 
 
+It has auto updater that will start each time first and check for new updates. App allows you to measure up to 5 process at any time. Also You can watch detailed info of time spent every day on selected application. 
+
 ## Tutorial
-1. Launch the application you want to set timer
-2. Click on arrow icon in ATA
-3. From the list select the application you want to measure
-4. Minimize the program (it will hide into tray icon)
-5. Have fun
+1. Launch the updater.
 
 
-To open program again just double-click on the icon in tray. DO NOT CLOSE THE PROGRAM, IT WILL NO LONGER CALCULATE TIME!
 
-### ATA will automatically start on Windows startup, no actions needed. Also you can set up to 5 processes to measure. And you can ovverride process anytime you want by selecting another one in the list. 
+
+**All features:**
+
+- (arrow in right direction icon) - press to set the programm and track its active time.
+- (arrow in circle form icon) - Restart time butotn. Allows you to reset tracked time. If you want restart all times then go Options -> Reset All.
+- (document icon) - details button. When pressed shows you the time used for each day when the programm and process were active.
+- (cross icon) - delete button. Deletes the process and time tracked with file deletion.
