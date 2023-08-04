@@ -20,7 +20,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml.Linq;
-using ATA_ClassLibrary;
+using ATA_ClassLibrary.Models;
 using ATA_ClassLibrary.Tools;
 using Microsoft.Win32;
 

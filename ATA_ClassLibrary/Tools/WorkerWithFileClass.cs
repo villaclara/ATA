@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ATA_ClassLibrary.Tools;
+using ATA_ClassLibrary.Models;
 using Newtonsoft.Json;
 
-namespace ATA_ClassLibrary
+namespace ATA_ClassLibrary.Tools
 {
     public static class WorkerWithFileClass
     {
@@ -14,10 +14,10 @@ namespace ATA_ClassLibrary
         // write set process name to the file
         // then re-writes the file with the proper names of processes
         // file - "procs.txt" in the default folder of APP
-        public static void AddProcessNameToFile (string processName, ProcInstanceClass[] arrProcs, int indexOfProcessToAddToFile)
+        public static void AddProcessNameToFile(string processName, ProcInstanceClass[] arrProcs, int indexOfProcessToAddToFile)
         {
             string[] processesFromFile = ReadFromFileWithGivenName(DifferentFunctions.fileWithProcesses).Split(',');
-            
+
             // set the appropriate processname at index
             processesFromFile[indexOfProcessToAddToFile] = processName;
 
@@ -26,7 +26,7 @@ namespace ATA_ClassLibrary
             // for the update upTime file 'i' should be another
             for (int i = 0; i < 5; i++)
             {
-                returnString += processesFromFile[i] + ','; 
+                returnString += processesFromFile[i] + ',';
             }
 
             File.WriteAllText(DifferentFunctions.fileWithProcesses, returnString);
@@ -35,7 +35,7 @@ namespace ATA_ClassLibrary
 
         // gets the string of process name from the file
         // index - digit of the textblock to display
-        public static string getProcessFromFileWithGivenIndex (int index)
+        public static string getProcessFromFileWithGivenIndex(int index)
         {
             string[] procs = ReadFromFileWithGivenName(DifferentFunctions.fileWithProcesses).Split(',');
             if (procs[index] != "empty")
@@ -48,13 +48,13 @@ namespace ATA_ClassLibrary
 
         // writes the processes list into default 'procs.txt' file
         // is at DELETE process button
-        public static void writeProcessToFileAtIndex (int index, string name)
+        public static void writeProcessToFileAtIndex(int index, string name)
         {
             string[] procs = ReadFromFileWithGivenName(DifferentFunctions.fileWithProcesses).Split(',');
             procs[index] = name;
 
             string fullNames = "";
-            for(int i = 0; i < 5; i++)
+            for (int i = 0; i < 5; i++)
             {
                 fullNames += procs[i] + ',';
             }
@@ -87,7 +87,7 @@ namespace ATA_ClassLibrary
                 // it works because we are in the foreach 
                 // so got another list of uptimes
                 List<UpTime> ups = proc.retrieveListOfUpTimesForCurrentProcess(proc.fileNameToWriteInfo);
-                
+
                 // 
                 // +1 minute if process is running
                 // did not moved it into separate function because it was not working
@@ -99,7 +99,7 @@ namespace ATA_ClassLibrary
 
                 // clears the file
                 File.WriteAllText(proc.fileNameToWriteInfo, "");
-                
+
                 // writing each element of list
                 foreach (var upTime in ups)
                 {
@@ -112,7 +112,7 @@ namespace ATA_ClassLibrary
                     }
                 }
             }
-            
+
         }
 
 
@@ -147,7 +147,7 @@ namespace ATA_ClassLibrary
         // clears the file
         // 
         // used in Restart time button
-        public static bool writeTimeForRestartButton (ProcInstanceClass proc)
+        public static bool writeTimeForRestartButton(ProcInstanceClass proc)
         {
             File.WriteAllText(proc.fileNameToWriteInfo, DateOnly.FromDateTime(DateTime.Now) + ",0,");
             return true;
@@ -155,27 +155,27 @@ namespace ATA_ClassLibrary
 
 
         // writes the versions to a file 'version.json'
-        public static void writeVersionFile (string currentVersion, string latestVersion)
+        public static void writeVersionFile(string currentVersion, string latestVersion)
         {
             //if (!File.Exists(DifferentFunctions.BaseDir + $"\\version.json"))
             //    File.Create(DifferentFunctions.BaseDir + $"\\version.json");
 
             // creating anonymous type and then serializing into json
             // anonymous type is needed to write CurrentVersion : x.x.x instead of Item1 : x.x.x
-            string output = JsonConvert.SerializeObject(new { currentVersion, latestVersion}, Formatting.Indented);
+            string output = JsonConvert.SerializeObject(new { currentVersion, latestVersion }, Formatting.Indented);
             using StreamWriter sw = new(DifferentFunctions.BaseDir + $"\\version.json", false);
             sw.Write(output);
         }
 
         // gets the values of current and latest versions from file 'version.json'
-        public static (string, string) getVersionFromFile (string fileName)
+        public static (string, string) getVersionFromFile(string fileName)
         {
             string result = ReadFromFileWithGivenName(fileName);
 
             if (result == "")
                 return ("", "");
-            
-            
+
+
             // creating anonymous type for deserialization
             var versions = new { currentVersion = "", latestVersion = "" };
             var re = JsonConvert.DeserializeAnonymousType(result, versions);

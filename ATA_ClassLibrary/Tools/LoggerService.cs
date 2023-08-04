@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace ATA_ClassLibrary
+namespace ATA_ClassLibrary.Tools
 {
     // class for logging info
     public static class LoggerService

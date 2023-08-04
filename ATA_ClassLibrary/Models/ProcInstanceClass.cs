@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ATA_ClassLibrary.Tools;
 
-namespace ATA_ClassLibrary
+namespace ATA_ClassLibrary.Models
 {
 
     // class for instance of each different process
@@ -32,11 +32,11 @@ namespace ATA_ClassLibrary
         // process instance of Process
         public Process? process;
 
-        
-       
+
+
         //field for process uptime
         private int _upTimeMinutesCurrentSession;
-       
+
         // field for name of related file to write
         public string fileNameToWriteInfo;
 
@@ -61,7 +61,7 @@ namespace ATA_ClassLibrary
             }
             set => _upTimes = retrieveListOfUpTimesForCurrentProcess(fileNameToWriteInfo);
         }
-        
+
         public string ProcName
         {
             get => _procName;
@@ -70,10 +70,10 @@ namespace ATA_ClassLibrary
 
         public int UpTimeMinutesCurrentSession
         {
-            get 
-            { 
-                _upTimeMinutesCurrentSession = calculateUpTimeCurrentSession(); 
-                return _upTimeMinutesCurrentSession; 
+            get
+            {
+                _upTimeMinutesCurrentSession = calculateUpTimeCurrentSession();
+                return _upTimeMinutesCurrentSession;
             }
         }
 
@@ -124,17 +124,17 @@ namespace ATA_ClassLibrary
             _procName = procName;
             fileNameToWriteInfo = Path.Combine(DifferentFunctions.BaseDir, procName + ".txt");
             //fileNameToWriteInfo = Path.Combine(Directory.GetCurrentDirectory(), procName + ".txt");
-            
-            
+
+
 
             IsRunning = true;
             IsPreviousRunning = false;
 
             // creating the file when calling the constructor for the given process
             if (!File.Exists(fileNameToWriteInfo))
-            { 
+            {
                 // used FileStream because FILE returns a FileStream object and it should be closed
-               FileStream fileStream = File.Create(fileNameToWriteInfo);
+                FileStream fileStream = File.Create(fileNameToWriteInfo);
                 fileStream.Close();
             }
             //_upTimes = retrieveListOfUpTimesForCurrentProcess(fileNameToWriteInfo);
@@ -149,10 +149,10 @@ namespace ATA_ClassLibrary
 
         }
 
-        
+
 
         // parameterless constructor 0
-        public ProcInstanceClass() 
+        public ProcInstanceClass()
         {
             process = null;
             selectedProc = "";
@@ -167,7 +167,7 @@ namespace ATA_ClassLibrary
         public ProcInstanceClass(string name, bool isRunning)
         {
             _procName = name;
-           
+
             IsRunning = isRunning;
             IsPreviousRunning = false;
             process = null;
@@ -176,7 +176,7 @@ namespace ATA_ClassLibrary
 
             //fileNameToWriteInfo = Path.Combine(Directory.GetCurrentDirectory(), name + ".txt");
 
-            
+
 
         }
 
@@ -184,7 +184,7 @@ namespace ATA_ClassLibrary
         public static Process? getProcByName(string givenName)
         {
             Process[] procs = Process.GetProcessesByName(givenName);
-            foreach(var p in procs)
+            foreach (var p in procs)
             {
                 if (p.ProcessName == givenName)
                 {
@@ -209,7 +209,7 @@ namespace ATA_ClassLibrary
 
         }
 
-        
+
         // calculate current UpTIme
         // Subtracts Time.Now - from StartTime.
         // is used in UpTimeMinutesCurrentSession property
@@ -226,7 +226,7 @@ namespace ATA_ClassLibrary
 
             // rounds to the closest bigger integer 
             return (int)Math.Ceiling(upDate.TotalMinutes); ;
-            
+
         }
 
         //
@@ -241,7 +241,7 @@ namespace ATA_ClassLibrary
             if (lines == null || lines == "")
             {
                 _upTimes.Add(new UpTime(calculateUpTimeCurrentSession(), DateOnly.FromDateTime(DateTime.Now)));
-              
+
             }
 
             string[] allStrings = lines.Split(',');
@@ -249,15 +249,15 @@ namespace ATA_ClassLibrary
             for (int i = 0; i <= allStrings.Length - 2; i += 2)
             {
                 UpTime up = new UpTime(Convert.ToInt64(allStrings[i + 1]), DateOnly.FromDateTime(Convert.ToDateTime(allStrings[i])));
-                _upTimes.Add(up);     
+                _upTimes.Add(up);
             }
 
-          
+
             if (!checkIfTodayDateWasAddedToUpTimesList() && IsRunning == true)
             {
-                _upTimes.Add(new UpTime(calculateUpTimeCurrentSession(), DateOnly.FromDateTime(DateTime.Now))); 
+                _upTimes.Add(new UpTime(calculateUpTimeCurrentSession(), DateOnly.FromDateTime(DateTime.Now)));
             }
-            
+
 
             return _upTimes;
         }
@@ -266,14 +266,14 @@ namespace ATA_ClassLibrary
         // true if today's date is in the List of Uptimes
         public bool checkIfTodayDateWasAddedToUpTimesList()
         {
-           if (_upTimes.Last().UpDate == DateOnly.FromDateTime(DateTime.Now))
-            { 
+            if (_upTimes.Last().UpDate == DateOnly.FromDateTime(DateTime.Now))
+            {
                 return true;
             }
             return false;
         }
 
-     
+
 
 
         // PROBABLY OK
@@ -285,8 +285,8 @@ namespace ATA_ClassLibrary
             long sum = 0;
             if (UpTimes == null)
                 return UpTimeMinutesCurrentSession;
-           
-            foreach(var item in UpTimes)
+
+            foreach (var item in UpTimes)
             {
                 sum += item.UpMinutes;
             }

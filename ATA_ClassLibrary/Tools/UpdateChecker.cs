@@ -8,10 +8,9 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using ATA_ClassLibrary.Tools;
 using ATA_ClassLibrary.Models;
 
-namespace ATA_ClassLibrary
+namespace ATA_ClassLibrary.Tools
 {
 
     // UPDATE FLOW
@@ -32,11 +31,11 @@ namespace ATA_ClassLibrary
         private Version _latestV;
 
         // list of files to be downloaded when updating
-        List<FileToDownloadModel> files = new List<FileToDownloadModel>(); 
+        List<FileToDownloadModel> files = new List<FileToDownloadModel>();
 
         // default location where the file version.json is 
         //private readonly string _location = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-        private readonly static string _location = System.AppDomain.CurrentDomain.BaseDirectory;
+        private readonly static string _location = AppDomain.CurrentDomain.BaseDirectory;
 
         // used this because app starting from c:/windows/system32 and to prevent creating update and backup folders there
         // maybe this or in FilesFolderInitializer fixed the issue
@@ -45,8 +44,8 @@ namespace ATA_ClassLibrary
         // directory of backup and update folders
         //private readonly string _backupLoc = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\backup";
         //private readonly string _updateLoc = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\update";
-        private readonly string _backupLoc = System.AppDomain.CurrentDomain.BaseDirectory + "\\backup";
-        private readonly string _updateLoc = System.AppDomain.CurrentDomain.BaseDirectory + "\\update";
+        private readonly string _backupLoc = AppDomain.CurrentDomain.BaseDirectory + "\\backup";
+        private readonly string _updateLoc = AppDomain.CurrentDomain.BaseDirectory + "\\update";
 
 
         private readonly string _googleDriveLoc = @"https://drive.google.com/drive/u/0/folders/11owhMTSElIkavHKBC517PUpdQU0m2nqn";
@@ -69,7 +68,7 @@ namespace ATA_ClassLibrary
             // check if folders is not created then creates it
             fInitializer = new();
             fInitializer.InitializeEverything();
-            
+
 
             // retrieve and assing current version
             // assing latest version new object
@@ -105,7 +104,7 @@ namespace ATA_ClassLibrary
 
             //logging
             LoggerService.Log($"Getting newest version.");
-            
+
             // assign the latest version 
             _latestV = GetVersion(_updateLoc);
             //_latestV = new Version();
@@ -136,19 +135,19 @@ namespace ATA_ClassLibrary
         //                       11owhMTSElIkavHKBC517PUpdQU0m2nqn
         // google api key - AIzaSyA2RGmLbJIiNRVhuKNMaa9VYDBB7sKoknk
         private async Task DownloadFilesToUpdateFolderAsync()
-        {            
-                    
+        {
+
             // initializes new httpclient and folder ID and google drive api key
             var httpClient = new HttpClient();
             var publicFolderId = "11owhMTSElIkavHKBC517PUpdQU0m2nqn";
             var googleDriveApiKey = "AIzaSyA2RGmLbJIiNRVhuKNMaa9VYDBB7sKoknk";
             var nextPageToken = "";
-            
+
             // retrieving all files inside folder and adding new FileToDownloadModel to the list of it
             do
             {
                 var folderContentsUri = $"https://www.googleapis.com/drive/v3/files?q='{publicFolderId}'+in+parents&key={googleDriveApiKey}";
-                if (!String.IsNullOrEmpty(nextPageToken))
+                if (!string.IsNullOrEmpty(nextPageToken))
                 {
                     folderContentsUri += $"&pageToken={nextPageToken}";
                 }
@@ -159,7 +158,7 @@ namespace ATA_ClassLibrary
                 {
                     var id = (string)file["id"]!;
                     var name = (string)file["name"]!;
-                    
+
                     // BAD LINK AS .EXE FILES HAS GOOGLE VIRUS WARNINGS AND COULD NOT BE DOWNLOADED PROPERLY
                     var linkk = @"https://drive.google.com/uc?export=download&id=" + id;
 
@@ -171,18 +170,18 @@ namespace ATA_ClassLibrary
 
                     LoggerService.Log($"Adding {name} at {betterLink} to List of files to download.");
                 }
-            } while (!String.IsNullOrEmpty(nextPageToken));
+            } while (!string.IsNullOrEmpty(nextPageToken));
 
 
             // new list of tasks to be performed at the same time
             // adding and running each task
             List<Task> tasks = new();
 
-            foreach(var f in files)
+            foreach (var f in files)
             {
                 // logging
                 LoggerService.Log($"Downloading file {f.Name}");
-                
+
                 tasks.Add(Task.Run(() => DownloadFile(f)));
             }
 
@@ -232,14 +231,14 @@ namespace ATA_ClassLibrary
         // to prevent for stacking files
         private void DeleteFilesFromUpdateFolder(string folder)
         {
-            
+
             fInitializer.DeleteFilesFromFolder(folder);
         }
 
 
         // gets all the files in given folder
         // and tries to move them into destination folder
-        private void GetAndMoveFilesFromTo(string sourceDirectory, string  destinationDirectory)
+        private void GetAndMoveFilesFromTo(string sourceDirectory, string destinationDirectory)
         {
 
             var files = Directory.EnumerateFiles(sourceDirectory);
@@ -282,8 +281,8 @@ namespace ATA_ClassLibrary
         // 3. moves files _update -> _location
         public async Task PerformMovingFiles()
         {
-            await Task.Run(new Action (() => DeleteFilesFromUpdateFolder(_backupLoc)));
-            
+            await Task.Run(new Action(() => DeleteFilesFromUpdateFolder(_backupLoc)));
+
             await Task.Run(() => GetAndMoveFilesFromTo(_location, _backupLoc));
 
             await Task.Run(new Action(() => GetAndMoveFilesFromTo(_updateLoc, _location)));

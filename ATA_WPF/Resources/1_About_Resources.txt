@@ -1,0 +1,7 @@
+﻿*******************
+
+Resource folder is used to - 
+	1. keep all the Dictionaries.xaml ;
+	2. keep yet unused media (images, videos etc), that migth be used in future.
+
+*******************

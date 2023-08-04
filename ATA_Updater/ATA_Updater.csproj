@@ -11,4 +11,9 @@
     <ProjectReference Include="..\ATA_WPF\ATA_WPF.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="VievModels\" />
+    <Folder Include="Views\" />
+  </ItemGroup>
+
 </Project>

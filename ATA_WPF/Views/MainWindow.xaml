@@ -7,11 +7,11 @@
         mc:Ignorable="d"
         Title="ATA 0.1.4" Height="300" Width="985"
         ResizeMode="CanMinimize"
-        Icon="/icon2.png"
+        Icon="..\img\icon2.png"
         SizeToContent="Manual"  FontFamily="Consolas">
 
     <Window.Resources>
-        <ResourceDictionary Source="Dictionary1.xaml"/>
+        <ResourceDictionary Source="../Resources/Dictionary1.xaml"/>
     </Window.Resources>
 
 
