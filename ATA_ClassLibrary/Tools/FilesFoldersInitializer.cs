@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ATA_ClassLibrary
+namespace ATA_ClassLibrary.Tools
 {
     // class is used to create if needed all files and folders
     // is only called at launch, checks everything and thats it
@@ -13,7 +13,7 @@ namespace ATA_ClassLibrary
     {
 
         // main exe location
-        private readonly string LocationExe = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+        private readonly string LocationExe = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)!;
         //private readonly string LocationExe = System.AppDomain.CurrentDomain.BaseDirectory;
 
 
@@ -26,7 +26,7 @@ namespace ATA_ClassLibrary
             // to set the starting directory as ATA/
             // not C:/windows/system32
             // idk if this worked or from UpdateChecker class
-            System.IO.Directory.SetCurrentDirectory(System.AppDomain.CurrentDomain.BaseDirectory);
+            Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
 
             CreateBackupUpdateFolders();
             //CreateLogFile();
@@ -65,15 +65,15 @@ namespace ATA_ClassLibrary
                 foreach (var file in files)
                 {
                     File.Delete(file);
-                   
+
                     // logging
                     LoggerService.Log($"Deleted file {file} from {_folderLoc}.");
                 }
             }
         }
 
-        
-        
-               
+
+
+
     }
 }

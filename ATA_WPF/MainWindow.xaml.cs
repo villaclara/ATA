@@ -21,6 +21,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml.Linq;
 using ATA_ClassLibrary;
+using ATA_ClassLibrary.Tools;
 using Microsoft.Win32;
 
 namespace ATA_WPF
@@ -289,59 +290,7 @@ namespace ATA_WPF
 
         #region PROCESS EVENTS REGION
 
-        // TO USE IN NEXT UPDATE
-        //
-        //
-        // handler when the process exited
-        private void FirstProcExited(object sender, EventArgs e)
-        {
-            //MessageBox.Show("Exited");
-            //ProcessHandlerEventArgs x = new ProcessHandlerEventArgs();
-
-            //processArray[0].OnProcessExited(this, x);
-
-            processArray[0].process = null;
-            processArray[0].IsRunning = false;
-            
-        }
-
-        private void SecondProcExited(object sender, EventArgs e)
-        {
-            processArray[1].process = null;
-            processArray[1].IsRunning = false;
-        }
-
-        private void ThirdProcExited(object sender, EventArgs e)
-        {
-            processArray[2].process = null;
-            processArray[2].IsRunning = false;
-        }
-
-        private void FourthProcExited(object sender, EventArgs e)
-        {
-            processArray[3].process = null;
-            processArray[3].IsRunning = false;
-
-        }
-
-        private void FifthProcExited(object sender, EventArgs e)
-        {
-            processArray[4].process = null;
-            processArray[4].IsRunning = false;
-
-        }
-
-
-
-        // NOT USED
-        // MB WILL LATER USE
-        private void Proc_Ended (object sender, ProcessHandlerEventArgs e)
-        {
-            System.Windows.MessageBox.Show(e.ProcIndex.ToString());
-            processArray[e.ProcIndex].process = null;
-
-            
-        }
+       
 
         #endregion END PROCESS EVENTS REGION
 

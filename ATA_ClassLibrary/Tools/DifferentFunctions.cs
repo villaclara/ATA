@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ATA_ClassLibrary
+namespace ATA_ClassLibrary.Tools
 {
     public static class DifferentFunctions
     {
@@ -26,7 +26,7 @@ namespace ATA_ClassLibrary
         {
             List<Process> procs = Process.GetProcesses().ToList();
             List<string> strings = new();
-            foreach(var proc in procs)
+            foreach (var proc in procs)
             {
                 strings.Add(proc.ProcessName);
             }
@@ -34,10 +34,10 @@ namespace ATA_ClassLibrary
         }
 
         // retrieving active procs list and then checks if the given procName is running
-        public static bool checkIfProcessIsRunningWithStringName (string procName)
+        public static bool checkIfProcessIsRunningWithStringName(string procName)
         {
             List<string> procList = GetActiveProcessesByNameString();
-            foreach(var proc in procList)
+            foreach (var proc in procList)
             {
                 if (proc == procName)
                     return true;
@@ -46,10 +46,10 @@ namespace ATA_ClassLibrary
         }
 
         // NOT USED YET
-        public static bool checkIfProcessIsRunningWithProcessVar (Process process)
+        public static bool checkIfProcessIsRunningWithProcessVar(Process process)
         {
             List<Process> procs = GetActiveProcesses();
-            foreach(var p in procs)
+            foreach (var p in procs)
             {
                 if (p.ProcessName == process.ProcessName)
                     return true;
@@ -59,10 +59,10 @@ namespace ATA_ClassLibrary
 
 
 
-       //
-       // resets total uptime of the process 
-       // and calls the function from WorkerWithFileClass to delete array from file
-       public static bool resetTotalUptime(ProcInstanceClass procInstance)
+        //
+        // resets total uptime of the process 
+        // and calls the function from WorkerWithFileClass to delete array from file
+        public static bool resetTotalUptime(ProcInstanceClass procInstance)
         {
             // if the process is running then we return false and show the messagebox which requires to close the process
             if (checkIfProcessIsRunningWithStringName(procInstance.ProcName))
@@ -79,7 +79,7 @@ namespace ATA_ClassLibrary
             // if everything is ok - we return true
             return true;
 
-            
+
         }
 
 

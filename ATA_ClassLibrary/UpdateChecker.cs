@@ -8,19 +8,20 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using ATA_ClassLibrary.Tools;
 
 namespace ATA_ClassLibrary
-{    
-    
+{
+
     // UPDATE FLOW
-     // 0 - gets and initializes current version in constructor
-     // 1 - gets into google drive folder and downloads all the files from it
-     // 2 - grabs the downloaded version.json and retrieves the version of latest build
-     // 3 - compares two versions between them
-     // 4 - if the version is higher then asks if the user want to update the app
-     // 5 - if the user wants to update then replaces all the files from update folder into main folder
-     // 6 - the current files go to backup folder 
-     // 7 - the app is asked to be restarted
+    // 0 - gets and initializes current version in constructor
+    // 1 - gets into google drive folder and downloads all the files from it
+    // 2 - grabs the downloaded version.json and retrieves the version of latest build
+    // 3 - compares two versions between them
+    // 4 - if the version is higher then asks if the user want to update the app
+    // 5 - if the user wants to update then replaces all the files from update folder into main folder
+    // 6 - the current files go to backup folder 
+    // 7 - the app is asked to be restarted
 
 
     public class UpdateChecker
@@ -151,12 +152,12 @@ namespace ATA_ClassLibrary
                     folderContentsUri += $"&pageToken={nextPageToken}";
                 }
                 var contentsJson = await httpClient.GetStringAsync(folderContentsUri);
-                var contents = (JObject)JsonConvert.DeserializeObject(contentsJson);
-                nextPageToken = (string)contents["nextPageToken"];
-                foreach (var file in (JArray)contents["files"])
+                var contents = (JObject)JsonConvert.DeserializeObject(contentsJson)!;
+                nextPageToken = (string)contents["nextPageToken"]!;
+                foreach (var file in (JArray)contents["files"]!)
                 {
-                    var id = (string)file["id"];
-                    var name = (string)file["name"];
+                    var id = (string)file["id"]!;
+                    var name = (string)file["name"]!;
                     
                     // BAD LINK AS .EXE FILES HAS GOOGLE VIRUS WARNINGS AND COULD NOT BE DOWNLOADED PROPERLY
                     var linkk = @"https://drive.google.com/uc?export=download&id=" + id;

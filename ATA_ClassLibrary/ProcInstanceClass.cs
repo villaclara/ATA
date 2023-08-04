@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
+using ATA_ClassLibrary.Tools;
 
 namespace ATA_ClassLibrary
 {
@@ -106,9 +107,6 @@ namespace ATA_ClassLibrary
             set => _isPreviousRunning = value;
         }
 
-        // for the event when process has ended
-        public event EventHandler<ProcessHandlerEventArgs> ProcessExitedSecond;
-
         public int UpMinutesFromStartingProgram { get; set; }
 
         public DateOnly TodaysDateForStartingProgram { get; set; }
@@ -196,16 +194,6 @@ namespace ATA_ClassLibrary
             return null;
         }
 
-
-
-        public void OnProcessExited(object sender, ProcessHandlerEventArgs e)
-        {
-            EventHandler<ProcessHandlerEventArgs> handler = ProcessExitedSecond;
-            if (handler != null)
-            {
-                handler.Invoke(this, e);
-            }
-        }
 
         public void setIsPreviousRunning()
         {
