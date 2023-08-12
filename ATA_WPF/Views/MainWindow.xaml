@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="ATA 0.1.4" Height="300" Width="985"
         ResizeMode="CanMinimize"
-        Icon="..\img\icon2.png"
+        Icon="../img/icon2.png"
         SizeToContent="Manual"  FontFamily="Consolas">
 
     <Window.Resources>
@@ -96,20 +96,20 @@
         <!-- First Process GRID ROW 2 -->
         <Border Grid.Column="0" Grid.ColumnSpan="11" Grid.Row="2" Background="#FFD8E3ED" Style="{StaticResource borderForButtonsStyle}" />
         <Button x:Name="setFirstProcess" Grid.Row="2" Grid.Column="2" Style = "{StaticResource styleButtonKey}" Click="setFirstProcessButton_Click" BorderBrush="Black" BorderThickness="1,1,1,1">
-            <Image Source="img\ar1.ico" Height="30" Width="40" />
+            <Image Source="..\img\ar1.ico" Height="30" Width="40" />
         </Button>
         <TextBlock x:Name="firstProcessName" Grid.Row="2" Grid.Column="3" Text="(first proc)" Style="{StaticResource styleNameProcess}" />
         <TextBlock x:Name="firstProcessIsRun" Grid.Row="2" Grid.Column="4" Text="IsRun" Style="{StaticResource styleIsRun}" />
         <TextBlock x:Name="firstProcessUpTime" Grid.Row="2" Grid.Column="5" Text="(first proc)" Style="{StaticResource styleCurrentUptime}"  />
         <TextBlock x:Name="firstProcessTotalUpTime" Grid.Row="2" Grid.Column="6" Text="TotalUpTime: (first proc)" Style="{StaticResource styleTotalUptime}" />
         <Button x:Name="resetFirstButton" Grid.Row="2" Grid.Column="7" Style = "{StaticResource styleButtonKey}" IsEnabled="False" Click="resetFirstButton_Click" >
-            <Image Source="img\restarticon1.ico" Height="25" Width="25"/>
+            <Image Source="..\img\restarticon1.ico" Height="25" Width="25"/>
         </Button>
         <Button x:Name="showFirstProcessAllTimes" Grid.Row="2" Grid.Column="8" Style="{StaticResource styleButtonKey}" IsEnabled="False" Click="showFirstProcessAllTimes_Click" >
-            <Image Source="img\detailsicon.ico" Height="25" Width="25"/>
+            <Image Source="..\img\detailsicon.ico" Height="25" Width="25"/>
         </Button>
         <Button x:Name="deleteFirstButton" Grid.Row="2" Grid.Column="9" Style="{StaticResource styleButtonKey}" IsEnabled="False" Click="deleteFirstButton_Click" >
-            <Image Source="img\xicon.ico" Height="25" Width="25"/>
+            <Image Source="..\img\xicon.ico" Height="25" Width="25"/>
         </Button>
 
 
@@ -118,20 +118,20 @@
         <!-- Second Process GRID ROW 3 -->
         <Border Grid.Column="0" Grid.ColumnSpan="11" Grid.Row="3" Background="#FFC1D7E6"/>
         <Button x:Name="setSecondProcess" Grid.Row="3" Grid.Column="2" Style="{StaticResource styleSecondRowButton}" FontFamily="Consolas" FontSize="14" FontWeight="Bold" Height="45" HorizontalAlignment="Right" VerticalAlignment="Center" Width="64" Click="setSecondProcess_Click" Foreground="#FF4C4949" >
-            <Image Source="img\ar1.ico" Height="30" Width="40" />
+            <Image Source="..\img\ar1.ico" Height="30" Width="40" />
         </Button>
         <TextBlock x:Name="secondProcessName" Grid.Row="3" Grid.Column="3" Text="(second proc)" Style="{StaticResource styleNameProcess}" />
         <TextBlock x:Name="secondProcessIsRun" Grid.Row="3" Grid.Column="4" Text="IsRun" Style="{StaticResource styleIsRun}" />
         <TextBlock x:Name="secondProcessUpTime" Grid.Row="3" Grid.Column="5" Text="(second proc)" Style="{StaticResource styleCurrentUptime}" />
         <TextBlock x:Name="secondProcessTotalUpTime" Grid.Row="3" Grid.Column="6" Text="TotalUpTime: (second proc)" Style="{StaticResource styleTotalUptime}" />
         <Button x:Name="resetSecondButton" Grid.Row="3" Grid.Column="7" Style="{StaticResource styleSecondRowButton}" IsEnabled="False" Click="resetSecondButton_Click" >
-            <Image Source="img\restarticon1.ico" Height="25" Width="25"/>
+            <Image Source="..\img\restarticon1.ico" Height="25" Width="25"/>
         </Button>
         <Button x:Name="showSecondProcessAllTimes" Grid.Row="3" Grid.Column="8" Style="{StaticResource styleSecondRowButton}" IsEnabled="False" Click="showSecondProcessAllTimes_Click" >
-            <Image Source="img\detailsicon.ico" Height="25" Width="25"/>
+            <Image Source="..\img\detailsicon.ico" Height="25" Width="25"/>
         </Button>
         <Button x:Name="deleteSecondButton" Grid.Row="3" Grid.Column="9" Style="{StaticResource styleSecondRowButton}" IsEnabled="False" Click="deleteSecondButton_Click">
-            <Image Source="img\xicon.ico" Height="25" Width="25"/>
+            <Image Source="..\img\xicon.ico" Height="25" Width="25"/>
         </Button>
 
 
@@ -140,60 +140,60 @@
         <!-- Third Process GRID ROW 4 -->
         <Border Grid.Column="0" Grid.ColumnSpan="11" Grid.Row="4" Background="#FFAAD3E8"/>
         <Button x:Name="setThirdProcess" Grid.Row="4" Grid.Column="2" Style="{StaticResource styleThirdRowButton}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Consolas" FontWeight="Bold" FontSize="14" Height="45" Width="64" Click="setThirdProcess_Click" >
-            <Image Source="img\ar1.ico" Height="30" Width="40" />
+            <Image Source="..\img\ar1.ico" Height="30" Width="40" />
         </Button>
         <TextBlock x:Name="thirdProcessName" Grid.Row="4" Grid.Column="3" Text="(third proc)" Style="{StaticResource styleNameProcess}" />
         <TextBlock x:Name="thirdProcessIsRun" Grid.Row="4" Grid.Column="4" Text="IsRun" Style="{StaticResource styleIsRun}" />
         <TextBlock x:Name="thirdProcessUpTime" Grid.Row="4" Grid.Column="5" Text="(third proc)" Style="{StaticResource styleCurrentUptime}" />
         <TextBlock x:Name="thirdProcessTotalUpTime" Grid.Row="4" Grid.Column="6" Text="TotalUpTime: (third proc)" Style="{StaticResource styleTotalUptime}" />
         <Button x:Name="resetThirdButton" Grid.Row="4" Grid.Column="7" Style="{StaticResource styleThirdRowButton}" IsEnabled="False" Click="resetThirdButton_Click" >
-            <Image Source="img\restarticon1.ico" Height="25" Width="25"/>
+            <Image Source="..\img\restarticon1.ico" Height="25" Width="25"/>
         </Button>
         <Button x:Name="showThirdProcessAllTimes" Grid.Row="4" Grid.Column="8" Style="{StaticResource styleThirdRowButton}" IsEnabled="False" Click="showThirdProcessAllTimes_Click" >
-            <Image Source="img\detailsicon.ico" Height="25" Width="25"/>
+            <Image Source="..\img\detailsicon.ico" Height="25" Width="25"/>
         </Button>
         <Button x:Name="deleteThirdButton" Grid.Row="4" Grid.Column="9" Style="{StaticResource styleThirdRowButton}" IsEnabled="False" Click="deleteThirdButton_Click">
-            <Image Source="img\xicon.ico" Height="25" Width="25"/>
+            <Image Source="..\img\xicon.ico" Height="25" Width="25"/>
         </Button>
 
 
         <!-- Fourth Process GRID ROW 5 -->
         <Border Grid.Column="0" Grid.ColumnSpan="11" Grid.Row="5" Background="#FF90CCEA"/>
         <Button x:Name="setFourthProcess" Grid.Row="5" Grid.Column="2" Style="{StaticResource styleFourthRowButtons}" Width="64" Height="45" FontFamily="Consolas" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Click="setFourthProcess_Click" >
-            <Image Source="img\ar1.ico" Height="30" Width="40" />
+            <Image Source="..\img\ar1.ico" Height="30" Width="40" />
         </Button>
         <TextBlock x:Name="fourthProcessName" Grid.Row="5" Grid.Column="3" Text="(fourth proc)" Style="{StaticResource styleNameProcess}" />
         <TextBlock x:Name="fourthProcessIsRun" Grid.Row="5" Grid.Column="4" Text="IsRun" Style="{StaticResource styleIsRun}" />
         <TextBlock x:Name="fourthProcessUpTime" Grid.Row="5" Grid.Column="5" Text="(fourth proc)" Style="{StaticResource styleCurrentUptime}" />
         <TextBlock x:Name="fourthProcessTotalUpTime" Grid.Row="5" Grid.Column="6" Text="TotalUpTime: (fourth proc)" Style="{StaticResource styleTotalUptime}"  />
         <Button x:Name="resetFourthButton" Grid.Row="5" Grid.Column="7" Style="{StaticResource styleFourthRowButtons}" IsEnabled="False" Click="resetFourthButton_Click">
-            <Image Source="img\restarticon1.ico" Height="25" Width="25"/>
+            <Image Source="..\img\restarticon1.ico" Height="25" Width="25"/>
         </Button>
         <Button x:Name="showFourthProcessAllTimes" Grid.Row="5" Grid.Column="8" Style="{StaticResource styleFourthRowButtons}" IsEnabled="False" Click="showFourthProcessAllTimes_Click">
-            <Image Source="img\detailsicon.ico" Height="25" Width="25"/>
+            <Image Source="..\img\detailsicon.ico" Height="25" Width="25"/>
         </Button>
         <Button x:Name="deleteFourthButton" Grid.Row="5" Grid.Column="9" Style="{StaticResource styleFourthRowButtons}" IsEnabled="False" Click="deleteFourthButton_Click">
-            <Image Source="img\xicon.ico" Height="25" Width="25"/>
+            <Image Source="..\img\xicon.ico" Height="25" Width="25"/>
         </Button>
 
 
         <!-- Fifth Process GRID ROW 6 -->
         <Border Grid.Column="0" Grid.ColumnSpan="11" Grid.Row="6" Background="#FF7DB3EA"/>
         <Button x:Name="setFifthProcess"  Grid.Row="6" Grid.Column="2" Style="{StaticResource styleFifthRowButtons}" Height="45" Width="64" FontFamily="Consolas" FontWeight="Bold" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" Click="setFifthProcess_Click" Cursor="Arrow" >
-            <Image Source="img\ar1.ico" Height="30" Width="40" />
+            <Image Source="..\img\ar1.ico" Height="30" Width="40" />
         </Button>
         <TextBlock x:Name="fifthProcessName" Grid.Row="6" Grid.Column="3" Text="(fifth proc)" Style="{StaticResource styleNameProcess}" />
         <TextBlock x:Name="fifthProcessIsRun" Grid.Row="6" Grid.Column="4" Text="IsRun" Style="{StaticResource styleIsRun}" />
         <TextBlock x:Name="fifthProcessUpTime" Grid.Row="6" Grid.Column="5" Text="(fifth proc)" Style="{StaticResource styleCurrentUptime}" />
         <TextBlock x:Name="fifthProcessTotalUpTime" Grid.Row="6" Grid.Column="6" Text="TotalUpTime: (fifth proc)" Style="{StaticResource styleTotalUptime}" />
         <Button x:Name="resetFifthButton" Grid.Row="6" Grid.Column="7" Style="{StaticResource styleFifthRowButtons}"  IsEnabled="False" Click="resetFifthtButton_Click">
-            <Image Source="img\restarticon1.ico" Height="25" Width="25"/>
+            <Image Source="..\img\restarticon1.ico" Height="25" Width="25"/>
         </Button>
         <Button x:Name="showFifthProcessAllTimes" Grid.Row="6" Grid.Column="8" Style="{StaticResource styleFifthRowButtons}" IsEnabled="False" Click="showFifthProcessAllTimes_Click">
-            <Image Source="img\detailsicon.ico" Height="25" Width="25"/>
+            <Image Source="..\img\detailsicon.ico" Height="25" Width="25"/>
         </Button>
         <Button x:Name="deleteFifthButton" Grid.Row="6" Grid.Column="9" Style="{StaticResource styleFifthRowButtons}" Width="50" IsEnabled="False" Click="deleteFifthButton_Click">
-            <Image Source="img\xicon.ico" Height="25" Width="25"/>
+            <Image Source="..\img\xicon.ico" Height="25" Width="25"/>
         </Button>
 
 

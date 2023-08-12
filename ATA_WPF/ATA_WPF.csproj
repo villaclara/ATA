@@ -22,6 +22,7 @@
     <None Remove="img\ar1.ico" />
     <None Remove="img\deleteicon.ico" />
     <None Remove="img\detailsicon.ico" />
+    <None Remove="img\icon2.png" />
     <None Remove="img\reset.png" />
     <None Remove="img\reset64px.png" />
     <None Remove="img\restart.png" />
@@ -29,23 +30,18 @@
     <None Remove="img\restarticon1.ico" />
     <None Remove="img\xicon.ico" />
     <None Remove="pngwing.com.png" />
+    <None Remove="Resources\ar1.png" />
     <None Remove="set.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="ar1.png" />
-    <Resource Include="arrow2.png" />
-    <Resource Include="bluearrow.png" />
-    <Resource Include="icon2.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
     <Resource Include="img\ar1.ico" />
     <Resource Include="img\deleteicon.ico" />
     <Resource Include="img\detailsicon.ico" />
+    <Resource Include="img\icon2.png" />
     <Resource Include="img\restarticon1.ico" />
     <Resource Include="img\xicon.ico" />
-    <Resource Include="pngwing.com.png" />
-    <Resource Include="set.png" />
+    <Resource Include="Resources\ar1.png" />
   </ItemGroup>
 
   <ItemGroup>

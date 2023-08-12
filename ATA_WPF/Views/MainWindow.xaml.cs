@@ -312,12 +312,12 @@ namespace ATA_WPF
             lForm.ShowDialog();
 
 
-            if (ProcInstanceClass.selectedProc != null && ProcInstanceClass.selectedProc != "")
+            if (ProcInstanceClass.SelectedProc != null && ProcInstanceClass.SelectedProc != "")
             {
-                processArray[0] = new ProcInstanceClass(ProcInstanceClass.selectedProc);                
+                processArray[0] = new ProcInstanceClass(ProcInstanceClass.SelectedProc);                
                 WorkerWithFileClass.AddProcessNameToFile(processArray[0].ProcName, processArray, 0);
                 WorkerWithFileClass.writeToFileInfoAboutOneProcFromSetProcButton(processArray[0]);
-                ProcInstanceClass.selectedProc = "";
+                ProcInstanceClass.SelectedProc = "";
                 DisplayInfoProcess(processArray[0], firstProcessName, firstProcessUpTime, firstProcessTotalUpTime, firstProcessIsRun);
                 resetFirstButton.IsEnabled = true;
                 showFirstProcessAllTimes.IsEnabled = true;
@@ -331,15 +331,15 @@ namespace ATA_WPF
             lForm.ShowDialog();
 
 
-            if (ProcInstanceClass.selectedProc != null && ProcInstanceClass.selectedProc != "")
+            if (ProcInstanceClass.SelectedProc != null && ProcInstanceClass.SelectedProc != "")
             {
-                processArray[1] = new ProcInstanceClass(ProcInstanceClass.selectedProc);
+                processArray[1] = new ProcInstanceClass(ProcInstanceClass.SelectedProc);
                 //processArray[1].process.Exited += SecondProcExited;
 
                 WorkerWithFileClass.AddProcessNameToFile(processArray[1].ProcName, processArray, 1);
                 WorkerWithFileClass.writeToFileInfoAboutOneProcFromSetProcButton(processArray[1]);
 
-                ProcInstanceClass.selectedProc = "";
+                ProcInstanceClass.SelectedProc = "";
                 DisplayInfoProcess(processArray[1], secondProcessName, secondProcessUpTime, secondProcessTotalUpTime, secondProcessIsRun);
 
 
@@ -355,16 +355,16 @@ namespace ATA_WPF
             lForm.ShowDialog();
 
 
-            if (ProcInstanceClass.selectedProc != null && ProcInstanceClass.selectedProc != "")
+            if (ProcInstanceClass.SelectedProc != null && ProcInstanceClass.SelectedProc != "")
             {
-                processArray[2] = new ProcInstanceClass(ProcInstanceClass.selectedProc);
+                processArray[2] = new ProcInstanceClass(ProcInstanceClass.SelectedProc);
                // processArray[2].process.Exited += ThirdProcExited;
 
                 WorkerWithFileClass.AddProcessNameToFile(processArray[2].ProcName, processArray, 2);
                 WorkerWithFileClass.writeToFileInfoAboutOneProcFromSetProcButton(processArray[2]);
 
 
-                ProcInstanceClass.selectedProc = "";
+                ProcInstanceClass.SelectedProc = "";
                 DisplayInfoProcess(processArray[2], thirdProcessName, thirdProcessUpTime, thirdProcessTotalUpTime, thirdProcessIsRun);
 
 
@@ -380,16 +380,16 @@ namespace ATA_WPF
             lForm.ShowDialog();
 
 
-            if (ProcInstanceClass.selectedProc != null && ProcInstanceClass.selectedProc != "")
+            if (ProcInstanceClass.SelectedProc != null && ProcInstanceClass.SelectedProc != "")
             {
-                processArray[3] = new ProcInstanceClass(ProcInstanceClass.selectedProc);
+                processArray[3] = new ProcInstanceClass(ProcInstanceClass.SelectedProc);
                // processArray[3].process.Exited += FourthProcExited;
 
                 WorkerWithFileClass.AddProcessNameToFile(processArray[3].ProcName, processArray, 3);
                 WorkerWithFileClass.writeToFileInfoAboutOneProcFromSetProcButton(processArray[3]);
 
 
-                ProcInstanceClass.selectedProc = "";
+                ProcInstanceClass.SelectedProc = "";
                 DisplayInfoProcess(processArray[3], fourthProcessName, fourthProcessUpTime, fourthProcessTotalUpTime, fourthProcessIsRun);
 
 
@@ -404,9 +404,9 @@ namespace ATA_WPF
             ListProcsForm lForm = new ListProcsForm();
             lForm.ShowDialog();
 
-            if (ProcInstanceClass.selectedProc != null && ProcInstanceClass.selectedProc != "")
+            if (ProcInstanceClass.SelectedProc != null && ProcInstanceClass.SelectedProc != "")
             {
-                processArray[4] = new ProcInstanceClass(ProcInstanceClass.selectedProc);
+                processArray[4] = new ProcInstanceClass(ProcInstanceClass.SelectedProc);
                 //processArray[4].process.Exited += FifthProcExited;
 
                 WorkerWithFileClass.AddProcessNameToFile(processArray[4].ProcName, processArray, 4);
@@ -414,7 +414,7 @@ namespace ATA_WPF
                 WorkerWithFileClass.writeToFileInfoAboutOneProcFromSetProcButton(processArray[4]);
                 
 
-                ProcInstanceClass.selectedProc = "";
+                ProcInstanceClass.SelectedProc = "";
                 DisplayInfoProcess(processArray[4], fifthProcessName, fifthProcessUpTime, fifthProcessTotalUpTime, fifthProcessIsRun);
 
 

@@ -26,9 +26,9 @@ namespace ATA_WPF
         {
             InitializeComponent();
 
-            List<string> strProcs = DifferentFunctions.GetActiveProcessesByNameString();
-            strProcs.Sort();
-            ProcsList.ItemsSource = strProcs;
+            //List<string> strProcs = DifferentFunctions.GetActiveProcessesByNameString();
+            //strProcs.Sort();
+            //ProcsList.ItemsSource = strProcs;
         }
 
 
@@ -43,14 +43,14 @@ namespace ATA_WPF
                 // if the process is system - the time is not available
                 try
                 {
-                    ProcInstanceClass.selectedProc = ProcsList.SelectedItem.ToString();
-                    Process[] pr = Process.GetProcessesByName(ProcInstanceClass.selectedProc);
+                    ProcInstanceClass.SelectedProc = ProcsList.SelectedItem.ToString();
+                    Process[] pr = Process.GetProcessesByName(ProcInstanceClass.SelectedProc);
                     var a = pr[0].MainModule.FileName;                      // if this gives an error then we catch and refresh SELECTEDPROCESS var
                     this.Close();
                 }
                 catch (Exception)
                 {
-                    ProcInstanceClass.selectedProc = "";
+                    ProcInstanceClass.SelectedProc = "";
                     MessageBox.Show("The process could not be selected. Please select another.");
                 }
             }

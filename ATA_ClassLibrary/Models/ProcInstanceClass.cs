@@ -17,7 +17,7 @@ namespace ATA_ClassLibrary.Models
         // FIELDS
         //////////////////////
 
-        public static string? selectedProc;
+        public static string? SelectedProc;
 
         // bool if the process is currently running
         private bool _isRunning;
@@ -139,7 +139,7 @@ namespace ATA_ClassLibrary.Models
             }
             //_upTimes = retrieveListOfUpTimesForCurrentProcess(fileNameToWriteInfo);
 
-            selectedProc = "";
+            SelectedProc = "";
 
             UpMinutesFromStartingProgram = 0;
             TodaysDateForStartingProgram = DateOnly.FromDateTime(DateTime.Now);
@@ -155,7 +155,7 @@ namespace ATA_ClassLibrary.Models
         public ProcInstanceClass()
         {
             process = null;
-            selectedProc = "";
+            SelectedProc = "";
             _procName = "";
             _upTimes = new List<UpTime>();
             IsRunning = false;
