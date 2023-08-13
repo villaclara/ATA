@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ATA_ClassLibrary.Models
+namespace ATA_ClassLibrary.Tools
 {
-    public class AppInstance
-    {
-
-    }
+	public static class AppToTrackTool
+	{
+		public static string? AppTotrack { get; set; }
+	}
 }
