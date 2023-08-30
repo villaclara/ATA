@@ -128,10 +128,11 @@ namespace ATA_WPF
             // Icon and delegate for displaying minimized icon in the taskbar
             // delegate == event
             System.Windows.Forms.NotifyIcon nico = new System.Windows.Forms.NotifyIcon();
-            //nico.Icon = new System.Drawing.Icon("icon2_super.ico");
+			//nico.Icon = new System.Drawing.Icon("icon2_super.ico");
 
-            nico.Icon = new System.Drawing.Icon(System.IO.Path.Combine(BaseDir, "icon2_super.ico"));
-            nico.Visible = true;
+			//nico.Icon = new System.Drawing.Icon(System.IO.Path.Combine(BaseDir, "icon2_super.ico"));
+			nico.Icon = new System.Drawing.Icon(System.IO.Path.Combine(BaseDir, "icon2.ico"));
+			nico.Visible = true;
             nico.DoubleClick += delegate (object? sender, EventArgs args)
             {
                 this.Show();
@@ -153,7 +154,7 @@ namespace ATA_WPF
                 this.Close();
             };
 
-            openItem.Click += delegate (object? sender, EventArgs args)
+            openItem.Click += (object? sender, EventArgs args) =>
             {
                 this.Show();
                 this.WindowState = WindowState.Normal;

@@ -7,7 +7,11 @@
         mc:Ignorable="d"
         Title="ATA 0.1.4" Height="300" Width="985"
         ResizeMode="CanMinimize"
+<<<<<<< Updated upstream:ATA_WPF/MainWindow.xaml
         Icon="/icon2.png"
+=======
+        Icon="../img/iconpng.png"
+>>>>>>> Stashed changes:ATA_WPF/Views/MainWindow.xaml
         SizeToContent="Manual"  FontFamily="Consolas">
 
     <Window.Resources>
