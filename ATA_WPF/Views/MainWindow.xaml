@@ -7,13 +7,9 @@
         mc:Ignorable="d"
         Title="ATA 0.1.5" Height="300" Width="985"
         ResizeMode="CanMinimize"
-<<<<<<< HEAD:ATA_WPF/Views/MainWindow.xaml
-        Icon="../img/icon2.png"
-        SizeToContent="Manual"  FontFamily="Consolas">
-=======
+
         Icon="../img/iconpng.png">
 
->>>>>>> master:ATA_WPF/MainWindow.xaml
 
     <Window.Resources>
         <ResourceDictionary Source="../Resources/Dictionary1.xaml"/>

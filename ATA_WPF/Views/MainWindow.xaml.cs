@@ -317,13 +317,8 @@ namespace ATA_WPF
             {
                 processArray[0] = new ProcInstanceClass(ProcInstanceClass.SelectedProc);                
                 WorkerWithFileClass.AddProcessNameToFile(processArray[0].ProcName, processArray, 0);
-<<<<<<< HEAD:ATA_WPF/Views/MainWindow.xaml.cs
-                WorkerWithFileClass.writeToFileInfoAboutOneProcFromSetProcButton(processArray[0]);
-                ProcInstanceClass.SelectedProc = "";
-=======
                 WorkerWithFileClass.WriteToFileInfoAboutOneProcFromSetProcButton(processArray[0]);
-                ProcInstanceClass.selectedProc = "";
->>>>>>> master:ATA_WPF/MainWindow.xaml.cs
+                ProcInstanceClass.SelectedProc = "";
                 DisplayInfoProcess(processArray[0], firstProcessName, firstProcessUpTime, firstProcessTotalUpTime, firstProcessIsRun);
                 resetFirstButton.IsEnabled = true;
                 showFirstProcessAllTimes.IsEnabled = true;
