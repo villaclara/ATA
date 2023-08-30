@@ -12,21 +12,16 @@ namespace ATA_ClassLibrary.Tools
     {
         private readonly static string _loggerFile = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\log.txt";
 
-        //static LoggerService()
-        //{
-        //    File.WriteAllText(_loggerFile, "");
-        //}
-
         public static void Log(string message)
         {
-            using StreamWriter sw = new StreamWriter(_loggerFile, true);
+            using var sw = new StreamWriter(_loggerFile, true);
             string now = DateTime.Now.ToString();
             sw.WriteLine(now + " - " + message);
         }
 
         public static void ClearLogFile()
         {
-            using StreamWriter sw = new StreamWriter(_loggerFile, false);
+            using StreamWriter sw = new(_loggerFile, false);
             sw.Write("");
         }
     }

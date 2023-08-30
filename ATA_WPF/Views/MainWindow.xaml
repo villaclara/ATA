@@ -5,16 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ATA_WPF"
         mc:Ignorable="d"
-        Title="ATA 0.1.4" Height="300" Width="985"
+        Title="ATA 0.1.5" Height="300" Width="985"
         ResizeMode="CanMinimize"
+<<<<<<< HEAD:ATA_WPF/Views/MainWindow.xaml
         Icon="../img/icon2.png"
         SizeToContent="Manual"  FontFamily="Consolas">
+=======
+        Icon="../img/iconpng.png">
+
+>>>>>>> master:ATA_WPF/MainWindow.xaml
 
     <Window.Resources>
         <ResourceDictionary Source="../Resources/Dictionary1.xaml"/>
     </Window.Resources>
-
-
 
 
 

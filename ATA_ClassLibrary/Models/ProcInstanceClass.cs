@@ -44,22 +44,22 @@ namespace ATA_ClassLibrary.Models
         private long _totalUpTime;
 
         // field for all uptimes
-        private List<UpTime> _upTimes;
+        private List<UpTime> _upTimes = new List<UpTime>();
 
 
-        //////////////////////
-        // PROPERTIES
-        //////////////////////
+		//////////////////////
+		// PROPERTIES
+		//////////////////////
 
 
-        public List<UpTime> UpTimes
+		public List<UpTime> UpTimes
         {
             get
             {
-                _upTimes = retrieveListOfUpTimesForCurrentProcess(fileNameToWriteInfo);
+                _upTimes = RetrieveListOfUpTimesForCurrentProcess(fileNameToWriteInfo);
                 return _upTimes;
             }
-            set => _upTimes = retrieveListOfUpTimesForCurrentProcess(fileNameToWriteInfo);
+            set => _upTimes = RetrieveListOfUpTimesForCurrentProcess(fileNameToWriteInfo);
         }
 
         public string ProcName
@@ -70,10 +70,11 @@ namespace ATA_ClassLibrary.Models
 
         public int UpTimeMinutesCurrentSession
         {
-            get
-            {
-                _upTimeMinutesCurrentSession = calculateUpTimeCurrentSession();
-                return _upTimeMinutesCurrentSession;
+
+            get 
+            { 
+                _upTimeMinutesCurrentSession = CalculateUpTimeCurrentSession(); 
+                return _upTimeMinutesCurrentSession; 
             }
         }
 
@@ -81,7 +82,7 @@ namespace ATA_ClassLibrary.Models
         {
             get
             {
-                _totalUpTime = calculateTotalUpTime();
+                _totalUpTime = CalculateTotalUpTime();
                 return _totalUpTime;
             }
         }
@@ -91,13 +92,13 @@ namespace ATA_ClassLibrary.Models
         {
             get
             {
-                _isRunning = DifferentFunctions.checkIfProcessIsRunningWithStringName(_procName);
+                _isRunning = DifferentFunctions.CheckIfProcessIsRunningWithStringName(_procName);
                 return _isRunning;
             }
             set
             {
                 _isRunning = value;
-                process = getProcByName(ProcName);
+                process = GetProcByName(ProcName);
             }
         }
 
@@ -106,6 +107,7 @@ namespace ATA_ClassLibrary.Models
             get => _isPreviousRunning;
             set => _isPreviousRunning = value;
         }
+
 
         public int UpMinutesFromStartingProgram { get; set; }
 
@@ -120,12 +122,11 @@ namespace ATA_ClassLibrary.Models
         // constructor 1
         public ProcInstanceClass(string procName)
         {
-            process = getProcByName(procName);
+            process = GetProcByName(procName);
             _procName = procName;
             fileNameToWriteInfo = Path.Combine(DifferentFunctions.BaseDir, procName + ".txt");
             //fileNameToWriteInfo = Path.Combine(Directory.GetCurrentDirectory(), procName + ".txt");
-
-
+            
 
             IsRunning = true;
             IsPreviousRunning = false;
@@ -137,7 +138,7 @@ namespace ATA_ClassLibrary.Models
                 FileStream fileStream = File.Create(fileNameToWriteInfo);
                 fileStream.Close();
             }
-            //_upTimes = retrieveListOfUpTimesForCurrentProcess(fileNameToWriteInfo);
+            //_upTimes = RetrieveListOfUpTimesForCurrentProcess(fileNameToWriteInfo);
 
             SelectedProc = "";
 
@@ -145,7 +146,7 @@ namespace ATA_ClassLibrary.Models
             TodaysDateForStartingProgram = DateOnly.FromDateTime(DateTime.Now);
 
 
-            process.EnableRaisingEvents = true;
+            process!.EnableRaisingEvents = true;
 
         }
 
@@ -181,7 +182,7 @@ namespace ATA_ClassLibrary.Models
         }
 
         // retrieve the process by the name and assing it to the calling instance
-        public static Process? getProcByName(string givenName)
+        public static Process? GetProcByName(string givenName)
         {
             Process[] procs = Process.GetProcessesByName(givenName);
             foreach (var p in procs)
@@ -195,7 +196,7 @@ namespace ATA_ClassLibrary.Models
         }
 
 
-        public void setIsPreviousRunning()
+        public void SetIsPreviousRunning()
         {
             if (IsRunning == true && IsPreviousRunning == false)
             {
@@ -213,7 +214,7 @@ namespace ATA_ClassLibrary.Models
         // calculate current UpTIme
         // Subtracts Time.Now - from StartTime.
         // is used in UpTimeMinutesCurrentSession property
-        public int calculateUpTimeCurrentSession()
+        public int CalculateUpTimeCurrentSession()
         {
             if (!IsRunning)
                 return 0;
@@ -233,29 +234,29 @@ namespace ATA_ClassLibrary.Models
         //
         // return list of total uptimes for previous sessions read from the file
         // 
-        public List<UpTime> retrieveListOfUpTimesForCurrentProcess(string fileNameToWrite)
+        public List<UpTime> RetrieveListOfUpTimesForCurrentProcess(string fileNameToWrite)
         {
             _upTimes = new List<UpTime>();
 
             string lines = WorkerWithFileClass.ReadFromFileWithGivenName(fileNameToWrite);
             if (lines == null || lines == "")
             {
-                _upTimes.Add(new UpTime(calculateUpTimeCurrentSession(), DateOnly.FromDateTime(DateTime.Now)));
-
+                _upTimes.Add(new UpTime(CalculateUpTimeCurrentSession(), DateOnly.FromDateTime(DateTime.Now)));
+              
             }
 
-            string[] allStrings = lines.Split(',');
+            string[] allStrings = lines!.Split(',');
 
             for (int i = 0; i <= allStrings.Length - 2; i += 2)
             {
-                UpTime up = new UpTime(Convert.ToInt64(allStrings[i + 1]), DateOnly.FromDateTime(Convert.ToDateTime(allStrings[i])));
-                _upTimes.Add(up);
+                UpTime up = new(Convert.ToInt64(allStrings[i + 1]), DateOnly.FromDateTime(Convert.ToDateTime(allStrings[i])));
+                _upTimes.Add(up);     
             }
 
-
-            if (!checkIfTodayDateWasAddedToUpTimesList() && IsRunning == true)
+          
+            if (!CheckIfTodayDateWasAddedToUpTimesList() && IsRunning == true)
             {
-                _upTimes.Add(new UpTime(calculateUpTimeCurrentSession(), DateOnly.FromDateTime(DateTime.Now)));
+                _upTimes.Add(new UpTime(CalculateUpTimeCurrentSession(), DateOnly.FromDateTime(DateTime.Now))); 
             }
 
 
@@ -264,36 +265,31 @@ namespace ATA_ClassLibrary.Models
 
 
         // true if today's date is in the List of Uptimes
-        public bool checkIfTodayDateWasAddedToUpTimesList()
+        public bool CheckIfTodayDateWasAddedToUpTimesList()
         {
-            if (_upTimes.Last().UpDate == DateOnly.FromDateTime(DateTime.Now))
-            {
-                return true;
-            }
-            return false;
-        }
+			if (_upTimes.Last().UpDate == DateOnly.FromDateTime(DateTime.Now))
+			{
+				return true;
+			}
+			return false;
+		}
 
-
-
-
-        // PROBABLY OK
-        // 
+     
         // 
         // calculate total uptime from file and current session
-        private long calculateTotalUpTime()
+        private long CalculateTotalUpTime()
         {
-            long sum = 0;
-            if (UpTimes == null)
-                return UpTimeMinutesCurrentSession;
 
-            foreach (var item in UpTimes)
-            {
-                sum += item.UpMinutes;
-            }
-            return sum;
-        }
+			if (UpTimes == null)
+				return UpTimeMinutesCurrentSession;
 
-
+			long sum = 0;
+			foreach (var item in UpTimes)
+			{
+				sum += item.UpMinutes;
+			}
+			return sum;
+		}
 
     }
 }

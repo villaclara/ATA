@@ -42,10 +42,8 @@ namespace ATA_ClassLibrary.Tools
 
 
         // directory of backup and update folders
-        //private readonly string _backupLoc = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\backup";
-        //private readonly string _updateLoc = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\update";
-        private readonly string _backupLoc = AppDomain.CurrentDomain.BaseDirectory + "\\backup";
-        private readonly string _updateLoc = AppDomain.CurrentDomain.BaseDirectory + "\\update";
+        private readonly string _backupLoc = System.AppDomain.CurrentDomain.BaseDirectory + "\\backup";
+        private readonly string _updateLoc = System.AppDomain.CurrentDomain.BaseDirectory + "\\update";
 
 
         private readonly string _googleDriveLoc = @"https://drive.google.com/drive/u/0/folders/11owhMTSElIkavHKBC517PUpdQU0m2nqn";
@@ -72,7 +70,7 @@ namespace ATA_ClassLibrary.Tools
 
             // retrieve and assing current version
             // assing latest version new object
-            _currentV = GetVersion(_location);
+            _currentV = _getVersion(_location);
             _latestV = new Version();
 
 
@@ -106,7 +104,7 @@ namespace ATA_ClassLibrary.Tools
             LoggerService.Log($"Getting newest version.");
 
             // assign the latest version 
-            _latestV = GetVersion(_updateLoc);
+            _latestV = _getVersion(_updateLoc);
             //_latestV = new Version();
             LoggerService.Log($"Latest version - {_latestV}.");
         }
@@ -120,9 +118,9 @@ namespace ATA_ClassLibrary.Tools
         // gets the Current version string from file and returns it
         // is called for current and for the downloaded in update folder
         // folder location is passed as parameter
-        private Version GetVersion(string directoryPath)
+        private Version _getVersion(string directoryPath)
         {
-            (string cur, string lat) = WorkerWithFileClass.getVersionFromFile(directoryPath + "\\version.json");
+            (string cur, string lat) = WorkerWithFileClass.GetVersionFromFile(directoryPath + "\\version.json");
             return new Version(cur);
         }
 
@@ -158,7 +156,7 @@ namespace ATA_ClassLibrary.Tools
                 {
                     var id = (string)file["id"]!;
                     var name = (string)file["name"]!;
-
+                    
                     // BAD LINK AS .EXE FILES HAS GOOGLE VIRUS WARNINGS AND COULD NOT BE DOWNLOADED PROPERLY
                     var linkk = @"https://drive.google.com/uc?export=download&id=" + id;
 

@@ -10,7 +10,7 @@ namespace ATA_ClassLibrary.Tools
 {
     public static class DifferentFunctions
     {
-        public static string BaseDir = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+        public static string BaseDir = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)!;
 
         // path for the procs file with names of all selected processes
         // it will be - Default path to the folder of project and procs.txt name
@@ -25,7 +25,7 @@ namespace ATA_ClassLibrary.Tools
         // gets list of active process names
         public static List<string> GetActiveProcessesByNameString()
         {
-            List<Process> procs = Process.GetProcesses().ToList();
+            List<Process> procs = GetActiveProcesses();
             List<string> strings = new();
             foreach (var proc in procs)
             {
@@ -35,7 +35,7 @@ namespace ATA_ClassLibrary.Tools
         }
 
         // retrieving active procs list and then checks if the given procName is running
-        public static bool checkIfProcessIsRunningWithStringName(string procName)
+        public static bool CheckIfProcessIsRunningWithStringName (string procName)
         {
             List<string> procList = GetActiveProcessesByNameString();
             foreach (var proc in procList)
@@ -46,43 +46,27 @@ namespace ATA_ClassLibrary.Tools
             return false;
         }
 
-        // NOT USED YET
-        public static bool checkIfProcessIsRunningWithProcessVar(Process process)
-        {
-            List<Process> procs = GetActiveProcesses();
-            foreach (var p in procs)
-            {
-                if (p.ProcessName == process.ProcessName)
-                    return true;
-            }
-            return false;
-        }
 
-
-
-        //
-        // resets total uptime of the process 
-        // and calls the function from WorkerWithFileClass to delete array from file
-        public static bool resetTotalUptime(ProcInstanceClass procInstance)
+       //
+       // resets total uptime of the process 
+       // and calls the function from WorkerWithFileClass to delete array from file
+       public static bool ResetTotalUptime(ProcInstanceClass procInstance)
         {
             // if the process is running then we return false and show the messagebox which requires to close the process
-            if (checkIfProcessIsRunningWithStringName(procInstance.ProcName))
+            if (CheckIfProcessIsRunningWithStringName(procInstance.ProcName))
             {
                 return false;
             }
 
             // if the file is not written then false is returned
-            if (!WorkerWithFileClass.writeTimeForRestartButton(procInstance))
+            if (!WorkerWithFileClass.WriteTimeForRestartButton(procInstance))
             {
                 return false;
             }
 
             // if everything is ok - we return true
-            return true;
-
-
+            return true;          
         }
-
 
     }
 }

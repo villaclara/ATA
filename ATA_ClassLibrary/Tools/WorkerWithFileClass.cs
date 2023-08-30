@@ -35,7 +35,7 @@ namespace ATA_ClassLibrary.Tools
 
         // gets the string of process name from the file
         // index - digit of the textblock to display
-        public static string getProcessFromFileWithGivenIndex(int index)
+        public static string GetProcessFromFileWithGivenIndex (int index)
         {
             string[] procs = ReadFromFileWithGivenName(DifferentFunctions.fileWithProcesses).Split(',');
             if (procs[index] != "empty")
@@ -48,7 +48,7 @@ namespace ATA_ClassLibrary.Tools
 
         // writes the processes list into default 'procs.txt' file
         // is at DELETE process button
-        public static void writeProcessToFileAtIndex(int index, string name)
+        public static void WriteProcessToFileAtIndex (int index, string name)
         {
             string[] procs = ReadFromFileWithGivenName(DifferentFunctions.fileWithProcesses).Split(',');
             procs[index] = name;
@@ -64,7 +64,7 @@ namespace ATA_ClassLibrary.Tools
 
         // create default procs file and fill it with the empty names
         // or when pressed 'RESET ALL' button
-        public static void createDefault()
+        public static void CreateDefault()
         {
             using (StreamWriter writer = new StreamWriter(File.OpenWrite(DifferentFunctions.fileWithProcesses)))
             {
@@ -75,7 +75,7 @@ namespace ATA_ClassLibrary.Tools
 
         // writes list of each process UPTIMES
         // to file with given array of processes
-        public static void writeToFileInfoAboutProcs(ProcInstanceClass[] procs)
+        public static void WriteToFileInfoAboutProcs(ProcInstanceClass[] procs)
         {
             foreach (var proc in procs)
             {
@@ -86,13 +86,13 @@ namespace ATA_ClassLibrary.Tools
                 // retrieve the list of uptimes 
                 // it works because we are in the foreach 
                 // so got another list of uptimes
-                List<UpTime> ups = proc.retrieveListOfUpTimesForCurrentProcess(proc.fileNameToWriteInfo);
-
+                List<UpTime> ups = proc.RetrieveListOfUpTimesForCurrentProcess(proc.fileNameToWriteInfo);
+                
                 // 
                 // +1 minute if process is running
                 // did not moved it into separate function because it was not working
                 // probably because of copy of instance is given as parameter
-                if (proc.IsRunning && proc.checkIfTodayDateWasAddedToUpTimesList())
+                if (proc.IsRunning && proc.CheckIfTodayDateWasAddedToUpTimesList())
                 {
                     ups.Last().UpMinutes += 1;
                 }
@@ -118,7 +118,7 @@ namespace ATA_ClassLibrary.Tools
 
         // writes the first time info to the file about process
         // after user SETS the process
-        public static void writeToFileInfoAboutOneProcFromSetProcButton(ProcInstanceClass proc)
+        public static void WriteToFileInfoAboutOneProcFromSetProcButton(ProcInstanceClass proc)
         {
             using (FileStream fileStream = new FileStream(proc.fileNameToWriteInfo, FileMode.Append))
             {
@@ -147,7 +147,7 @@ namespace ATA_ClassLibrary.Tools
         // clears the file
         // 
         // used in Restart time button
-        public static bool writeTimeForRestartButton(ProcInstanceClass proc)
+        public static bool WriteTimeForRestartButton (ProcInstanceClass proc)
         {
             File.WriteAllText(proc.fileNameToWriteInfo, DateOnly.FromDateTime(DateTime.Now) + ",0,");
             return true;
@@ -155,7 +155,7 @@ namespace ATA_ClassLibrary.Tools
 
 
         // writes the versions to a file 'version.json'
-        public static void writeVersionFile(string currentVersion, string latestVersion)
+        public static void WriteVersionFile (string currentVersion, string latestVersion)
         {
             //if (!File.Exists(DifferentFunctions.BaseDir + $"\\version.json"))
             //    File.Create(DifferentFunctions.BaseDir + $"\\version.json");
@@ -168,7 +168,7 @@ namespace ATA_ClassLibrary.Tools
         }
 
         // gets the values of current and latest versions from file 'version.json'
-        public static (string, string) getVersionFromFile(string fileName)
+        public static (string, string) GetVersionFromFile (string fileName)
         {
             string result = ReadFromFileWithGivenName(fileName);
 
@@ -181,7 +181,7 @@ namespace ATA_ClassLibrary.Tools
             var re = JsonConvert.DeserializeAnonymousType(result, versions);
 
             // converting anonymous type fields into valuetuple
-            (string, string) r = (re.currentVersion, re.latestVersion);
+            (string, string) r = (re!.currentVersion, re.latestVersion);
             return r;
 
 
