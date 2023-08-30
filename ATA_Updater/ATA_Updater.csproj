@@ -8,12 +8,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ATA_WPF\ATA_WPF.csproj" />
+    <Compile Remove="VievModels\**" />
+    <Compile Remove="Views\**" />
+    <EmbeddedResource Remove="VievModels\**" />
+    <EmbeddedResource Remove="Views\**" />
+    <None Remove="VievModels\**" />
+    <None Remove="Views\**" />
+    <Page Remove="VievModels\**" />
+    <Page Remove="Views\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="VievModels\" />
-    <Folder Include="Views\" />
+    <ProjectReference Include="..\ATA_WPF\ATA_WPF.csproj" />
   </ItemGroup>
 
 </Project>
