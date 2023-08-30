@@ -22,21 +22,6 @@
     <None Remove="img\ar1.ico" />
     <None Remove="img\deleteicon.ico" />
     <None Remove="img\detailsicon.ico" />
-<<<<<<< Updated upstream
-=======
-    <None Remove="img\icon2.ico" />
-    <None Remove="img\icon2.png" />
-    <None Remove="img\iconpng.png" />
-    <None Remove="img\new_icon.ico" />
->>>>>>> Stashed changes
-    <None Remove="img\reset.png" />
-    <None Remove="img\reset64px.png" />
-    <None Remove="img\restart.png" />
-    <None Remove="img\restarticon.ico" />
-    <None Remove="img\restarticon1.ico" />
-    <None Remove="img\xicon.ico" />
-    <None Remove="pngwing.com.png" />
-    <None Remove="set.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -49,21 +34,16 @@
     <Resource Include="img\ar1.ico" />
     <Resource Include="img\deleteicon.ico" />
     <Resource Include="img\detailsicon.ico" />
-<<<<<<< Updated upstream
-=======
     <Resource Include="img\icon2.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="img\icon2.png" />
     <Resource Include="img\iconpng.png" />
     <Resource Include="img\new_icon.ico" />
->>>>>>> Stashed changes
     <Resource Include="img\restarticon1.ico" />
     <Resource Include="img\xicon.ico" />
     <Resource Include="pngwing.com.png" />
     <Resource Include="set.png" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\ATA_ClassLibrary\ATA_ClassLibrary.csproj" />
   </ItemGroup>
