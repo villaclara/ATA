@@ -11,6 +11,7 @@
         Icon="../img/iconpng.png">
 
 
+
     <Window.Resources>
         <ResourceDictionary Source="../Resources/Dictionary1.xaml"/>
     </Window.Resources>
