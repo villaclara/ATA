@@ -29,7 +29,7 @@ namespace ATA_ClassLibrary
             //CreateLogFile();
 
             // WRITES THE CURRENT VERSION INTO FILE
-            WorkerWithFileClass.WriteVersionFile("0.1.4", "0.1.4");
+            //WorkerWithFileClass.WriteVersionFile("0.1.4", "0.1.4");
 
         }
 
