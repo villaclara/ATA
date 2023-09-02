@@ -31,7 +31,9 @@
     <Resource Include="img\icon2.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="img\iconpng.png" />
+    <Resource Include="img\iconpng.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="img\new_icon.ico" />
     <Resource Include="img\restarticon1.ico" />
     <Resource Include="img\xicon.ico" />
