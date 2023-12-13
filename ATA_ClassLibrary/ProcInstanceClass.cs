@@ -265,6 +265,12 @@ namespace ATA_ClassLibrary
         // true if today's date is in the List of Uptimes
         public bool CheckIfTodayDateWasAddedToUpTimesList()
         {
+            if(!_upTimes.Any())
+            {
+                return false;
+            }
+
+
 			if (_upTimes.Last().UpDate == DateOnly.FromDateTime(DateTime.Now))
 			{
 				return true;
