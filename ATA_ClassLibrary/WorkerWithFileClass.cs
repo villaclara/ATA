@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -106,7 +107,8 @@ namespace ATA_ClassLibrary
                     {
                         using (StreamWriter writer = new StreamWriter(fileStream))
                         {
-                            writer.Write(upTime.UpDate.ToString() + ',' + upTime.UpMinutes.ToString() + ',');
+                            var str = upTime.UpDate.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+                            writer.Write(upTime.UpDate.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture) + ',' + upTime.UpMinutes.ToString() + ',');
                         }
                     }
                 }
@@ -123,7 +125,7 @@ namespace ATA_ClassLibrary
             {
                 using (StreamWriter writer = new StreamWriter(fileStream))
                 {
-                    writer.Write(DateOnly.FromDateTime(DateTime.Now).ToString() + ',' + proc.UpTimeMinutesCurrentSession.ToString() + ',');
+                    writer.Write(DateOnly.FromDateTime(DateTime.Now).ToString("dd/MM/yyyy") + ',' + proc.UpTimeMinutesCurrentSession.ToString() + ',');
                 }
             }
         }
@@ -148,7 +150,7 @@ namespace ATA_ClassLibrary
         // used in Restart time button
         public static bool WriteTimeForRestartButton (ProcInstanceClass proc)
         {
-            File.WriteAllText(proc.fileNameToWriteInfo, DateOnly.FromDateTime(DateTime.Now) + ",0,");
+            File.WriteAllText(proc.fileNameToWriteInfo, DateOnly.FromDateTime(DateTime.Now).ToString("dd/MM/yyyy") + ",0,");
             return true;
         }
 

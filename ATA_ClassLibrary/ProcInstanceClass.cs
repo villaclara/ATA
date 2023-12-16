@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
+using System.Runtime.Intrinsics.Arm;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -247,7 +249,13 @@ namespace ATA_ClassLibrary
 
             for (int i = 0; i <= allStrings.Length - 2; i += 2)
             {
-                UpTime up = new(Convert.ToInt64(allStrings[i + 1]), DateOnly.FromDateTime(Convert.ToDateTime(allStrings[i])));
+                //UpTime up = new(UpMinutes: Convert.ToInt64(allStrings[i + 1]), UpDate: DateOnly.FromDateTime(Convert.ToDateTime(allStrings[i])));
+                UpTime up = new(UpMinutes: Convert.ToInt64(allStrings[i + 1]), UpDate: DateOnly.FromDateTime(DateTime.ParseExact(allStrings[i], "d", CultureInfo.InvariantCulture)));
+                //UpTime up = new(UpMinutes: Convert.ToInt64(allStrings[i + 1]), UpDate: DateOnly.FromDateTime(DateTime.Parse(allStrings[i])));
+
+                //var st = ReadDateFromFile(allStrings[i]);
+                //var ss = st[0] + "/" + st[1] + "/" + st[2]; 
+               // UpTime up = new(UpMinutes: Convert.ToInt64(allStrings[i + 1]), UpDate: DateOnly.FromDateTime(DateTime.Parse(ss)));
                 _upTimes.Add(up);     
             }
 
@@ -261,6 +269,15 @@ namespace ATA_ClassLibrary
             return _upTimes;
         }
 
+
+        private string[] ReadDateFromFile(string str)
+        {
+            string[] s = new string[3];
+            s[0] = str[..2];
+            s[1] = str[3..5];
+            s[2] = str[6..];
+            return s;
+        }
 
         // true if today's date is in the List of Uptimes
         public bool CheckIfTodayDateWasAddedToUpTimesList()
